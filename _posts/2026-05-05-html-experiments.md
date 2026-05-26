@@ -1,206 +1,11 @@
 ---
 layout: post
-title: HTML Tags
+title: HTML Experiments
 ---
 
-# HTML
+# Experiments
 
-## Link Tag
-Connect a CSS file to an HTML file.
-```html
-<link rel="stylesheet" type="text/css" href="style.css">
-```
-
-## Script Tag
-Connect a JavaScript file to an HTML file.
-```html
-<script defer type="module" src="script.js"></script> 
-```
-
-## DOCTYPE Tag
-Tells the browser the file is an HTML5 document.
-```html
-<!DOCTYPE html>
-```
-
-## HTML Tag
-HTML elements are placed inside the HTML tag.
-```html
-<html>
-  <!-- code block here -->
-</html>
-```
-
-## Body Tag
-Contains HTML elements that are visible in the HTML page.
-```html
-<body>
-  <!-- code here -->
-</body>
-```
-
-## Comment
-Used to label or describe part of a code. Can be used for multi-line comments.
-```html
-<!-- this is a comment -->
-```
-
-## Head Tag
-Provides additional information about the HTML page.
-```html
-<head>
-  <!-- code here -->
-</head>
-```
-
-## Title Tag
-Sets the title of the HTML page.
-```html
-<title>My First Page</title>
-```
-
-## Title Attribute
-Attributes provide additional information about the element. Title attribute shows a description to the user about an HTML element.
-```html
-<p title="This is a tooltip">The weather today is fair</p>
-```
-
-## Meta Tag
-Meta means data about data. Meta provides additional information about the web page.
-```html
-<meta charset="UTF-8">
-```
-
-## Viewport
-How the visible part of the web page should be sized.
-```html
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-```
-
-## Page Icon
-Displays a small icon near the page title.
-```html
-<link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-```
-
-## Heading
-Display a heading with values 1 to 6.
-```html
-<h1>Programming Notes</h1>
-```
-
-## Paragraph
-Create a paragraph.
-```html
-<p>This is a paragraph</p>
-```
-
-## Language Attribute
-Specifies the language of the web page.
-```html
-<html lang="en">
-  <!-- code here -->
-</html>
-```
-
-## Boilerplate Code
-Code that is always added because it is usually needed for a program to work.
-
-Open VS Code -> New File -> Save with a .html file extension & set language to HTML -> Write ! -> Press tab -> Boilerplate code is generated.
-
-## URL Types
-
-### Relative Address
-A website address that is short which usually points to an internal page in the same url.
-
-### Absolute Adress
-A complete website address which usually points to an external site.
-
-## File Path Types
-
-### Relative Path
-A short file address where the file exists in the same or nearby location.
-
-### Absolute Path
-A complete file address where the file is located.
-
-## Anchor Tag
-Create a link.
-```html
-<a href="www.google.com">Google Link</a>
-```
-
-## Open Link in New Tab
-Open the link in a new tab with `_blank` value to `target` attribute.
-```html
-<a href="www.google.com" target="_blank">Google Link</a>
-```
-
-## Use Link to Send an Email
-Send an email with `mailto`.
-```html
-<a href="mailto:zenferringson@gmail.com">Send an email to the link</a>
-```
-
-## Img Tag
-An image need an alternate text. Image dimension is usually modified in CSS.
-```html
-<img src="images/cat_pic1.jpg" alt="cat" width="200" height="100">
-```
-
-## ID Attribute
-Unique name of an html element used for modifying its style.
-```html
-<p id="product-description">This is a paragraph</p>
-```
-
-## Class Attribute
-A group name which the element belongs to and is used for modifying the group's style.
-```html
-<div class="images-container">
-	<!-- code here -->
-</div>
-```
-
-## Bookmark
-When a web page is very big, specific portions of the page can be bookmarked for quick navigation. Another element should be in the same page containing the id specified in the bookmark.
-```html
-<a href="#pricing-plans">Pricing</a>
-```
-
-## Bold Text
-```html
-<p>This is a <b>short</b> paragraph</p>
-```
-
-## Unordered List
-Used for lists without worrying about the order of items.
-```html
-<ul>
-	<!-- code here -->
-</ul>
-```
-
-## Ordered List
-Used for lists with numbered items.
-```html
-<ol>
-	<!-- code here -->
-</ol>
-```
-
-## List Item
-The item in a list and is placed inside `<ul>` or `<ol>`.
-```html
-<li>read a book</li>
-```
-
-## Nested List
-A list inside a list.
-
-## Experiments
-
-### Experiment 1
+## Experiment 1
 ```html
 <!-- p1 display heading and paragraph -->
 <!DOCTYPE html>
@@ -220,7 +25,7 @@ A list inside a list.
 </html>
 ```
 
-### Experiment 2
+## Experiment 2
 ```html
 <!-- p2 create links with anchor tags -->
 <!DOCTYPE html>
@@ -259,7 +64,7 @@ A list inside a list.
 ```
 
 
-### Experiment 3
+## Experiment 3
 ```html
 <!-- p3 id class bookmark img bold tag-->
 <!DOCTYPE html>
@@ -298,7 +103,7 @@ A list inside a list.
 </html>
 ```
 
-### Experiment 4
+## Experiment 4
 ```html
 <!-- p4 lists -->
 <!DOCTYPE html>
@@ -333,7 +138,7 @@ A list inside a list.
 </html>
 ```
 
-### Experiment 5
+## Experiment 5
 ```html
 <!-- p5 svg -->
 <!DOCTYPE html>
@@ -380,7 +185,7 @@ A list inside a list.
 </html>
 ```
 
-### Experiment 6
+## Experiment 6
 ```html
 <!-- p6 forms -->
 <!DOCTYPE html>
@@ -412,7 +217,7 @@ A list inside a list.
 </html>
 ```
 
-### Experiment 7
+## Experiment 7
 ```html
 <!-- p7 input -->
 <!DOCTYPE html>
@@ -459,7 +264,7 @@ A list inside a list.
 </html>
 ```
 
-### Experiment 8
+## Experiment 8
 ```html
 <!-- p8 labels -->
 <!DOCTYPE html>
@@ -499,7 +304,7 @@ A list inside a list.
 </html>
 ```
 
-### Experiment 9
+## Experiment 9
 ```html
 <!-- p9 text area -->
 <!DOCTYPE html>
@@ -532,7 +337,7 @@ A list inside a list.
 </html>
 ```
 
-### Experiment 10
+## Experiment 10
 ```html
 <!-- p10 dropdown  -->
 <!DOCTYPE html>
@@ -569,7 +374,7 @@ A list inside a list.
 </html>
 ```
 
-### Experiment 11
+## Experiment 11
 ```html
 <!-- p11 buttons  -->
 <!DOCTYPE html>
@@ -602,7 +407,7 @@ A list inside a list.
 </html>
 ```
 
-### Experiment 12
+## Experiment 12
 ```html
 <!-- p12 checkbox  -->
 <!DOCTYPE html>
@@ -638,7 +443,7 @@ A list inside a list.
 </html>
 ```
 
-### Experiment 13
+## Experiment 13
 ```html
 <!-- p13 radio button -->
 <!DOCTYPE html>
@@ -678,7 +483,7 @@ A list inside a list.
 </html>
 ```
 
-### Experiment 14
+## Experiment 14
 ```html
 <!-- p14 block elements -->
 <!DOCTYPE html>
@@ -707,7 +512,7 @@ A list inside a list.
 </html>
 ```
 
-### Experiment 15
+## Experiment 15
 ```html
 <!-- p15 inline elements -->
 <!DOCTYPE html>
@@ -734,7 +539,7 @@ A list inside a list.
 </html>
 ```
 
-### Experiment 16
+## Experiment 16
 ```html
 <!-- p16 div -->
 <!DOCTYPE html>
@@ -769,7 +574,7 @@ A list inside a list.
 </html>
 ```
 
-### Experiment 17
+## Experiment 17
 ```html
 <!-- p17 span -->
 <!DOCTYPE html>
@@ -791,7 +596,7 @@ A list inside a list.
 </html>
 ```
 
-### Experiment 18
+## Experiment 18
 ```html
 <!-- p18 html that is semantic -->
 <!DOCTYPE html>
@@ -821,7 +626,7 @@ A list inside a list.
 </html>
 ```
 
-### Experiment 19
+## Experiment 19
 ```html
 <!-- p19 tables-->
 <!DOCTYPE html>
@@ -887,7 +692,7 @@ A list inside a list.
 </html>
 ```
 
-### Experiment 20
+## Experiment 20
 ```html
 <!-- p20 superscript subscript and figure -->
 <!DOCTYPE html>
