@@ -1,4 +1,7 @@
-CSS Properties
+---
+layout: post
+title: CSS Properties
+---
 
 Background
 
