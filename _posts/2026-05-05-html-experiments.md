@@ -15,7 +15,7 @@ title: HTML Experiments
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <script defer type="module" src="script.js"></script>
+    <script defer src="script.js"></script>
 		<title>Introduction to HTML</title>
   </head>
   <body> <!-- all visible parts are inside <body> -->
