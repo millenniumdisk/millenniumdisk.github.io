@@ -6,6 +6,27 @@ title: Git Commands
 # Git
 Explore Git further: [Git Website](https://git-scm.com/docs)
 
+## Activities
+### Initialize a Git Repository and Create a New Commit
+1. Check the current location in the terminal.
+2. Go to a place where a project can be created like a different drive.
+3. Check the folders and files in the current directory.
+4. Clear the screen.
+5. Create a new empty directory.
+6. Check the contents of the current directory again.
+7. Go to the new folder.
+8. Initialize it as a new Git repository.
+```bash
+pwd
+cd E:
+ls -la
+clear
+mkdir git-basics
+ls -la
+cd git-basics
+git init
+```
+
 ## Git Commands
 
 ### Display Git Version Number
