@@ -123,6 +123,7 @@ git init
 ```
 Initialize current directory.
 
+## Inspect
 ### Compare
 ```bash
 git diff
