@@ -4,10 +4,63 @@ title: Git Commands
 ---
 
 # Git
-Explore Git further: [Git Website](https://git-scm.com/docs)
+Explore Git further in [Git Website](https://git-scm.com/docs).
 
-## Activities
-### Initialize a Git Repository and Create a New Commit
+## Introduction
+### What is Git?
+Git is a VCS (Version Control System) used to track your project's status. Instead of copying your entire project folder and changing its name and version number manually and then sending that entire folder to other team members working on the project, Git can make working on the project easier because collaboration is possible where all team members can contribute simultaneously regardless of where they are located. A Git repository hosting service is needed for collaboration and assurance (so when your PC containing the project folder won't work, the project is still available online).
+### What is a Repository Hosting Service?
+A repository hosting service like GitHub or GitLab is where Git repositories can be stored and be used as a centralized point of getting and giving project updates for collaboration.
+
+## Terminal
+### Change Directory
+`cd` - Make the terminal go to root folder.
+`cd <path>` - Change directory to the relative or absolute path specified like in `cd Desktop` or `cd Desktop/new-folder`.
+`cd ..` - Go back up one level in the directory.
+### Create Directory
+`mkdir <name>` - Create a directory.
+### Create File
+`touch <name>` - Create a file like in `touch file.txt`.
+### List Files
+`ls` - Lists files.
+`ls -la` - List all files in the directory in a detailed format. `l` is table format and `a` is for hidden folders and files.
+`ls -la <directory>` - List the files in the directory.
+### Clear Terminal
+`clear` - Clears the terminal.
+### File Explorer
+`start .` - Opens current folder in File Explorer. Using `explorer .` also works similarly.
+### Check Current Directory
+`pwd` - See what is the current directory.
+### Current Directory
+`.` - Alias of the current directory.
+### Parent Directory
+`..` - Alias of the parent directory.
+### Edit File
+`nano <filename>` - Use a text editor to edit a file like in `nano new-file.txt`. `ctrl + o` to write changes and `ctrl + x` to exit in nano.
+### Autocomplete
+Use tab key to autocomplete commands in the terminal. Press tab key twice to see choices.
+### Print
+`echo "string"` - Print to terminal like in `echo "Hello World"`.
+### Help
+`man <command>` - Help on a specific command like in `man clear`. Git Bash doesn't support `man`. Use `--help` like in `touch --help`. Press `ctrl + z` to close help from `man`.
+### Open Current Directory
+`open .` - Open current directory.
+`open <filename>` - Open files.
+### Hidden Files
+Hidden files start with a `.`.
+### Write
+`>` - Write to file like in `echo "Hello World" > another-file.txt`.
+### Append
+`>>` - Append to the file like in `echo "Another Line" >> another-file.txt`.
+### List File Contents
+`cat <name>` - List contents of the file. `cat file.txt` will show contents of file unless it is an empty file.
+### Remove
+`rm <filename / directory>` - Remove file or directory like in `rm new-folder` (directory needs to be empty to be deleted).
+`rm -rf <name>` - Forcibly removes files inside a folder recursively (deletes the folder) like in `rm -rf new-folder`.
+### Close Git Bash
+`exit` - Closes Git Bash terminal.
+
+### Activity - Initialize a Git Repository and Create a New Commit
 1. Check the current location in the terminal.
 2. Go to a place where a project can be created like a different drive.
 3. Check the folders and files in the current directory.
@@ -27,42 +80,39 @@ cd git-basics
 git init
 ```
 
-## Git Commands
-
+## Setup
 ### Display Git Version Number
 ```bash
 git -v
 ```
 Get the version of Git. The version can also be displayed with `git --version` or `git version`. Use this command to see if Git is installed.
-
-### Config
-#### Display Configuration
+### Display Configuration
 ```bash
 git config --list
 ```
 Display the current Git configuration.
-#### Change Global Username
+### Change Global Username
 ```bash
 git config --global user.name "<name>"
 ```
 Change the username globally.
-#### Change Global Email
+### Change Global Email
 ```bash
 git config --global user.email "<email>"
 ```
 Change the email globally.
-#### Change Local Username
+### Change Local Username
 ```bash
 git config user.name "<name>"
 ```
 Override global username per project.
-#### Change Local Email
+### Change Local Email
 ```bash
 git config user.email "<email>"
 ```
 Override global email per project.
 
-#### Change Default Branch Name
+### Change Default Branch Name
 ```bash
 git config --global init.defaultBranch <branch>
 ```
@@ -79,32 +129,32 @@ git diff
 ```
 When changes are made and they are saved but not yet staged then committed, you can use this command to see the modifications made.
 
-### Staging
-#### Stage a File
+## Staging
+### Stage a File
 ```bash
 git add <filename>
 ```
 Add a file to staging area.
 
-#### Stage All Files
+### Stage All Files
 ```bash
 git add .
 ```
 Add all files to staging area.
 
-#### Unstage a File
+### Unstage a File
 ```bash
 git rm --cached <filename>
 ```
 Remove a file from the staging area.
 
-#### Unstage All Files
+### Unstage All Files
 ```bash
 git reset .
 ```
 Unstages all files but working directory won't be changed.
 
-#### Stage Previously Tracked Files
+### Stage Previously Tracked Files
 ```bash
 git add -u
 ```
