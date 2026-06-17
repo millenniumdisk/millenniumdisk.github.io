@@ -4,9 +4,11 @@ title: Git Commands
 ---
 
 # Git
-Explore Git further in [Git Website](https://git-scm.com/docs).
-
 ## Introduction
+### Git Website
+More information on Git:
+[https://git-scm.com/docs](https://git-scm.com/docs)
+
 ### What is Git?
 Git is a VCS (Version Control System) used to track your project's status. Instead of copying your entire project folder and changing its name and version number manually and then sending that entire folder to other team members working on the project, Git can make working on the project easier because collaboration is possible where all team members can contribute simultaneously regardless of where they are located. A Git repository hosting service is needed for collaboration and assurance (so when your PC containing the project folder won't work, the project is still available online).
 ### What is a Repository Hosting Service?
@@ -81,31 +83,37 @@ git init
 ```
 
 ## Setup
+
 ### Display Git Version Number
 ```bash
-git -v
+git --version
 ```
-Get the version of Git. The version can also be displayed with `git --version` or `git version`. Use this command to see if Git is installed.
+Get the version of Git. Also helps in checking if Git is installed (`git -v` and `git version` works similarly).
+
 ### Display Configuration
 ```bash
 git config --list
 ```
 Display the current Git configuration.
+
 ### Change Global Username
 ```bash
 git config --global user.name "<name>"
 ```
-Change the username globally.
+Changes the name that will be displayed in the commits.
+
 ### Change Global Email
 ```bash
 git config --global user.email "<email>"
 ```
-Change the email globally.
+Changes the email displayed in commits.
+
 ### Change Local Username
 ```bash
 git config user.name "<name>"
 ```
 Override global username per project.
+
 ### Change Local Email
 ```bash
 git config user.email "<email>"
@@ -116,38 +124,61 @@ Override global email per project.
 ```bash
 git config --global init.defaultBranch <branch>
 ```
+Change branch into main to change the default name of branch in initialization to main (used when default name of branch isn't main).
 
 ### Initialization
 ```bash
 git init
 ```
-Initialize current directory.
+Initialize current directory as Git repository. It will create a `.git` folder that can only be managed by Git.
 
 ## Inspect
+
+### Repository Status
+```bash
+git status
+```
+Display status of Git repository (but doesn't show files in staging). Can be used with verbose option (`git status -v`). Depending on the terminal, yellow cross signs means uncommitted changes and those changes to be committed are located in staging area. Yellow cross signs will disappear and it means there are no changes to be committed.
+
+### Display Commit History
+```bash
+git log
+```
+Display all commits in the current branch. Ctrl + z to exit. Show history of changes (commits). See all commits that were created in history. Press Q to exit. Use `git log --oneline` to see one line in the output. Use --stat to see additional information as in `git log --stat`. The -p option shows changes in every file or every commit as in `git log -p` but it is not convenient to see changes in terminal (use gui programs like vscode or sourcetree instead). Using `git log -<number>` will only show a specific number of commits as in `git log -4` and --oneline can be added to it as in `git log -4 --oneline`. `git log --graph` will show commits history with branch connections. We can see how many parents and can be combined with --oneline as in `git log --graph --oneline`.
+
+### Filter
+`git log --author="<name>"` - The filter is actually regular expression and you can enter a part of the author name and it will find results the same as before. Show commits made by an author. The --oneline can be added as in `git log --author"AchillesJ" --oneline`. Find specific string with `git log --grep="<query>"` as in `git log --grep="3.12.1"` to find commits with the string. The --oneline can also be added.
+
 ### Compare
 ```bash
 git diff
 ```
-When changes are made and they are saved but not yet staged then committed, you can use this command to see the modifications made.
+When changes are made and they are saved but not yet staged then committed, you can use this command to see the modifications made. With `git diff`, if a file is modififed and that file is saved, `git status` will show one file is modififed. Without staging and committing, use `git diff`. A will mean the previous file and B represents modified file. Click in VS Code to see those two side by side. You will also see hashes of the two when `git diff` is used. Modififed version got a hash even if it isn't staged yet. If a number like -3, 6 +3, 8 shows, it means old file with - is displayed with line 3 as the one we see and there are 6 lines total. The modified file is + and the displayed code start at line 3 and there are a total of 8 lines. Only a portion of the whole code is shown. We also see a text that is part of the code beside the numbers. We can copy those text and find it to see portion of the code that was changed. Scroll down in command line with down arrow key. You can stage and commit after using `git diff`.
 
 ## Staging
 ### Stage a File
 ```bash
 git add <filename>
 ```
-Add a file to staging area.
+Add a file from working directory to staging area.
 
 ### Stage All Files
 ```bash
 git add .
 ```
-Add all files to staging area.
+Add all files to staging area. When the project folder is new, there are only a few files so using this is ok but later on, you don't want to add all files and then realize only few files need to be added to staging.
+
+### Stage Previously Tracked Files
+```bash
+git add -u
+```
+Stages only the files that were previously tracked. Might be better than `git add .`.
 
 ### Unstage a File
 ```bash
 git rm --cached <filename>
 ```
-Remove a file from the staging area.
+Remove a file from the staging area if changes haven't been committed yet. Changes file to untracked or modified state from staged. Doesn't remove file from working directory.
 
 ### Unstage All Files
 ```bash
@@ -155,31 +186,15 @@ git reset .
 ```
 Unstages all files but working directory won't be changed.
 
-### Stage Previously Tracked Files
-```bash
-git add -u
-```
-Stages only the files that were previously tracked.
-
-### Repository Status
-```bash
-git status
-```
-Display information about the state of the repository.
-
+## Commits
 ### Create a Commit
 ```bash
 git commit
 ```
-Create a commit in the current branch. An editor will open to enter commit description. Use `git commit -m "<description>"` for a faster commit creation. The `-a` option (`git commit -a`) can be used to add changes to staging area and commit them then an editor will open to enter commit description but this only applies to previously tracked files. Stage and commit files with `git commit -a -m "<description>"` or `git commit -am "<description>"` (only for previously tracked files).
+Create a commit in the current branch. An editor will open to enter commit description. Use `git commit -m "<description>"` to enter description in terminal without opening an editor. The `-a` option (`git commit -a` can also be used after resolving a merge conflict where you will see commit message and if you are happy with it type :wq then press enter and then merge will be successful) can be used to add changes to staging area and commit them then an editor will open to enter commit description but this only applies to previously tracked files. Stage and commit files (only for previously tracked files) with `git commit -a -m "<description>"` or `git commit -am "<description>"`.
 
-### Display Commit History
-```bash
-git log
-```
-Display all commits in the current branch.
 
-### Branches
+## Branches
 
 #### Show Branch List
 ```bash
