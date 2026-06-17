@@ -383,5 +383,3 @@ A local branch becomes a tracking branch when it is paired with its correspondin
 - File Status Types
 - Relative Refs
 - Alias
-
-## Git Experiments
