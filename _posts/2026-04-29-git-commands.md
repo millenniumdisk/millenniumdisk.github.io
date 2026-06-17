@@ -4,13 +4,16 @@ title: Git Commands
 ---
 
 # Git
+
 ## Introduction
+
 ### Git Website
 More information on Git:
 [https://git-scm.com/docs](https://git-scm.com/docs)
 
 ### What is Git?
-Git is a VCS (Version Control System) used to track your project's status. Instead of copying your entire project folder and changing its name and version number manually and then sending that entire folder to other team members working on the project, Git can make working on the project easier because collaboration is possible where all team members can contribute simultaneously regardless of where they are located. A Git repository hosting service is needed for collaboration and assurance (so when your PC containing the project folder won't work, the project is still available online).
+Git is a distributed (team members each have the project history) VCS (Version Control System) used to track your project's status. Instead of copying your entire project folder and changing its name and version number manually and then sending that entire folder to other team members working on the project, Git can make working on the project easier because collaboration is possible where all team members can contribute simultaneously regardless of where they are located. A Git repository hosting service is needed for collaboration and assurance (so when your PC containing the project folder won't work, the project is still available online).
+
 ### What is a Repository Hosting Service?
 A repository hosting service like GitHub or GitLab is where Git repositories can be stored and be used as a centralized point of getting and giving project updates for collaboration.
 
@@ -155,6 +158,25 @@ git diff
 ```
 When changes are made and they are saved but not yet staged then committed, you can use this command to see the modifications made. With `git diff`, if a file is modififed and that file is saved, `git status` will show one file is modififed. Without staging and committing, use `git diff`. A will mean the previous file and B represents modified file. Click in VS Code to see those two side by side. You will also see hashes of the two when `git diff` is used. Modififed version got a hash even if it isn't staged yet. If a number like -3, 6 +3, 8 shows, it means old file with - is displayed with line 3 as the one we see and there are 6 lines total. The modified file is + and the displayed code start at line 3 and there are a total of 8 lines. Only a portion of the whole code is shown. We also see a text that is part of the code beside the numbers. We can copy those text and find it to see portion of the code that was changed. Scroll down in command line with down arrow key. You can stage and commit after using `git diff`.
 
+### Show Changes in Commit
+```bash
+git show <hash>
+```
+See the changes made in the specified commit.
+
+### Show Summary of All Commits
+```bash
+git shortlog
+```
+Display a summary of all commits.
+
+### Show References
+```bash
+git show-ref
+```
+Check remote refs and local refs.
+Show summary of all commits sorted by author name. Use `-n` to sort by number of commits (`git shortlog -n`). Suppress showing of commits with `-s` (`git shortlog -s`). The `-e` option is to show email (`git shortlog -e`). Options can be combined (`git shortlog -n -s -e`).
+
 ## Staging
 ### Stage a File
 ```bash
@@ -196,11 +218,11 @@ Create a commit in the current branch. An editor will open to enter commit descr
 
 ## Branches
 
-#### Show Branch List
+### Show Local Branches
 ```bash
 git branch
 ```
-Shows a list of all branches in local repository. Use the `-r` option to show remote branches only (`git branch -r`). The `-a` option (`git branch -a`) is used to show all branches in local and remote repository. The `-vv` option (`git branch -vv`) shows local branches and their remote branches (tracking branches).
+Shows a list of all branches in local repository. The branch with `*` is the current branch. This won't show branches created in remote repository. Use the `-r` option to show remote branches at remote Git repository only (`git branch -r`). The `-a` option (`git branch -a`) is used to show all branches in local and remote repository. The `-vv` option (`git branch -vv`) shows local branches and their remote branches (tracking branches).
 
 #### Create a Branch
 ```bash
@@ -250,7 +272,7 @@ git merge <branch>
 ```
 Merge a branch into the current branch (get changes from a branch into the receiving branch).
 
-### Remote Repository
+## Remote Repository
 #### Make Git Remember Upstream Branch
 ```bash
 git push -u <remote> <branch>
@@ -293,110 +315,97 @@ git clone <url>
 ```
 Create a local repository based on the remote repository by using its URL. The branch created in local repository will be automatically be a tracking branch that is connected to the remote branch. A default branch defined in the remote repository will be the branch created in local repository.
 
-### Reset
+## Reset
 Reset is intended for private branches and not for public branches in remote like production, release, master, dev, etc.
-#### Hard Reset
+### Hard Reset
 ```bash
 git reset --hard <hash>
 ```
 It moves to the specified commit in history, deletes the commits after the current commit and discards all changes in the working directory and staging area.
 
-#### Mixed Reset
+### Mixed Reset
 ```bash
 git reset <hash>
 ```
 Move to a specified commit in history, deletes the commits after the current commit then unstages the changes and keeps them in the working directory. Mixed reset is the default mode of reset command.
 
-#### Soft Reset
+### Soft Reset
 ```bash
 git reset --soft <hash>
 ```
 Moves to a specified commit in history, deletes the commits after the current commit then keeps the changes staged and in working directory.
 
-### Stashing
+## Stashing
 
-#### Stash Changes
+### Stash Changes
 ```bash
 git stash
 ```
 Git creates a temporary commit of uncommitted and even of staged and unstaged changes made in current branch and stores it in Git repository for later use then the branch goes back to its previous state without the changes.
 
-#### Pop Stashed Changes
+### Pop Stashed Changes
 ```bash
 git stash pop
 ```
 Get the previous changes stored in stash then apply those changes and then the stash file will be deleted in the Git repository.
 
-### Show References
-```bash
-git show-ref
-```
-Check remote refs and local refs.
 
-### Tags
-#### Show Tag List
+## Tags
+### Show Tag List
 ```bash
 git tag
 ```
 Show list of current lightweight and annotated tags. Lightweight and annotated tags can't be distinguished with this command.
 
-#### Add a Lightweight Tag
+### Add a Lightweight Tag
 ```bash
 git tag <name>
 ```
 Add a lightweight tag to the current commit (`git tag v1.0.0`).
 
-#### Add an Annotated Tag
+### Add an Annotated Tag
 ```bash
 git tag -a <name> -m "<description>"
 ```
 Create an annotated tag (better tag) with tag name and tag description to the current commit.
 
-#### Display Annotated Tag Details
+### Display Annotated Tag Details
 ```bash
 git tag -v <name>
 ```
 Show details of an annotated tag (`git tag -v v1.0.0`). This command won't work on lightweight tags.
 
-#### Display Commit Details
+### Display Commit Details with Tag
 ```bash
 git show <tag>
 ```
 Get the commit with the specific tag (`git show v1.0.0`).
 
-#### Push Local Tags to Remote
+### Push Local Tags to Remote
 ```bash
 git push --tags
 ```
 Push tags to remote. Use `-v` option for more details (`git push -v --tags`).
 
-#### Push One Tag to Remote
+### Push One Tag to Remote
 ```bash
 git push <remote> <tag>
 ```
 Push tag to remote (`git push origin v1.0.1`). The `-v` option can be used (`git push -v origin v1.0.1`).
 
-#### Delete a Tag
-
-### Show Changes in Commit
+### Delete a Tag
 ```bash
-git show <hash>
+git push --delete origin <tagname>
 ```
-See the changes made in the specified commit.
+The `git push -d origin <tagname>` can also be used to delete a tag or push an empty ref to the remote tag name (`git push origin :tagname`). The command `git push origin :refs/tags/<tagname>` can be used to be sure that a branch won't be deleted because Git has a tag namespace and branch namespace. The command `git tag --delete <tagname>` or `git tag -d <tagname>` will delete the local tag.
 
-### Show Summary of All Commits
-```bash
-git shortlog
-```
-Show summary of all commits sorted by author name. Use `-n` to sort by number of commits (`git shortlog -n`). Suppress showing of commits with `-s` (`git shortlog -s`). The `-e` option is to show email (`git shortlog -e`). Options can be combined (`git shortlog -n -s -e`).
-
-### Revert
+## Revert
 ```bash
 git revert <hash>
 ```
 Revert the changes made by one specific commit when changes were already pushed to remote by creating a new commit that inverses the changes made by the specified commit. (`git revert HEAD`). Can be used on public branches in remote like master, release, dev, production, etc. When the commit specified is not the last commit, conflicts might appear that should be resolved to continue revert operation. Works on only one commit. History of commits won't be changed.
 
-### Rebasing
+## Rebasing
 ```bash
 git rebase <branch>
 ```
@@ -408,7 +417,7 @@ Rebasing Steps:
 
 A two step process to make commit history look linear. This command rewrites commit history and doesn't keep the entire history of all commits.
 
-### Reflog
+## Reflog
 Reflog can be used in:
 1. `git log` - Select an old commit that is not the last commit.
 2. `git reset --hard <hash>` - Use the selected old commit.
@@ -417,7 +426,10 @@ Reflog can be used in:
 5. `git reset --hard <hash>` - Use the commit previously show by reflog with HEAD@{1} counter to make repository go back to its previous state.
 Show the entire history of all operations made in repository. Use `git reflog show <branch>` to see operations done in a branch. Only changes made in local repository can be seen in reflog. Instead of hash, you can use the references from the output of reflog (`git checkout HEAD@{6}`). perations in reflog are stored for only 90 days by default.
 
-### Cherry Pick
+## Cherry Pick
+
+
+
 
 ## Git Concepts
 ### .gitignore
