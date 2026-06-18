@@ -28,6 +28,7 @@ Make the terminal go to root folder.
 1. Check current directory.
 2. Go to a different drive.
 3. Go to root folder.
+
 ```bash
 pwd
 cd E:
@@ -36,7 +37,7 @@ cd
 
 ### Move to a Specific Directory
 ```bash
-`cd <path>`
+cd <path>
 ```
 Change directory to the relative or absolute path specified like in `cd Desktop` or `cd Desktop/new-folder`.
 #### Activity - Move to a Created Folder
@@ -46,6 +47,7 @@ Change directory to the relative or absolute path specified like in `cd Desktop`
 4. Clear terminal.
 5. Create a folder.
 6. Go to the newly created folder.
+
 ```bash
 pwd
 cd E:
@@ -66,6 +68,7 @@ cd images
 8. Go back one level.
 9. Go back another level.
 10. Go to the last created folder.
+
 ```bash
 pwd
 cd E:
@@ -91,6 +94,7 @@ Go back up one level in the directory.
 3. Check folders and files in current directory.
 4. Create a new folder.
 5. Go back one level.
+
 ```bash
 pwd
 cd E:
@@ -100,7 +104,28 @@ cd ..
 ```
 
 ### Create Directory
+```bash
+mkdir <name>
+```
 `mkdir <name>` - Create a directory.
+
+#### Activity - Create a Directory
+1. Check current directory.
+2. Go to another drive.
+3. Check folders and files in current directory.
+4. Clear terminal.
+5. Create a new folder.
+6. List folders and files in current directory.
+
+```bash
+pwd
+cd E:
+ls -la
+clear
+mkdir images
+ls -la
+```
+
 ### Create File
 `touch <name>` - Create a file like in `touch file.txt`.
 ### List Files
