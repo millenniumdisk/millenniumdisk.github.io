@@ -18,13 +18,13 @@ Git is a distributed (team members each have the project history) VCS (Version C
 A repository hosting service like GitHub or GitLab is where Git repositories can be stored and be used as a centralized point of getting and giving project updates for collaboration.
 
 ## Terminal
-### Change Directory
+### Go to Root Directory
 ```bash
 cd
 ```
 Make the terminal go to root folder.
 
-#### Activity - Change Directory
+#### Activity - Go to Root Directory
 1. Check current directory.
 2. Go to a different drive.
 3. Go to root folder.
@@ -82,6 +82,35 @@ cd ..
 cd images/company-logos
 ```
 
+#### Activity - Move to an Absolute Address
+1. Check current directory.
+2. Go to another drive.
+3. List folders and files in current directory.
+4. Clear terminal.
+5. Create a new folder.
+6. Go to new folder.
+7. List folders and files in the new folder.
+8. Clear terminal.
+9. Go to another drive.
+10. List folders and files.
+11. Clear terminal.
+12. Go to the folder with an absolute address.
+
+```bash
+pwd
+cd E:
+ls -la
+clear
+mkdir images
+cd images
+ls -la
+clear
+cd C:
+ls -la
+clear
+cd E:\images
+```
+
 ### Go Back One Level
 ```bash
 cd ..
@@ -127,13 +156,86 @@ ls -la
 ```
 
 ### Create File
-`touch <name>` - Create a file like in `touch file.txt`.
+```bash
+touch <name>
+```
+Create a file like in `touch file.txt`.
+
+#### Activity - Create a File
+1. Display current directory.
+2. Go to another drive.
+3. List folders and files in current directory.
+4. Clear terminal.
+5. Create a file.
+6. List folders and files again.
+
+```bash
+pwd
+cd E:
+ls -la
+clear
+touch wishlist.txt
+ls -la
+```
+
+
 ### List Files
-`ls` - Lists files.
-`ls -la` - List all files in the directory in a detailed format. `l` is table format and `a` is for hidden folders and files.
-`ls -la <directory>` - List the files in the directory.
+```bash
+ls
+```
+Lists files and folders in the current directory. `l` option can be used (`ls -l`) to show in table format or `a` option to show hidden files and folders (`ls -a`). It can be combined (`ls -la`) and a directory can be specified to see what's in it (`ls -la <path>`)
+
+#### Activity - Use List Command
+1. Display current directory.
+2. Go to another drive.
+3. Create a folder.
+4. Create file1.txt.
+5. Create file2.txt.
+6. Create file3.txt.
+7. Use list command.
+8. Use list command with `l` option.
+9. Use list command with `a` option.
+10. Use list command with `l` and `a` option.
+11. Go up one level.
+12. Use list command with the relative address of the new folder.
+13. Go to a different drive.
+14. Use list command with an absolute address of the new folder.
+```bash
+pwd
+cd E:
+mkdir python-project
+touch file1.txt
+touch file2.txt
+touch file3.txt
+ls
+ls -l
+ls -a
+ls -la
+cd ..
+ls -la python-project
+cd C:
+ls -la E:/python-project
+```
+
 ### Clear Terminal
-`clear` - Clears the terminal.
+```bash
+clear
+```
+Clears the terminal.
+
+#### Activity - Clear the Terminal
+1. Display current directory.
+2. Go to another drive.
+3. List the files and folders in the current directory.
+4. Clear the terminal.
+
+```bash
+pwd
+cd E:
+ls -la
+clear
+```
+
 ### File Explorer
 `start .` - Opens current folder in File Explorer. Using `explorer .` also works similarly.
 ### Check Current Directory
