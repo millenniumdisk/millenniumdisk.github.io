@@ -7,8 +7,8 @@ title: Git Commands
 
 ## Introduction
 
-### Git Website
-More information on Git:
+### Git Official Website
+More information on:
 [https://git-scm.com/docs](https://git-scm.com/docs)
 
 ### What is Git?
@@ -19,9 +19,86 @@ A repository hosting service like GitHub or GitLab is where Git repositories can
 
 ## Terminal
 ### Change Directory
-`cd` - Make the terminal go to root folder.
-`cd <path>` - Change directory to the relative or absolute path specified like in `cd Desktop` or `cd Desktop/new-folder`.
-`cd ..` - Go back up one level in the directory.
+```bash
+cd
+```
+Make the terminal go to root folder.
+
+#### Activity - Change Directory
+1. Check current directory.
+2. Go to a different drive.
+3. Go to root folder.
+```bash
+pwd
+cd E:
+cd
+```
+
+### Move to a Specific Directory
+```bash
+`cd <path>`
+```
+Change directory to the relative or absolute path specified like in `cd Desktop` or `cd Desktop/new-folder`.
+#### Activity - Move to a Created Folder
+1. Check current directory.
+2. Go to a different drive.
+3. List folders and files in current directory.
+4. Clear terminal.
+5. Create a folder.
+6. Go to the newly created folder.
+```bash
+pwd
+cd E:
+ls -la
+clear
+mkdir images
+cd images
+```
+
+#### Activity - Move to a Nested Folder
+1. Check current directory.
+2. Go to a different drive.
+3. List folders and files in current directory.
+4. Clear terminal.
+5. Create a folder.
+6. Go to the newly created folder.
+7. Create another folder.
+8. Go back one level.
+9. Go back another level.
+10. Go to the last created folder.
+```bash
+pwd
+cd E:
+ls -la
+clear
+mkdir images
+cd images
+mkdir company-logos
+cd ..
+cd ..
+cd images/company-logos
+```
+
+### Go Back One Level
+```bash
+cd ..
+```
+Go back up one level in the directory.
+
+#### Activity - Go Back One Level
+1. Check current directory.
+2. Go to another drive.
+3. Check folders and files in current directory.
+4. Create a new folder.
+5. Go back one level.
+```bash
+pwd
+cd E:
+ls -la
+mkdir images
+cd ..
+```
+
 ### Create Directory
 `mkdir <name>` - Create a directory.
 ### Create File
