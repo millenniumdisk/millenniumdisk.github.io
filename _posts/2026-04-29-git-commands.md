@@ -7,6 +7,30 @@ title: Git Commands
 
 ## Introduction
 
+### Overview
+The major categories are:
+- Terminal Basics (Git Bash)
+- Setup
+- Inspect
+- Staging
+- Commits
+- Branches
+- Remotes (Remote Repository)
+- Advanced
+  - Reset
+  - Stashing
+  - Tags
+  - Revert
+  - Rebasing
+  - Rebasing with Squashing
+  - Reflog
+  - Cherry Picking
+  - Amend
+- Git Concepts
+  - Merge Conflicts
+  - Resolving Merge Conflicts
+  - Pull Requests
+
 ### Git Website
 More information in [Git Website](https://git-scm.com/docs).
 
