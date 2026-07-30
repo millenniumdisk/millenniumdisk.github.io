@@ -502,8 +502,25 @@ Unstages all files but working directory won't be changed.
 ```bash
 git commit
 ```
-Create a commit in the current branch. An editor will open to enter commit description. Use `git commit -m "<description>"` to enter description in terminal without opening an editor. The `-a` option (`git commit -a` can also be used after resolving a merge conflict where you will see commit message and if you are happy with it type :wq then press enter and then merge will be successful) can be used to add changes to staging area and commit them then an editor will open to enter commit description but this only applies to previously tracked files. Stage and commit files (only for previously tracked files) with `git commit -a -m "<description>"` or `git commit -am "<description>"`.
+Create a commit in the current branch. An editor will open to enter commit description. 
 
+### Commit and Write Description in Terminal
+```bash
+git commit -m "initial commit"
+```
+Use `git commit -m "<description>"` to enter description in terminal without opening an editor. 
+
+### Stage and Open Editor to Create Description then Commit
+```bash
+git commit -a
+```
+The `-a` option (`git commit -a` can also be used after resolving a merge conflict where you will see commit message and if you are happy with it type :wq then press enter and then merge will be successful) can be used to add changes to staging area (previously tracked files) and commit them then an editor will open to enter commit description but this only applies to previously tracked files.
+
+### Stage Previously Tracked Files and Commit
+```bash
+git commit -am "<description>"
+```
+Stage and commit files (only for previously tracked files) with `git commit -a -m "<description>"` or `git commit -am "<description>"`.
 
 ## Branches
 
@@ -513,49 +530,49 @@ git branch
 ```
 Shows a list of all branches in local repository. The branch with `*` is the current branch. This won't show branches created in remote repository. Use the `-r` option to show remote branches at remote Git repository only (`git branch -r`). The `-a` option (`git branch -a`) is used to show all branches in local and remote repository. The `-vv` option (`git branch -vv`) shows local branches and their remote branches (tracking branches).
 
-#### Create a Branch
+### Create a Branch
 ```bash
 git branch <branch>
 ```
 Create a new branch by copying all commits in the current branch. The name shouldn't conflict with currently existing branches. Use `git branch <branch> <source>` to create a branch with a specified source branch without checking it out. Use `git branch -f <hash>` to move a branch forcefully to a commit or use relative refs instead of hash. `git branch -f` is not allowed for current branch in a real Git environment.
 
-#### Delete Branch
+### Delete Branch
 ```bash
 git branch -d <branch>
 ```
 Delete merged branch. This doesn't work on a branch that wasn't merged.
 
-#### Force Delete Branch
+### Force Delete Branch
 ```bash
 git branch -D <branch>
 ```
 Forcefully delete a branch that was not merged.
 
-#### Change Branch Name
+### Change Branch Name
 ```bash
 git branch -M <branch>
 ```
 Change name of branch to the specified name.
 
-#### Change a Specific Branch Name
+### Change a Specific Branch Name
 ```bash
 git branch -m <branch> <branch>
 ```
 First argument is the chosen branch that will be renamed and the second argument is the new name it will have.
 
-#### Go to a Commit or Branch
+### Go to a Commit or Branch
 ```bash
 git checkout <hash or branch>
 ```
 You can use a commit's hash or a branch to change where HEAD points to which will become the currently checked out commit or branch. Checkout a remote branch in remote repository to create a local tracking branch with `git checkout <branch>` and then the new local branch will track remote branch. After checking out specific version of the project, you can easily move on and make any changes, add new files to your project, commit those changes and so on. It also replaces files in staging area. This command will completely override contents of your working directory. To return to Head State, use `git checkout main`. Discard changes done while in detached head state by using `git checkout -f main` where `-f` means force.
 
-#### Create and Checkout a Branch
+### Create and Checkout a Branch
 ```bash
 git checkout -b <branch>
 ```
 Create a branch and check it out.
 
-#### Merge a Branch
+### Merge a Branch
 ```bash
 git merge <branch>
 ```
