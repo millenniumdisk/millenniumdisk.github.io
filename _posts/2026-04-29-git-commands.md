@@ -4,13 +4,14 @@ title: Git Commands
 ---
 
 # Git
+
 ## Introduction
-### Git Official Website
-More information on:
-[Git Website](https://git-scm.com/docs)
+
+### Git Website
+More information in [Git Website](https://git-scm.com/docs).
 
 ### What is Git?
-Git is used to track your project and its old versions. When combined with an online repository like GitHub, it is possible to collaborate with two or more people simultaneously, working on the same project is possible regardless of time or place.
+Git is used to track your project and its old versions. When combined with an online repository like GitHub, it is possible to collaborate with two or more people simultaneously. Working on the same project is possible regardless of time or place.
 
 ### What is a Repository Hosting Service?
 A repository hosting service like GitHub or GitLab is where Git repositories can be stored and be used as a centralized point of getting and giving project updates for collaboration.
@@ -18,31 +19,38 @@ A repository hosting service like GitHub or GitLab is where Git repositories can
 ## Terminal Basics (Git Bash)
 Git Bash terminal or the terminal in VS Code can be used.
 
-## Escaped Characters
+### Escaped Characters
 ! is used for history expansion in bash so it should be escaped with \ as in `\!` or single quotes.
 
 ### Go to Root Directory
 ```bash
 cd
 ```
+
 Make the terminal go to root folder.
 
 #### Activity - Go to Root Directory
 1. Check current directory.
 2. Go to a different drive.
-3. Go to root folder.
+3. Check current directory.
+4. Go to root folder.
+5. Check current directory.
 
 ```bash
 pwd
 cd E:
+pwd
 cd
+pwd
 ```
 
 ### Move to a Specific Directory
 ```bash
 cd <path>
 ```
+
 Change directory to the relative or absolute path specified like in `cd Desktop` or `cd Desktop/new-folder`.
+
 #### Activity - Move to a Created Folder
 1. Check current directory.
 2. Go to a different drive.
@@ -469,14 +477,14 @@ Display a summary of all commits.
 
 `git shortlog` - Show summary of all commits. You can see which authors made more commits and you can sort the output in descending order starting from authors that made more commits. By default, this will be sorted by author name. You will see commits made by author. Use -n to sort by number of commits as in `git shortlog -n`. Suppress showing of commits with -s (show summary) to only show author and number of commits as in `git shortlog -n -s` while -e is to show email as in `git shortlog -n -s -e`.
 
-## Alias
+### Alias
 `git lg` - Show history of commits with author and when were commits made but not much detail (no date).
 If `git lg` is not available, create an alias for it.
 ```bash
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit"
 ```
 
-## Show References
+### Show References
 ```bash
 git show-ref
 ```
@@ -598,7 +606,7 @@ git merge <branch>
 ```
 Merge a branch into the current branch (get changes from a branch and put them into the receiving branch). `git merge` is then performed locally in local repository. `git commit` is needed to complete merge if there is merge conflict and conflicts are resolved. In a 3-way merge, vim will open to edit the reason of why merging is needed. press i to use insert mode then edit the message. press escape to exit insert mode. type `:wq` then enter to exit. To merge a branch named br1 to main, we must checkout main branch first and then use `git merge br1`. br1 branch can then be deleted. We use merging if we want to incorporate changes made in one branch to another branch. Combines the work from two different branches. If main is the current branch and we want to merge bugFix branch to main branch, we use `git merge bugFix` then a new commit with two parents based on the branches merged will be created and main will point to the new commit. We can then checkout bugFix and merge main with `git merge main` so bugFix will just point to the new commit and update bugFix branch. When git performs 3-way merge, it will create automatic commits (automatically created by git) and these commits are not made by humans.
 
-## Move Branch
+### Move Branch
 ```bash
 git branch --force <branch>
 ```
@@ -617,7 +625,7 @@ git branch --force <branch> [<new-tip-commit>]
 `git remote add <server> <url>` - Set up a remote server. Server is the name of the remote server and url is the url of the remote server.
 `git remote add origin <url>` - Set the url of origin. Set up the remote origin server in order to Bind local repository to remote repository. To link local repository to remote origin. You can have multiple remote repositories. Just change the name like in `git remote add <name> <url>`.
 
-#### Make Git Remember Upstream Branch
+### Make Git Remember Upstream Branch
 ```bash
 git push -u <remote> <branch>
 ```
@@ -625,19 +633,19 @@ Make Git remember an upstream branch (`git push -u origin temp`) in remote repos
 
 `git push` - The -u in `git push -u origin <branch>` makes git to remember the upstream branch. In `git push -u <server> <branch>` or `git push -u origin <branch>`, branch can be master branch and remote branch will be created in remote server. Set upstream branch for local branch with `git push -u origin <branch>` where git will get branch from origin remote server and origin can be changed to other remote server. `git push -u origin <branch>` is used to track remote branch after set up of remote server. When local branch has a corresponding remote branch the local branch becomes a tracking branch, the command `git push` instead can be used when making a new commit and push changes to remote branch. To create a remote branch when a new local branch is created then local branch will track the new remote branch, use `git push --set-upstream origin <branch>` (branch is going to be the name of remote branch) where branch is the same name of local branch since it is what will be suggested in the terminal and origin is the name of server and origin is default name and instead of the longer command, `git push -u origin <branch>` can be used and -v option can also be added as `git push -v -u origin <branch>`. If we push a local branch with `git push -v` and there is no corresponding remote branch that is tracked by the local branch, there will be a prompt that says there's no upstream branch. After testing and you are happy with the changes, you can push the changes from your local git repository to the remote git repository. Put your changes to remote repository. Publish local branch with `git push --set-upstream origin <branch>` where upstream branch is a remote branch that your local branch tracks. When you set an upstream branch, you link your local branch to a branch on the remote repository. You push a local branch to the origin remote repository. The command `git push -u origin <branch>` can be used instead. The `-u` says the branch is an upstream branch and origin is the name of the remote repository. Both `--set-upstream` and `-u` establish a tracking relationship between your local branch and the remote branch so in the future, pushing from local branch to remote branch only needs `git push`. git push -u origin main` To put the changes in main branch to remote repository. Another version can be used with -v option as `git push -v` and there will be a prompt asking for GitHub account username and password then remote branch will point to the commit in local branch and git updates local tracking reference for refs/remotes/origin/branch where branch is the remote branch name and local branch and remote branch will point to the same commit. Changes in local repository will be incorporated into remote repository.
 
-#### Add a Remote Server
+### Add a Remote Server
 ```bash
 git remote add <remote> <url>
 ```
 Remote is the server name and URL is the URL of the remote repository (`git remote add origin <url>`). More than one remote server can be added.
 
-#### Push Changes to Remote Repository
+### Push Changes to Remote Repository
 ```bash
 git push
 ```
 After testing of changes in local repository, push them to remote repository that Git remembers.
 
-#### Fetch Changes From Remote Repository
+### Fetch Changes From Remote Repository
 ```bash
 git fetch
 ```
@@ -645,7 +653,7 @@ Get changes and metadata about remote branches references from remote repository
 
 `git fetch` - Can be used as `git fetch -v` (verbose option) to see detailed operation and helps in seeing how many branches are in remote. It will not create local tracking branch. Can be used in any branch. When a new remote branch is created in remote repository, the new change can't be seen with `git branch -r` or `git branch -a` so `git fetch` should be used first to get remote changes and put them in local repository and it is not destructive since it won't change working directory and staging area and it will not merge any remote changes to your local changes. Get changes from remote git repository and updates the local git repository. Local working directory and staging area are not touched. If a branch is created in remote git repository, that branch can be seen in local git repository after using `git fetch`.
 
-#### Pull Changes From Remote Repository
+### Pull Changes From Remote Repository
 ```bash
 git pull
 ```
@@ -653,13 +661,13 @@ Fetches changes from remote repository and merges those changes behind the scene
 
 `git pull` - The option -v can be used as in `git pull -v` for detailed pull. We need a local tracking branch to use `git pull`. Operation is performed partially, only locally in your git repository and it is a two step process of fetching remote changes and then merging them into local changes. A destructive operation that also updates the working directory and staging area because the changes from remote git repository is merged to the local git repository. Is the command to use to make your local branch up-to-date when somebody made changes to remote branch either directly or by merging other changes into it. This command fetches changes from the remote repository and merges them into your local repository for that branch.
 
-#### Remove Stale Branch
+### Remove Stale Branch
 ```bash
 git fetch --prune
 ```
 Cleans local repository by removing references of remote branches that were deleted. `git remote prune origin` will remove stale branch.
 
-#### Clone a Remote Repository
+### Clone a Remote Repository
 ```bash
 git clone <url>
 ```
@@ -667,14 +675,14 @@ Create a local repository based on the remote repository by using its URL. The b
 
 Only default remote branch is created as local branch (not all remote branches in remote repository is created in local branch with this). Git automatically creates binding between remote repository and local repository default remote repository is created for local repository and the name of the default remote repository is origin. Local repository can be connected to multiple remote repositories and every remote repositories will have different names and when you use push, pull or fetch, you choose which remote repository you want to interact with. To clone a repository, use `git clone <url>` to download a project with its Git repository where the url is from a git hosting service like GitHub. When you clone a repository, Git automatically names the remote repository as origin (origin is url of remote repository).
 
-## Update Tracking Statuses
+### Update Tracking Statuses
 `git remote update origin --prune` - Removes a remote branch from being tracked by a local branch if remote branch is deleted. Use the command so that git will know there is no remote branch. When a remote branch is created and then a branch for it is created locally with `git checkout <branch>` where branch is the new remote branch and remote branch will be deleted and then fetch and use `git branch -vv` to see local branch is still tracking the deleted remote branch so use `git remote update origin --prune` to update status of tracking branch and tracking status will change for local branch. The local branch can be deleted with `git branch -D <branch>` or force deletion because there will be an error with `git branch -d <branch>` because local branch is not merged.
 
-## Update All Branches Set to Track Remotes
+### Update All Branches Set to Track Remotes
 `git remote update`
 Only updates all branches set to track remotes. No changes will be merged. `git remote update origin` is another command.
 
-## Delete Remote Branch
+### Delete Remote Branch
 `git push origin -d temp` - Delete remote branch. We can create a local branch and then create and track remote branch by using `git push -u origin temp` then use `git push origin -d temp` to delete remote branch. Check with `git branch -a`. Delete local branch with `git branch -D <branch`>
 
 ## Reset
@@ -718,7 +726,6 @@ Use `git stash pop` to get the previous changes stored in stash and changes will
 git stash pop
 ```
 Get the previous changes stored in stash then apply those changes and then the stash file will be deleted in the Git repository.
-
 
 ## Tags
 ### Show Tag List
@@ -806,11 +813,13 @@ Rebasing Steps:
 A two step process to make commit history look linear. This command rewrites commit history and doesn't keep the entire history of all commits.
 
 We won't be able to see when branches were made and merged and which commits were made in a specific branch after using rebasing. Merging doesn't change commits but rebasing change commits and it create new commits. Rebasing also can make it seem like commits were made before the other commits because of a differnt timestamp. Rebase the current branch which can be feature branch onto the branch which can be master branch as in `git rebase master` in order to copy commits in current branch and put it in a linear fashion after the last commit in master branch (old commits in current branch will be deleted). After using rebase command, checkout the base branch which can be master and then merge the feature branch into main branch by using `git merge <branch>` where branch is the feature branch we want to merge into master and then you can delete the feature branch that was merged into master by using `git branch -d <branch>` as in `git branch -d feature1` then push changes to remote with `git push`. With `git rebase main`, if bugFix branch is the current branch, the work in bugFix will be copied and put as latest work in main branch. Take a set of commits, copy them and put them somewhere else. It can make a nice linear sequence of commits for a cleaner commit log if it is allowed. Use `git rebase bugFix` when main is current branch so main will just point to the copied commit from bugFix and that copied commit is where bugFix now points too also.
-## Rebasing Branches
+
+### Rebasing Branches
 - Rewrites history.
 - History becomes linear.
 - Doesn't keep entire history of all commits.
-## Steps in Rebasing (Rebasing is a two step process [part 1 and 2 is step 1 and part 3 and 4 is step 2])
+
+### Steps in Rebasing (Rebasing is a two step process [part 1 and 2 is step 1 and part 3 and 4 is step 2])
 Merge feature branch (feature1 branch) into base branch (master branch) using rebasing:
 1. Checkout feature branch by using `git checkout <branch>` as in `git checkout feature1`.
 2. Rebase feature branch on top of the base branch by using `git rebase <branch>` as in `git rebase master` (brand new commits will have the last commit of base or master branch as parent to form linearly and those brand new commits are just copies of old commits created by git).
