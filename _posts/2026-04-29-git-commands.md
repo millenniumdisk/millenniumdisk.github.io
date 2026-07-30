@@ -236,14 +236,97 @@ ls -la
 clear
 ```
 
-### File Explorer
-`start .` - Opens current folder in File Explorer. Using `explorer .` also works similarly.
-### Check Current Directory
+### Open Folder in File Explorer
+```bash
+start .
+```
+Opens current folder in File Explorer. Using `explorer .` also works similarly.
+
+#### Activity - Open Folder in File Explorer
+1. Display current directory.
+2. Go to another drive.
+3. List files and folders in current directory.
+4. Clear terminal.
+5. Create a new folder.
+6. Move to the new folder.
+7. List files and folders in the new folder.
+8. Clear terminal.
+9. Create a file.
+10. Open folder in file explorer.
+
+```bash
+pwd
+cd E:
+ls -la
+clear
+mkdir python-project
+cd python-project
+ls -la
+clear
+touch notes.txt
+start .
+```
+
+### Display Current Directory
 `pwd` - See what is the current directory.
+
+#### Activity - Display Current Directory
+1. Display current directory.
+2. Go to another drive.
+3. Display the current directory again.
+4. Go to root folder.
+5. Display the current directory one last time.
+
+```bash
+pwd
+cd E:
+pwd
+cd
+pwd
+```
+
 ### Current Directory
-`.` - Alias of the current directory.
+`.` is the alias of the current directory.
+
+#### Activity - Open the Current Directory in File Explorer
+1. Display current directory.
+2. Go to another drive.
+3. List files and folders in the current directory.
+4. Clear terminal.
+5. Open current directory in file explorer.
+
+```bash
+pwd
+cd E:
+ls -la
+clear
+start .
+```
+
 ### Parent Directory
-`..` - Alias of the parent directory.
+`..` is the alias of the parent directory.
+
+#### Activity - Go Back One Level
+1. Display current directory.
+2. Go to another drive.
+3. List files and folders in current directory.
+4. Clear terminal.
+5. Create a new folder.
+6. List files and folders again.
+7. Go back one level.
+8. List files and folders one last time.
+
+```bash
+pwd
+cd E:
+ls -la
+clear
+mkdir python-project
+ls -la
+cd ..
+ls -la
+```
+
 ### Edit File
 `nano <filename>` - Use a text editor to edit a file like in `nano new-file.txt`. `ctrl + o` to write changes and `ctrl + x` to exit in nano.
 ### Autocomplete
