@@ -53,3 +53,5 @@ Padding
 Border
 Margin
 Color
+Height
+Width
