@@ -12,12 +12,14 @@ More information on:
 [https://git-scm.com/docs](https://git-scm.com/docs)
 
 ### What is Git?
-Git is a distributed (team members each have the project history) VCS (Version Control System) used to track your project's status. Instead of copying your entire project folder and changing its name and version number manually and then sending that entire folder to other team members working on the project, Git can make working on the project easier because collaboration is possible where all team members can contribute simultaneously regardless of where they are located. A Git repository hosting service is needed for collaboration and assurance (so when your PC containing the project folder won't work, the project is still available online).
+Git is used to track your project and its old versions. When combined with an online repository like GitHub, it is possible to collaborate with two or more people simultaneously, working on the same project is possible regardless of time or place.
 
 ### What is a Repository Hosting Service?
 A repository hosting service like GitHub or GitLab is where Git repositories can be stored and be used as a centralized point of getting and giving project updates for collaboration.
 
-## Terminal
+## Terminal Basics (Git Bash)
+Git Bash terminal or the terminal in VS Code can be used.
+
 ### Go to Root Directory
 ```bash
 cd
@@ -515,7 +517,7 @@ Shows a list of all branches in local repository. The branch with `*` is the cur
 ```bash
 git branch <branch>
 ```
-Create a new branch by copying all commits in the current branch. The name shouldn't conflict with currently existing branches.
+Create a new branch by copying all commits in the current branch. The name shouldn't conflict with currently existing branches. Use `git branch <branch> <source>` to create a branch with a specified source branch without checking it out. Use `git branch -f <hash>` to move a branch forcefully to a commit or use relative refs instead of hash. `git branch -f` is not allowed for current branch in a real Git environment.
 
 #### Delete Branch
 ```bash
@@ -545,7 +547,7 @@ First argument is the chosen branch that will be renamed and the second argument
 ```bash
 git checkout <hash or branch>
 ```
-You can use a commit's hash or a branch to change where HEAD points to which will become the currently checked out commit or branch.
+You can use a commit's hash or a branch to change where HEAD points to which will become the currently checked out commit or branch. Checkout a remote branch in remote repository to create a local tracking branch with `git checkout <branch>` and then the new local branch will track remote branch. After checking out specific version of the project, you can easily move on and make any changes, add new files to your project, commit those changes and so on. It also replaces files in staging area. This command will completely override contents of your working directory. To return to Head State, use `git checkout main`. Discard changes done while in detached head state by using `git checkout -f main` where `-f` means force.
 
 #### Create and Checkout a Branch
 ```bash
@@ -557,7 +559,7 @@ Create a branch and check it out.
 ```bash
 git merge <branch>
 ```
-Merge a branch into the current branch (get changes from a branch into the receiving branch).
+Merge a branch into the current branch (get changes from a branch and put them into the receiving branch). `git merge` is then performed locally in local repository. `git commit` is needed to complete merge if there is merge conflict and conflicts are resolved. In a 3-way merge, vim will open to edit the reason of why merging is needed. press i to use insert mode then edit the message. press escape to exit insert mode. type `:wq` then enter to exit. To merge a branch named br1 to main, we must checkout main branch first and then use `git merge br1`. br1 branch can then be deleted. We use merging if we want to incorporate changes made in one branch to another branch. Combines the work from two different branches. If main is the current branch and we want to merge bugFix branch to main branch, we use `git merge bugFix` then a new commit with two parents based on the branches merged will be created and main will point to the new commit. We can then checkout bugFix and merge main with `git merge main` so bugFix will just point to the new commit and update bugFix branch. When git performs 3-way merge, it will create automatic commits (automatically created by git) and these commits are not made by humans.
 
 ## Remote Repository
 #### Make Git Remember Upstream Branch
@@ -588,7 +590,7 @@ Get changes and metadata about remote branches references from remote repository
 ```bash
 git pull
 ```
-Fetches changes from remote repository and merges those changes behind the scenes. The `-v` or option can also be added (`git pull -v`).
+Fetches changes from remote repository and merges those changes behind the scenes. The `-v` or verbose option can also be added to observe fetch and merge operations (`git pull -v`).
 
 #### Remove Stale Branch
 ```bash
