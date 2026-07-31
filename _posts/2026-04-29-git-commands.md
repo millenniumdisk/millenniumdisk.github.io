@@ -7,24 +7,6 @@ title: Git Commands
 
 ## Introduction
 
-### Overview
-The major categories are:
-- Advanced
-  - Tags
-  - Ignore Files
-  - Reset
-  - Stashing
-  - Revert
-  - Rebasing
-  - Rebasing with Squashing
-  - Reflog
-  - Cherry Picking
-  - Amend
-- Git Concepts
-  - Merge Conflicts
-  - Resolving Merge Conflicts
-  - Pull Requests
-
 ### Git Website
 More information in [Git Website](https://git-scm.com/docs).
 
@@ -535,57 +517,60 @@ Every file in Git may have one of four tracking statuses:
 3. Ignored - Files that are excluded from staging and committing.
 4. Committed - Committed files are saved in Git and a new commit will appear in commit history. The changes are only saved locally. If there is one or more commits, those changes can be pushed to the Remote Repository.
 
-## Setup
+### Setup
 
-### Display Git Version Number
+#### Display Git Version Number
 ```bash
 git --version
 ```
 Get the version of Git. Also helps in checking if Git is installed (`git -v` and `git version` works similarly).
 
-### Display Configuration
+#### Display Configuration
 ```bash
 git config --list
 ```
 Display the current Git configuration.
 
-### Change Global Username
+#### Change Global Username
 ```bash
 git config --global user.name "<name>"
 ```
 Changes the name that will be displayed in the commits.
 
-### Change Global Email
+#### Change Global Email
 ```bash
 git config --global user.email "<email>"
 ```
 Changes the email displayed in commits.
 
-### Change Local Username
+#### Change Local Username
 ```bash
 git config user.name "<name>"
 ```
 Override global username per project.
 
-### Change Local Email
+#### Change Local Email
 ```bash
 git config user.email "<email>"
 ```
 Override global email per project.
 
-### Change Default Branch Name
+#### Change Default Branch Name
 ```bash
 git config --global init.defaultBranch <branch>
 ```
 Change branch into main to change the default name of branch in initialization to main (used when default name of branch isn't main).
 
-### Initialization
+#### Initialization
 ```bash
 git init
 ```
 Initialize current directory as Git repository. It will create a hidden `.git` folder that can only be managed by Git. This is about local repositories. Not related to remotes (remote repository).
 
-#### Activity - Initialize a Git Repository
+#### Local Repository
+A copy of remote repository that a team member or collaborator can work on in their own computer.
+
+##### Activity - Initialize a Git Repository
 1. Check the current location in the terminal.
 2. Go to a place where a project can be created like a different drive.
 3. Check the folders and files in the current directory.
@@ -605,55 +590,43 @@ cd git-basics
 git init
 ```
 
-### Local Repository
-A copy of remote repository that a team member or collaborator can work on in their own computer.
+### Inspect
 
-### Remote
-The remote server where the remote repository is. Usually named origin. We need to be connected to the internet.
-
-### Origin
-The default name of remote server.
-
-### HEAD
-The current commit or branch.
-
-## Inspect
-
-### Repository Status
+#### Repository Status
 ```bash
 git status
 ```
 Display status of Git repository (but doesn't show files in staging). Can be used with verbose option (`git status -v`). Depending on the terminal, yellow cross signs means uncommitted changes and those changes to be committed are located in staging area. Yellow cross signs will disappear and it means there are no changes to be committed.
 
-### Display Commit History
+#### Display Commit History
 ```bash
 git log
 ```
 Display all commits in the current branch. Ctrl + z to exit. Show history of changes (commits). See all commits that were created in history. Press Q to exit. Use `git log --oneline` to see one line in the output. Use --stat to see additional information as in `git log --stat`. The -p option shows changes in every file or every commit as in `git log -p` but it is not convenient to see changes in terminal (use gui programs like vscode or sourcetree instead). Using `git log -<number>` will only show a specific number of commits as in `git log -4` and --oneline can be added to it as in `git log -4 --oneline`. `git log --graph` will show commits history with branch connections. We can see how many parents and can be combined with --oneline as in `git log --graph --oneline`.
 
-### Format Output of Git Log
+#### Format Output of Git Log
 `git log --pretty=format:"%H"` - Shows log of commits but formatted. %H is variable for complete hash of commits. Add cn to see committer names as in `git log --pretty=format:"%cn %H"`. More pretty formatting variables in https://devhints.io/git-log-format. Short hash is h as in `git log --pretty=format:"%cn %h"`.
 Strings can also be added as in `git log --pretty=format:"Author of commit: %cn Commit SHA1 hash: %h"`. Date can be added with cd as in `git log --pretty=format:"Author of commit: %cn; Commit SHA1 hash: %h; Date: %cd"`
 
-### Show Merge Commits and Non Merge Commits
+#### Show Merge Commits and Non Merge Commits
 `git log --merges` - The option --oneline can be used as in `git log --merges --oneline`. Only show merge commits. There is a reason why there can be few merge commits in a repository and why in some cases people do not merge branches in traditional and they use rebasing with squashing instead. `git log --no-merges` can be used to see non merge commits (commits made by humans or merges using other techniques). Option --oneline can also be used as in `git log --no-merges --oneline`.
 
-### Filter
+#### Filter
 `git log --author="<name>"` - The filter is actually regular expression and you can enter a part of the author name and it will find results the same as before. Show commits made by an author. The --oneline can be added as in `git log --author"AchillesJ" --oneline`. Find specific string with `git log --grep="<query>"` as in `git log --grep="3.12.1"` to find commits with the string. The --oneline can also be added.
 
-### Compare
+#### Compare
 ```bash
 git diff
 ```
 When changes are made and they are saved but not yet staged then committed, you can use this command to see the modifications made. With `git diff`, if a file is modififed and that file is saved, `git status` will show one file is modififed. Without staging and committing, use `git diff`. A will mean the previous file and B represents modified file. Click in VS Code to see those two side by side. You will also see hashes of the two when `git diff` is used. Modififed version got a hash even if it isn't staged yet. If a number like -3, 6 +3, 8 shows, it means old file with - is displayed with line 3 as the one we see and there are 6 lines total. The modified file is + and the displayed code start at line 3 and there are a total of 8 lines. Only a portion of the whole code is shown. We also see a text that is part of the code beside the numbers. We can copy those text and find it to see portion of the code that was changed. Scroll down in command line with down arrow key. You can stage and commit after using `git diff`.
 
-### Show Changes in Commit
+#### Show Changes in Commit
 ```bash
 git show <hash>
 ```
 See the changes made in the specified commit.
 
-### Show Summary of All Commits
+#### Show Summary of All Commits
 ```bash
 git shortlog
 ```
@@ -661,49 +634,49 @@ Display a summary of all commits.
 
 `git shortlog` - Show summary of all commits. You can see which authors made more commits and you can sort the output in descending order starting from authors that made more commits. By default, this will be sorted by author name. You will see commits made by author. Use -n to sort by number of commits as in `git shortlog -n`. Suppress showing of commits with -s (show summary) to only show author and number of commits as in `git shortlog -n -s` while -e is to show email as in `git shortlog -n -s -e`.
 
-### Alias
+#### Alias
 `git lg` - Show history of commits with author and when were commits made but not much detail (no date).
 If `git lg` is not available, create an alias for it.
 ```bash
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit"
 ```
 
-### Show References
+#### Show References
 ```bash
 git show-ref
 ```
 Check remote refs and local refs.
 Show summary of all commits sorted by author name. Use `-n` to sort by number of commits (`git shortlog -n`). Suppress showing of commits with `-s` (`git shortlog -s`). The `-e` option is to show email (`git shortlog -e`). Options can be combined (`git shortlog -n -s -e`).
 
-### Compare References for a specific Branch
+#### Compare References for a specific Branch
 `git show-ref <branch>` - When branch is master, you will only see references for master branch in local master master and remote master branch. Branch can be other branch. The references can be different or exactly the same. When a commit is made but not yet pushed, references will be different. When pushed, the references will become the same and it means local and remote branch are in sync.
 
-## Staging
-### Stage a File
+### Staging
+#### Stage a File
 ```bash
 git add <filename>
 ```
 Add a file from working directory to staging area.
 
-### Stage All Files
+#### Stage All Files
 ```bash
 git add .
 ```
 Add all files to staging area. When the project folder is new, there are only a few files so using this is ok but later on, you don't want to add all files and then realize only few files need to be added to staging.
 
-### Stage Previously Tracked Files
+#### Stage Previously Tracked Files
 ```bash
 git add -u
 ```
 Stages only the files that were previously tracked. Might be better than `git add .`.
 
-### Unstage a File
+#### Unstage a File
 ```bash
 git rm --cached <filename>
 ```
 Remove a file from the staging area if changes haven't been committed yet. Changes file to untracked or modified state from staged. Doesn't remove file from working directory.
 
-### Unstage All Files
+#### Unstage All Files
 ```bash
 git reset .
 ```
@@ -715,97 +688,126 @@ Git stores any files with any extensions, either video files, pictures, text fil
 ### Tree
 With the help of tree object type, Git actually stores information about directories. In other file systems, directories may contain files or be empty or be mixed with files and directories. Tree in Git may be a set of blobs or set of blobs and other trees. Tree is representation of folder in Git. Tree represents a directory.
 
-## Commits
+### Commits
 With a commit object type, we are able to actually store different versions of our project. A commit is like saving the state of a project in a specific moment of time. But saving (or just creating a commit) is not enough to make sure the we won't have to worry about the project. Pushing the commit or commits to remote (remote repository) will later on allow us to get all versions of our project even if our local Git repository or project folder is gone from our computer. Pushing to remote also allows collaboration with other people.
 
-### Create a Commit
+#### Hash Functions
+There is an online tool for generating hash. Git utilizes SHA1 function and uses hexadecimal format.
+- MD5 (128 bit)
+- SHA1 (160 bit)
+- SHA256 (256 bit)
+- SHA384 (384 bit)
+- SHA512 (512 bit)
+
+#### Hash
+String of numbers and letters. It is like an ID. Generated based on input. We store files in Git based on their hash. Hash function is a function that takes any variable length input and creates a fixed length hash independent of the input. The length of hash is fixed. Hash can be created with a very small file or big sized file. Hash depends on the content. If you know the hash but don't know the input, you can't create the input based on hash. Hash functions are one-way functions. We are not able to find out input based on specific hash. Passwords are stored as hash. A server creates hash of the password and compares it to hash stored in database on log in. Same input will produce the same hash.
+
+#### Create a Commit
 ```bash
 git commit
 ```
 Create a commit in the current branch. An editor will open to enter commit description. 
 
-### Commit and Write Description in Terminal
+#### Commit and Write Description in Terminal
 ```bash
 git commit -m "initial commit"
 ```
 Use `git commit -m "<description>"` to enter description in terminal without opening an editor. 
 
-### Stage and Open Editor to Create Description then Commit
+#### Stage and Open Editor to Create Description then Commit
 ```bash
 git commit -a
 ```
 The `-a` option (`git commit -a` can also be used after resolving a merge conflict where you will see commit message and if you are happy with it type :wq then press enter and then merge will be successful) can be used to add changes to staging area (previously tracked files) and commit them then an editor will open to enter commit description but this only applies to previously tracked files.
 
-### Stage Previously Tracked Files and Commit
+#### Stage Previously Tracked Files and Commit
 ```bash
 git commit -am "<description>"
 ```
 Stage and commit files (only for previously tracked files) with `git commit -a -m "<description>"` or `git commit -am "<description>"`.
 
-
-## Branch
+### Branch
 A branch contains its own commit history that are different from other branches. Allows team members to work on different features simultaneously (by making a branch for each feature). Branches can be merged to other branches. A branch is like a bookmark which is easy to remember instead of memorizing the hash of a commit so checking out a branch is fast and easy than checking out a commit that will have different hash whenever the branch is updated with a new commit that is why branch is useful since it will automatically bookmark the newest commit added to the branch.
 
+#### HEAD
+The current commit or branch. There can only be one HEAD. HEAD is current commit or branch. By default HEAD points to current branch and it moves of course along with branch. You can also checkout specific commit by using its hash, where you will move into detached HEAD state. It is the name of the currently checked out commit. HEAD normally points to a branch name.
 
+#### HEAD File
+Contains pointer to currently checked out branch which can be master branch.
 
-### Show Local Branches
+#### Show Local Branches
 ```bash
 git branch
 ```
 Shows a list of all branches in local repository. The branch with `*` is the current branch. This won't show branches created in remote repository. Use the `-r` option to show remote branches at remote Git repository only (`git branch -r`). The `-a` option (`git branch -a`) is used to show all branches in local and remote repository. If it is remote, there will be a remote name and then followed by name of the remote git server which can be origin and then followed by name of branch. Head pointer will point to remote's default branch which can be remote's master or main branch and that default branch is the one that is default branch created for local after cloning.The `-vv` option (`git branch -vv`) shows local branches and their remote branches (tracking branches). If there is origin/master, it means local branch is tracking branch and it tracks origin/master branch. We can see if a remote branch is gone with this command after using git `remote update origin --prune`.
 
-### Create a Branch
+#### Create a Branch
 ```bash
 git branch <branch>
 ```
 Create a new branch by copying all commits in the current branch. The name shouldn't conflict with currently existing branches. Use `git branch <branch> <source>` to create a branch with a specified source branch without checking it out. Use `git branch -f <hash>` to move a branch forcefully to a commit or use relative refs instead of hash. `git branch -f` is not allowed for current branch in a real Git environment.
 
-### Delete Branch
+#### Delete Branch
 ```bash
 git branch -d <branch>
 ```
 Delete merged branch. This doesn't work on a branch that wasn't merged.
 
-### Force Delete Branch
+#### Force Delete Branch
 ```bash
 git branch -D <branch>
 ```
 Forcefully delete a branch that was not merged.
 
-### Change Branch Name
+#### Change Branch Name
 ```bash
 git branch -M <branch>
 ```
 Change name of branch to the specified name.
 
-### Change a Specific Branch Name
+#### Change a Specific Branch Name
 ```bash
 git branch -m <branch> <branch>
 ```
 First argument is the chosen branch that will be renamed and the second argument is the new name it will have.
 
-### Go to a Commit or Branch
+#### Go to a Commit or Branch
 ```bash
 git checkout <hash or branch>
 ```
 You can use a commit's hash or a branch to change where HEAD points to which will become the currently checked out commit or branch. Checkout a remote branch in remote repository to create a local tracking branch with `git checkout <branch>` and then the new local branch will track remote branch. After checking out specific version of the project, you can easily move on and make any changes, add new files to your project, commit those changes and so on. It also replaces files in staging area. This command will completely override contents of your working directory. To return to Head State, use `git checkout main`. Discard changes done while in detached head state by using `git checkout -f main` where `-f` means force.
 
-### Create and Checkout a Branch
+#### Create and Checkout a Branch
 ```bash
 git checkout -b <branch>
 ```
 Create a branch and check it out.
 
-### Merging
+#### Detached HEAD State
+Detached HEAD state happens when HEAD is pointing to a commit.
+
+`git branch <branch> <hash>` - After going back to another branch from detached head state, create branch for experimental commits.
+When in last experimental commit while in detached head state, `git checkout -b <branch>` can be used to save experimental commits. If you are just experimenting and will throw away changes, just go to another branch while in detached head state. By default, unreachable git objects are garbage collected after 30 days. New commits created while in detached head state will not be included in master branch and while creating new commits in detached head state, creating a branch is ok to make sure those changes are not lost. Sometimes when you want to retain experimental commits, you can create a branch while in detached head state. While in detached head state, you can create experimental commits and if you go to a branch and out of detached head state, those experimental commits will be garbage collected by git. When head points to a currently checked out branch, creating new commits will automatically make head point to the new commits. Checking a specific commit with its hash will make head go into detached head state. Checking out a specific commit. If you make a commit while located in detached HEAD state, those commits that were made in detached HEAD state will be lost and deleted automatically by Git and you will not be able to return to those commits. That is why in most cases, HEAD is referenced to specific branch, not commit.
+
+#### Merging
 Combine the changes from a feature branch into a receiving branch (which can be main branch).
 
-#### Merge a Branch
+##### Receiving Branch
+If we want to merge a branch to main, main is the receiving branch.
+
+##### Fast Forward Merge
+When a branch is created from master branch and the new branch got a commit and there are no new commits in master branch, checking out master branch and merging the new branch to main with `git merge <new-branch>` will just move master branch pointer to point to the new commit where new branch points to. The new branch can be deleted with `git branch -d <new-branch>`. Git simply moves HEAD pointer. Git won't create a new commit. If there are no new commits in main branch and another branch based on main got new commits, we can merge that branch to main and Git will use fast forward merge. Main branch will simply move to the last commit of the other branch that was merged. You can delete the other branch if you're not going to make any other changes in it. If we want to merge a branch like `bugFix` to main, we need to checkout main first and then use `git merge bugFix`. main pointer will point to the commit to where bugFix points.
+
+##### Three Way Merge
+Git will create new merge commit that will contain all changes.
+
+##### Merge a Branch
 ```bash
 git merge <branch>
 ```
 Merge a branch into the current branch (get changes from a branch and put them into the receiving branch). `git merge` is then performed locally in local repository. `git commit` is needed to complete merge if there is merge conflict and conflicts are resolved. In a 3-way merge, vim will open to edit the reason of why merging is needed. press i to use insert mode then edit the message. press escape to exit insert mode. type `:wq` then enter to exit. To merge a branch named br1 to main, we must checkout main branch first and then use `git merge br1`. br1 branch can then be deleted. We use merging if we want to incorporate changes made in one branch to another branch. Combines the work from two different branches. If main is the current branch and we want to merge bugFix branch to main branch, we use `git merge bugFix` then a new commit with two parents based on the branches merged will be created and main will point to the new commit. We can then checkout bugFix and merge main with `git merge main` so bugFix will just point to the new commit and update bugFix branch. When git performs 3-way merge, it will create automatic commits (automatically created by git) and these commits are not made by humans.
 
-### Move Branch
+#### Move Branch
 ```bash
 git branch --force <branch>
 ```
@@ -816,141 +818,9 @@ git branch --force <branch> [<new-tip-commit>]
 ```
 `new-tip-commit` can be a branch name (ex. master, origin/master) and branch will be moved there.
 
-### Detached HEAD State
-Detached HEAD state happens when HEAD is pointing to a commit.
-
-`git branch <branch> <hash>` - After going back to another branch from detached head state, create branch for experimental commits.
-When in last experimental commit while in detached head state, `git checkout -b <branch>` can be used to save experimental commits. If you are just experimenting and will throw away changes, just go to another branch while in detached head state. By default, unreachable git objects are garbage collected after 30 days. New commits created while in detached head state will not be included in master branch and while creating new commits in detached head state, creating a branch is ok to make sure those changes are not lost. Sometimes when you want to retain experimental commits, you can create a branch while in detached head state. While in detached head state, you can create experimental commits and if you go to a branch and out of detached head state, those experimental commits will be garbage collected by git. When head points to a currently checked out branch, creating new commits will automatically make head point to the new commits. Checking a specific commit with its hash will make head go into detached head state. Checking out a specific commit. If you make a commit while located in detached HEAD state, those commits that were made in detached HEAD state will be lost and deleted automatically by Git and you will not be able to return to those commits. That is why in most cases, HEAD is referenced to specific branch, not commit.
-
-### Pull Request
-Changes you want to be applied to a branch (usually main) that will undergo review by other team members and can be accepted or not.
-
-Each pull request is connected to a specific branch. Start review process. A dev creating a pull request wants to merge the feature into main branch and pull request can be called merge request. Pull request is named pull request because when a dev finish a feature, he will push it to remote repository he will ask other devs to pull remote changes in the specific branch, check it out and veryify how the feature works and give feedback. Pull requests help devs communicate and collaborate and move development process easier and faster.
-When a dev has finished working on a specific branch and commits of changes were created and branch was published to remote, it is not good in most cases to merge those changes into main / release branch directly so a dev that has finished its work on a specific feature proposes changes that should be applied to main branch that may or may not be applied into master / release. After review of other devs, changes may be rejected and then pull request will be closed and corresponding branch will be deleted. Proposal of potential changes. Lets you share your changes with your team for review and feedback. Once approved and merged, your changes becomes a part of the main branch. Compare is the branch you want to merge from and Base is the branch you want to merge to in GitHub. If everything looks good and there are no merge conflicts, others can merge it. Your branch will be merged to main branch. Old branch will be one commit behind and zero commits ahead so it is ok to delete it. GitHub executes a Git operation in the background which is `git merge <branch>` and then the branch you want to merge. Using GitHub's PRs is preferable. Merge happens only in the remote repository so update local repository with `git pull` (this command is shorthand for `git pull origin main` but by default GitHub pulls from the remote origin from the same branch you're currently in).
-
-### Merge Conflict
-An error that appears when there are files that are in conflict with one another when trying to merge branches. The conflicts should be resolved first to proceed with merging.
-
-### Resolve Merge Conflict
-- Checkout the main branch.
-- Pull the changes from the remote main branch (your local main branch and remote main branch are identical).
-- Checkout to your branch (when creating the pull request, you are trying to merge to main and `git merge main` will merge the main branch into your branch even if the initial goal was the opposite which was to merge your branch to main branch so we must resolve the issue by merging main to our branch to identify the problem).
-- View the merge conflicts list in your code editor (arrows pointing to left are from our branch and arrows pointing to right are changes coming from the main branch).
-- You can manually choose what you want to keep or remove by removing the lines and clearing code you don't want there.
-- Click resolve button if you don't want to manually resolve (you can choose to only accept yours or accept their code or you want something in between but in most cases you want some of their code and some of your code so use third option merge).
-- In the left side of the code editor, we see our changes, the right side is their changes and in the middle is the result (click double arrows you want to keep and x button to remove code you don't want to keep then apply).
-- Stage all files.
-- Commit with description.
-- Push changes.
-- Pull request won't have any merge conflicts error so tag reviewer in the message and tell them to check it.
-- Some will request changes if needed by commenting on the pull request when going to the code base (files changed in GitHub).
-- Merge pull request to main branch will happen next.
-- A new commit will appear.
-
-### Stale Branch
-When a tracking branch loses its corresponding upstream remote branch.
-
-A tracking branch in local repository will become stale if the remote branch is deleted in remote repository. Use `git remote prune origin` to remove the stale branch configured for `git pull`. The local branch will still exist and is still tracking the removed remote branch. You can create the removed remote branch by using `git push` after making changes to the local branch. Local branch can also be deleted if you won't push changes and create removed remote branch.
-
-### Tracking Branch
-A local branch becomes a tracking branch when it is paired with its corresponding remote branch.
-
-- Git Objects
-- Git Areas
-  - Working Directory
-  - Staging Area
-  - Git Repository
-- File Status Types
-- Relative Refs
-- Alias
-
-Tracking branch can be removed by deleting local branch with `git branch -d <branch>`. If there is a branch in remote repository named b1 and there is no local branch that tracks b1 branch, it means there is no local tracking branch for b1 branch. If there is a local branch named b2 and there is no branch in remote repository that is connected to it, it means that b2 branch is not tracking branch.
-You can create remote tracking branch for b2 by creating remote branch in remote repository. The same for b1 branch, just checkout remote branch and you will create local b1 branch in local repository and this will automatically be connected to remote branch and the branch will be tracking branch.
-Tracking branch is local branch that is connected to a specific remote branch in remote repository. There can be a single tracking branch called master and local master branch tracks remote master branch.
-
-### Git Development Workflow
-Public branches are like master, release or dev and are usually set as protected branches and only owners can merge pull requests or other branches into those branches. There are times where you are still developing your own feature while other features are being merged into public branch and you then want to be up to date with other changes or features. So you need to merge public branches into your current feature branch you are currently working on. We have commits that can't be pushed to remote becuase of having no permissions. So we need to reset those new commits to go back to the previous state to be the same as remote repository. Github desktop don't have the feature to reset to specific commit. Only revert is possible. So reset with `git lg` then get the commit to where remote is pointing to then use `git reset --hard <hash>`. We merge public branch to feature branch since public branch may have new changes applied to it. Merging public branch to feature branch will create new merge commit so to avoid that, rebasing can be used. We just want to update feature branch.
-
-### Advanced Git Commands
-Not used very often but in some cases can be really useful. Some of these features are destructive (change git history).
-Topics:
-- Revert commits.
-- Reset commits.
-- Amend commits.
-- Cherry pick commits.
-- Rebasing with squashing (useful when you want to collapse multiple commits just into one commit and perform rebasing).
-- Advanced filtering options that could be used with `git log`.
-
-### Ready to Use Ignore Template for Different Programming Languages / Frameworks
-Ignore the following:
-- Build folders like bin/ (usually builds are created on production systems and anyone who got repository files can create bin).
-- Dependency folders like node_modules/ or packages (because they are large and anyone can install those dependencies after pulling repository).
-- Compiled and log files like *.pyc, *.log (compiled file for python and log files). 
-- Hidden OS files like Thumbs.db or .DS_Store.
-gitignore repository in github contains different templates. We create .gitignore file after initialization to avoid committing files we want to be ignored. Go to gitignore.io. To make a previously ignored file be tracked again, just change the filename in .gitignore to another filename or remove the filename of the file you want to be tracked and then you can commit the changes in the file. Ignore all temporary files with `*.tmp` and * means it matches 0 or more characters. Use `#` to add comments in .gitignore like `# ignore single file` and wildcard patterns can be used in .gitignore. Ignore a folder by adding a line like `bin/` to .gitignore and all files in the bin folder will be ignored after staging and committing .gitignore. You can add a line with the contents `new-file.txt` in .gitignore then stage and commit .gitignore and a file with the name `new-file.txt` will be ignored by git and it won't be pushed to remote. Create a .gitignore file in the git repository with `touch .gitignore` then stage it with `git add .gitignore` then commit it. Usually .gitignore is created after repository initialization. .gitignore file may be placed in any folder in your project but it is usually placed in the root of the repository. To exclude file/s and folder/s, create rules in a file called .gitignore. By default git ignore is not configured (there are no ignored files in any repository by default). If you add an ignored file in working directory, git won't tell you to stage it and commit it and git will not say repository it not in sync, git will only ignore the file. Files in git are either tracked or untracked. When creating a new file, git treats it as untracked and offers you to stage it and commit it to make it be in tracked status. If you don't want to stage and commit specific file or files, you can ignore them in git. Ignore is an additional file status. You don't need to commit system files, build files or temporary files.
-
-### CI/CD
-In the modern world, each software is developed  usually according to CI/CD principles. CI means continuous integration and CD means continuous development. It means software is being developed continuously. There are two environments: staging environment and production environment. There is also staging version and production version of specific software. Set the two branches are protected branches to avoid automatic merging into those branches (good practice). Those branches shouldn't be deleted by anyone in the team.
-
-### Production Environment
-- Can have any name but master branch is common.
-- For stable production service.
-- For customers.
-- Merging happens every 2 weeks or 1 month.
-- Usually only release branch is merged into master branch.
-- Only few people have merge rights.
-Specific tests are set up for every merge and before merge into release or master, you may run different tests and you can set them up in github. Production service must always be up and running so it is critical to merge only features that were properly tested. Only release branch can be merged into production but hotfixes may go directly into production (create a separate branch and merge directly to master branch but it is not recommended to merge anything without proper testing on staging). Features in production may only be implemented after careful proper testing (test before release is merged into production). That is why merging can be once a month or less. Small or mid-sized projects may be relased more often like each week or every several days but it is common practice to plan releases to production and move according to plan like merge once a month or every 2 weeks.
-
-### Staging Environment
-- Multiple people may have merging rights.
-- Different feature branches are merged into release branch.
-- Merging is performed frequently.
-- Primarily used for testing.
-- Usually for internal use.
-Staging environment can be any name but release branch is common.
-Before going to production, each feature goes first to staging. When any dev has finished work on a specific branch, he may request a review from other devs if they are happy with that, devs who have rights may merge into staging and after that dedicated people may test the feature. This happens in a closed staging environment and customers don't see those new features before they are applied to production. Used internally and is not facing any customers. Some companies open this staging environment for selected customers and they ask them to review some changes to get feedback and improve corresponding feature. Merging is need to start testing process on staging. The same devs that may have rights to merge into staging will not be able to merge corresponding changes to production. When any of the features is ready, corresponding dev opens pull request and target branch in this case will be release branch.
-
-### Semantic Versioning
-Major version number is the first followed by minior and last is patch number like in ver. 3.7.2 and if big changes were applied to the software and it makes it not backwards compatible and the major number should be incremented and the rest will become 0 like in 4.0.0. Minor is small feature that adds some functionality but doesn't break anything in the previous version and other packages that are dependent on the software will continue to work the update like from 3.7.2 to 3.8.0 and the last number will become 0. Patch is a small bug fix or small feature adjustment like from 3.7.2 to 3.7.3. It is not recommended to automatically install any major updates since they may contain some incompatible changes that will break functionality of your software package. NPM contains packages and npm can automatically update if you are happy with minor updates like in node-sass. Pre-release versions are 5.2.4-alpha or 5.2.4-beta or 5.2.4-1.3 in staging environment where you test new features. 5.2.4-1.3 can be incremented to 5.2.4-1.4 and when pre-release features were properly tested, you can move to release version and release next version of software and release 5.2.4. It means 5.2.4 is greater than 5.2.4-1.4 and 5.2.3 may be the stable version. The rc in 2.0.0-rc.2 is release candidate and use rc when you are pretty close to release next software version and 2.0.0 is greater than 2.0.0-rc.2 and 2.0.0-rc.2 is greater than 2.0.0-rc.1.
-
-### Even With Master
-It means the branch is up-to-date or in sync with master branch.
-
-### HEAD File
-Contains pointer to currently checked out branch which can be master branch.
-
-### Origin
-When using `git pull`, you will pull from origin which is default remote repository. Origin can be thought of as default name of remote repository. An alias for remote repository url.
-
-### Receiving Branch
-If we want to merge a branch to main, main is the receiving branch.
-
-### Fast Forward Merge
-When a branch is created from master branch and the new branch got a commit and there are no new commits in master branch, checking out master branch and merging the new branch to main with `git merge <new-branch>` will just move master branch pointer to point to the new commit where new branch points to. The new branch can be deleted with `git branch -d <new-branch>`. Git simply moves HEAD pointer. Git won't create a new commit. If there are no new commits in main branch and another branch based on main got new commits, we can merge that branch to main and Git will use fast forward merge. Main branch will simply move to the last commit of the other branch that was merged. You can delete the other branch if you're not going to make any other changes in it. If we want to merge a branch like `bugFix` to main, we need to checkout main first and then use `git merge bugFix`. main pointer will point to the commit to where bugFix points.
-
-### Three Way Merge
-Git will create new merge commit that will contain all changes.
-
-### Hash Functions
-There is an online tool for generating hash. Git utilizes SHA1 function and uses hexadecimal format.
-- MD5 (128 bit)
-- SHA1 (160 bit)
-- SHA256 (256 bit)
-- SHA384 (384 bit)
-- SHA512 (512 bit)
-
-### Hash
-String of numbers and letters. It is like an ID. Generated based on input. We store files in Git based on their hash. Hash function is a function that takes any variable length input and creates a fixed length hash independent of the input. The length of hash is fixed. Hash can be created with a very small file or big sized file. Hash depends on the content. If you know the hash but don't know the input, you can't create the input based on hash. Hash functions are one-way functions. We are not able to find out input based on specific hash. Passwords are stored as hash. A server creates hash of the password and compares it to hash stored in database on log in. Same input will produce the same hash.
-
-### HEAD
-There can only be one HEAD. HEAD is current commit or branch. By default HEAD points to current branch and it moves of course along with branch. You can also checkout specific commit by using its hash, where you will move into detached HEAD state. It is the name of the currently checked out commit. HEAD normally points to a branch name.
-
 ### Relative Refs
 - `git checkout <branch>^` - Caret Operator - If main is the current branch, find the parent of the specified commit so `git checkout main^` means we checkout the parent of main and `git checkout main^^` means the grandparent of main. Using `git checkout HEAD^` can be useful too to get the parent of HEAD.
 - `git checkout HEAD~<number>` - Tilde Operator - Move up the commit history four times from where HEAD is. Use `git branch -f main HEAD~3` to move main branch three parents behind HEAD forcefully (in a real Git environment `git branch -f` is not allowed for your current branch).
-
-### Interactive Rebase
-`git rebase -i HEAD~4` - Can be used to get and copy only one commit if that commit contains a bug fix while the rest of commits contains debug and console.log or print to track down the bug. If main is the current branch, create a new copy of whichever commits will be selected among commits up to 4 above the current commit. Commits can be selected or not selected to be included. Order of copied commits that were selected can be changed. It is using rebase with `-i` option. Git will open a UI to show you which commits are about to be copied below the target of rebase. It also shows the hash and commit message. In real Git, UI is opening a file in a text editor like vim. In real Git interactive rebase, you can do squashing (combining) commits, amending commit messages and even editing commits themselves.
 
 ### Mktree
 `git mktree` - Low level git command. Create new tree object.
@@ -974,12 +844,60 @@ For management of blobs and trees, we will use low level git commands like `git 
 `echo "Hello, Git" | git hash-object --stdin` - We take the output of another command as input of a different command with pipe symbol.
 
 ## Remotes (Remote Repository)
-### List Remote Repositories
-`git remote` - Show the remote servers that were already set up. Show the remote servers for your local repositories. Using `git remote -v` will show two URLS for fetch and push commands. A local repository that is not connected to a remote repository will have an empty output when using `git remote`. It doesn't matter what the branch is for `git remote`. Use `git remote show origin` to show local stale branches and entire information about the connection between local repository and remote repository. See additional information and not just the URLS used for fetch and push (origin can be changed to other remote server name). Head branch is default remote branch in remote repository. You will see list of remote branches and if they are tracked (with tracking branches for push and pull). If we see up-to-date, it means branches are in sync.
-
-### Remote
 `git remote add <server> <url>` - Set up a remote server. Server is the name of the remote server and url is the url of the remote server.
 `git remote add origin <url>` - Set the url of origin. Set up the remote origin server in order to Bind local repository to remote repository. To link local repository to remote origin. You can have multiple remote repositories. Just change the name like in `git remote add <name> <url>`.
+
+### Remote
+The remote server where the remote repository is. Usually named origin. We need to be connected to the internet.
+
+### Origin
+When using `git pull`, you will pull from origin which is default remote repository. Origin can be thought of as default name of remote repository. An alias for remote repository url.
+
+### Stale Branch
+When a tracking branch loses its corresponding upstream remote branch.
+
+A tracking branch in local repository will become stale if the remote branch is deleted in remote repository. Use `git remote prune origin` to remove the stale branch configured for `git pull`. The local branch will still exist and is still tracking the removed remote branch. You can create the removed remote branch by using `git push` after making changes to the local branch. Local branch can also be deleted if you won't push changes and create removed remote branch.
+
+### Tracking Branch
+A local branch becomes a tracking branch when it is paired with its corresponding remote branch.
+
+- Git Objects
+- Git Areas
+  - Working Directory
+  - Staging Area
+  - Git Repository
+- File Status Types
+- Relative Refs
+- Alias
+
+Tracking branch can be removed by deleting local branch with `git branch -d <branch>`. If there is a branch in remote repository named b1 and there is no local branch that tracks b1 branch, it means there is no local tracking branch for b1 branch. If there is a local branch named b2 and there is no branch in remote repository that is connected to it, it means that b2 branch is not tracking branch.
+You can create remote tracking branch for b2 by creating remote branch in remote repository. The same for b1 branch, just checkout remote branch and you will create local b1 branch in local repository and this will automatically be connected to remote branch and the branch will be tracking branch.
+Tracking branch is local branch that is connected to a specific remote branch in remote repository. There can be a single tracking branch called master and local master branch tracks remote master branch.
+
+### Even With Master
+It means the branch is up-to-date or in sync with master branch.
+
+### Merge Conflict
+An error that appears when there are files that are in conflict with one another when trying to merge branches. The conflicts should be resolved first to proceed with merging.
+
+### Resolve Merge Conflict
+- Checkout the main branch.
+- Pull the changes from the remote main branch (your local main branch and remote main branch are identical).
+- Checkout to your branch (when creating the pull request, you are trying to merge to main and `git merge main` will merge the main branch into your branch even if the initial goal was the opposite which was to merge your branch to main branch so we must resolve the issue by merging main to our branch to identify the problem).
+- View the merge conflicts list in your code editor (arrows pointing to left are from our branch and arrows pointing to right are changes coming from the main branch).
+- You can manually choose what you want to keep or remove by removing the lines and clearing code you don't want there.
+- Click resolve button if you don't want to manually resolve (you can choose to only accept yours or accept their code or you want something in between but in most cases you want some of their code and some of your code so use third option merge).
+- In the left side of the code editor, we see our changes, the right side is their changes and in the middle is the result (click double arrows you want to keep and x button to remove code you don't want to keep then apply).
+- Stage all files.
+- Commit with description.
+- Push changes.
+- Pull request won't have any merge conflicts error so tag reviewer in the message and tell them to check it.
+- Some will request changes if needed by commenting on the pull request when going to the code base (files changed in GitHub).
+- Merge pull request to main branch will happen next.
+- A new commit will appear.
+
+### List Remote Repositories
+`git remote` - Show the remote servers that were already set up. Show the remote servers for your local repositories. Using `git remote -v` will show two URLS for fetch and push commands. A local repository that is not connected to a remote repository will have an empty output when using `git remote`. It doesn't matter what the branch is for `git remote`. Use `git remote show origin` to show local stale branches and entire information about the connection between local repository and remote repository. See additional information and not just the URLS used for fetch and push (origin can be changed to other remote server name). Head branch is default remote branch in remote repository. You will see list of remote branches and if they are tracked (with tracking branches for push and pull). If we see up-to-date, it means branches are in sync.
 
 ### Make Git Remember Upstream Branch
 ```bash
@@ -1042,9 +960,26 @@ Only updates all branches set to track remotes. No changes will be merged. `git 
 `git push origin -d temp` - Delete remote branch. We can create a local branch and then create and track remote branch by using `git push -u origin temp` then use `git push origin -d temp` to delete remote branch. Check with `git branch -a`. Delete local branch with `git branch -D <branch`>
 
 ## Advanced
+Advanced Git commands are not used very often but in some cases can be really useful. Some of these features are destructive (changes git history).
+Topics:
+- Revert commits.
+- Reset commits.
+- Amend commits.
+- Cherry pick commits.
+- Rebasing with squashing (useful when you want to collapse multiple commits just into one commit and perform rebasing).
+- Advanced filtering options that could be used with `git log`.
+
+### Pull Request
+Changes you want to be applied to a branch (usually main) that will undergo review by other team members and can be accepted or not.
+
+Each pull request is connected to a specific branch. Start review process. A dev creating a pull request wants to merge the feature into main branch and pull request can be called merge request. Pull request is named pull request because when a dev finish a feature, he will push it to remote repository he will ask other devs to pull remote changes in the specific branch, check it out and veryify how the feature works and give feedback. Pull requests help devs communicate and collaborate and move development process easier and faster.
+When a dev has finished working on a specific branch and commits of changes were created and branch was published to remote, it is not good in most cases to merge those changes into main / release branch directly so a dev that has finished its work on a specific feature proposes changes that should be applied to main branch that may or may not be applied into master / release. After review of other devs, changes may be rejected and then pull request will be closed and corresponding branch will be deleted. Proposal of potential changes. Lets you share your changes with your team for review and feedback. Once approved and merged, your changes becomes a part of the main branch. Compare is the branch you want to merge from and Base is the branch you want to merge to in GitHub. If everything looks good and there are no merge conflicts, others can merge it. Your branch will be merged to main branch. Old branch will be one commit behind and zero commits ahead so it is ok to delete it. GitHub executes a Git operation in the background which is `git merge <branch>` and then the branch you want to merge. Using GitHub's PRs is preferable. Merge happens only in the remote repository so update local repository with `git pull` (this command is shorthand for `git pull origin main` but by default GitHub pulls from the remote origin from the same branch you're currently in).
 
 ### Annotated Tags
 Annotated tag is one of the four Git objects and it is a persistent text pointer to a specific commit. There are two types of tag: lightweight tag and annotated tag. Annotated tag is better because it contains more information.
+
+#### Semantic Versioning
+Major version number is the first followed by minor and last is patch number like in ver. 3.7.2 and if big changes were applied to the software and it makes it not backwards compatible and the major number should be incremented and the rest will become 0 like in 4.0.0. Minor is small feature that adds some functionality but doesn't break anything in the previous version and other packages that are dependent on the software will continue to work the update like from 3.7.2 to 3.8.0 and the last number will become 0. Patch is a small bug fix or small feature adjustment like from 3.7.2 to 3.7.3. It is not recommended to automatically install any major updates since they may contain some incompatible changes that will break functionality of your software package. NPM contains packages and npm can automatically update if you are happy with minor updates like in node-sass. Pre-release versions are 5.2.4-alpha or 5.2.4-beta or 5.2.4-1.3 in staging environment where you test new features. 5.2.4-1.3 can be incremented to 5.2.4-1.4 and when pre-release features were properly tested, you can move to release version and release next version of software and release 5.2.4. It means 5.2.4 is greater than 5.2.4-1.4 and 5.2.3 may be the stable version. The rc in 2.0.0-rc.2 is release candidate and use rc when you are pretty close to release next software version and 2.0.0 is greater than 2.0.0-rc.2 and 2.0.0-rc.2 is greater than 2.0.0-rc.1.
 
 #### Show Tag List
 ```bash
@@ -1129,6 +1064,14 @@ Option 2
 - Add ignore rule in .gitignore.
 - Delete file only from repository keeping it in the working directory by using command `git rm --cached <filename>` as in `git rm --cached new-file.txt` and git will automatically stage this change.
 
+#### Ready to Use Ignore Template for Different Programming Languages / Frameworks
+Ignore the following:
+- Build folders like bin/ (usually builds are created on production systems and anyone who got repository files can create bin).
+- Dependency folders like node_modules/ or packages (because they are large and anyone can install those dependencies after pulling repository).
+- Compiled and log files like *.pyc, *.log (compiled file for python and log files). 
+- Hidden OS files like Thumbs.db or .DS_Store.
+gitignore repository in github contains different templates. We create .gitignore file after initialization to avoid committing files we want to be ignored. Go to gitignore.io. To make a previously ignored file be tracked again, just change the filename in .gitignore to another filename or remove the filename of the file you want to be tracked and then you can commit the changes in the file. Ignore all temporary files with `*.tmp` and * means it matches 0 or more characters. Use `#` to add comments in .gitignore like `# ignore single file` and wildcard patterns can be used in .gitignore. Ignore a folder by adding a line like `bin/` to .gitignore and all files in the bin folder will be ignored after staging and committing .gitignore. You can add a line with the contents `new-file.txt` in .gitignore then stage and commit .gitignore and a file with the name `new-file.txt` will be ignored by git and it won't be pushed to remote. Create a .gitignore file in the git repository with `touch .gitignore` then stage it with `git add .gitignore` then commit it. Usually .gitignore is created after repository initialization. .gitignore file may be placed in any folder in your project but it is usually placed in the root of the repository. To exclude file/s and folder/s, create rules in a file called .gitignore. By default git ignore is not configured (there are no ignored files in any repository by default). If you add an ignored file in working directory, git won't tell you to stage it and commit it and git will not say repository it not in sync, git will only ignore the file. Files in git are either tracked or untracked. When creating a new file, git treats it as untracked and offers you to stage it and commit it to make it be in tracked status. If you don't want to stage and commit specific file or files, you can ignore them in git. Ignore is an additional file status. You don't need to commit system files, build files or temporary files.
+
 ### Reset
 Reset is intended for private branches and not for public branches in remote like production, release, master, dev, etc.
 
@@ -1210,6 +1153,9 @@ You need to merge release or master branch into your current feature local branc
 #### Rebasing with Squashing
 In many public, especially large repositories with many collaborators, many pull requests, many feature branches, rebasing with squashing technique is applied when merging specific pull request or specific branch into main branch, release or master branch. After merging of specific feature branch into dev branch, instead of 3 commits, only 1 commit was added. Repository don't have many merge commits because those guys don't perform 3 way merging, they use rebasing with squashing. Every feature collapses into 1 single commit and is then added to main dev branch. Useful for keeping history line of public branches pretty clean. There are not many commits with many parents. There are not much merge commits. There are 3 choices that will appear in github. The usual create a merge commit, squash and merge and rebase and merge. Choose the 2nd one to make 3 commits into 1 commit. 2nd one is rebasing with squashing. The 1st one is just going to create a merge commit while the 3rd one is just going to do rebasing but no squashing.
 
+#### Interactive Rebase
+`git rebase -i HEAD~4` - Can be used to get and copy only one commit if that commit contains a bug fix while the rest of commits contains debug and console.log or print to track down the bug. If main is the current branch, create a new copy of whichever commits will be selected among commits up to 4 above the current commit. Commits can be selected or not selected to be included. Order of copied commits that were selected can be changed. It is using rebase with `-i` option. Git will open a UI to show you which commits are about to be copied below the target of rebase. It also shows the hash and commit message. In real Git, UI is opening a file in a text editor like vim. In real Git interactive rebase, you can do squashing (combining) commits, amending commit messages and even editing commits themselves.
+
 #### Interactive Rebasing with Squashing
 `git rebase -i <hash>`
 Use the command while in the feature branch where the commits to be squashed are. The master branch points to the 4th commit so use the hash of 4th commitl. A prompt will appear that contains all commit message of the 3 commits. Change the word pick to squash or just type s. Press i to insert. Git wlll create new single commit that will be based on those 3 commits. Type :wq then enter. If you are happy with commit message, type :wq again then enter. Rebasing will happen. It is now 1 commit instead of 3 commits. 1 commit incorporated all changes from previous 3 commits. It is now safe to merge feature branch to main master branch. Checkout master with `git checkout master`. Merge feature to master branch as in `git merge -v feature2`. Fast forward merge will be performed because rebasing was just performed. Same operation was performed locally on computer just like in github. As argument in rebase command, hash of commit that was last commit before creation of specific feature branch is to be passed. Rebasing with squashing with terminal is a bit more complex than one button click in github. Interactive rebasing must be used. It is rebasing with -i option. If you want to squash 3 commits then get the hash of 4th commit that will not be squashed and use the hash in the command.
@@ -1235,3 +1181,28 @@ Show the entire history of all operations made in repository. Use `git reflog sh
 `git gc`
 Garbage collection runs automatically from time to time to clean the repository. It can be manually started.
 
+## Misc
+
+### Staging Environment
+- Multiple people may have merging rights.
+- Different feature branches are merged into release branch.
+- Merging is performed frequently.
+- Primarily used for testing.
+- Usually for internal use.
+Staging environment can be any name but release branch is common.
+Before going to production, each feature goes first to staging. When any dev has finished work on a specific branch, he may request a review from other devs if they are happy with that, devs who have rights may merge into staging and after that dedicated people may test the feature. This happens in a closed staging environment and customers don't see those new features before they are applied to production. Used internally and is not facing any customers. Some companies open this staging environment for selected customers and they ask them to review some changes to get feedback and improve corresponding feature. Merging is need to start testing process on staging. The same devs that may have rights to merge into staging will not be able to merge corresponding changes to production. When any of the features is ready, corresponding dev opens pull request and target branch in this case will be release branch.
+
+### Production Environment
+- Can have any name but master branch is common.
+- For stable production service.
+- For customers.
+- Merging happens every 2 weeks or 1 month.
+- Usually only release branch is merged into master branch.
+- Only few people have merge rights.
+Specific tests are set up for every merge and before merge into release or master, you may run different tests and you can set them up in github. Production service must always be up and running so it is critical to merge only features that were properly tested. Only release branch can be merged into production but hotfixes may go directly into production (create a separate branch and merge directly to master branch but it is not recommended to merge anything without proper testing on staging). Features in production may only be implemented after careful proper testing (test before release is merged into production). That is why merging can be once a month or less. Small or mid-sized projects may be relased more often like each week or every several days but it is common practice to plan releases to production and move according to plan like merge once a month or every 2 weeks.
+
+### Git Development Workflow
+Public branches are like master, release or dev and are usually set as protected branches and only owners can merge pull requests or other branches into those branches. There are times where you are still developing your own feature while other features are being merged into public branch and you then want to be up to date with other changes or features. So you need to merge public branches into your current feature branch you are currently working on. We have commits that can't be pushed to remote becuase of having no permissions. So we need to reset those new commits to go back to the previous state to be the same as remote repository. Github desktop don't have the feature to reset to specific commit. Only revert is possible. So reset with `git lg` then get the commit to where remote is pointing to then use `git reset --hard <hash>`. We merge public branch to feature branch since public branch may have new changes applied to it. Merging public branch to feature branch will create new merge commit so to avoid that, rebasing can be used. We just want to update feature branch.
+
+### CI/CD
+In the modern world, each software is developed  usually according to CI/CD principles. CI means continuous integration and CD means continuous development. It means software is being developed continuously. There are two environments: staging environment and production environment. There is also staging version and production version of specific software. Set the two branches are protected branches to avoid automatic merging into those branches (good practice). Those branches shouldn't be deleted by anyone in the team.
