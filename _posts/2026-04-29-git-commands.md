@@ -34,10 +34,10 @@ Git is used to track your project and its old versions. When combined with an on
 A repository hosting service like GitHub or GitLab is where Git repositories can be stored and be used as a centralized point of getting and giving project updates for collaboration.
 
 ## Terminal Basics (Git Bash)
-Git Bash terminal or the terminal in VS Code can be used.
+Git Bash terminal or the terminal (bash) in VS Code can be used.
 
 ### Escaped Characters
-! is used for history expansion in bash so it should be escaped with \ as in `\!` or single quotes.
+`!` is used for history expansion in bash so it should be escaped with `\` as in `\!` or single quotes.
 
 ### Go to Root Directory
 ```bash
@@ -96,7 +96,7 @@ cd images
 8. Go to the created folder.
 9. Go back one level (to go to images folder).
 10. Go back another level (to go to the drive like [E:]).
-11. Go to the last created folder.
+11. Go to the last created folder by using a relative address (short address).
 
 ```bash
 pwd
@@ -124,7 +124,7 @@ cd images/company-logos
 9. Go to another drive.
 10. List folders and files.
 11. Clear terminal.
-12. Go to the folder with an absolute address.
+12. Go to the folder with an absolute address (complete address).
 
 ```bash
 pwd
@@ -166,7 +166,7 @@ cd ..
 ```bash
 mkdir <name>
 ```
-`mkdir <name>` - Create a directory.
+Create a directory.
 
 #### Activity - Create a Directory
 1. Check current directory.
@@ -207,7 +207,6 @@ clear
 touch wishlist.txt
 ls -la
 ```
-
 
 ### List Files
 ```bash
@@ -270,7 +269,7 @@ clear
 ```bash
 start .
 ```
-Opens current folder in File Explorer. Using `explorer .` also works similarly.
+Opens current folder in File Explorer. Using `explorer .` also works similarly. `open .` is the command in macOS. `open <filename>` can be used to open the file. The equivalent command for Windows or Linux is `start <filename>`.
 
 #### Activity - Open Folder in File Explorer
 1. Display current directory.
@@ -358,29 +357,153 @@ ls -la
 ```
 
 ### Edit File
-`nano <filename>` - Use a text editor to edit a file like in `nano new-file.txt`. `ctrl + o` to write changes and `ctrl + x` to exit in nano.
+```bash
+nano <filename>
+```
+Use a text editor to edit a file like in `nano new-file.txt`. `ctrl + o` to write changes and `ctrl + x` to exit in nano.
+
+#### Activity - Edit a File with Nano
+Write `<!DOCTYPE html>` in the html file and then save it with `ctrl + o` then `ctrl + x` to exit nano. Open the file again and see its contents.
+
+```bash
+cd E:
+mkdir git-folder
+cd git-folder
+touch index.html
+nano index.html
+nano index.html
+```
+
 ### Autocomplete
-Use tab key to autocomplete commands in the terminal. Press tab key twice to see choices.
+Use tab key to autocomplete commands in the terminal. Press tab key twice to see choices. Can show available commands or possible directories in the incomplete command.
+
+#### Activity - Use Autocomplete
+Write `ex` in terminal and press tab key twice.
+
+#### Activity - Use Autocomplete with Directories
+Create a folder with similar names in the first part but different names for the second part then use autocomplete to see the choices when using the incomplete command `cd git-`.
+
+```bash
+cd E:
+mkdir git-folder
+mkdir git-tutorial
+```
+
 ### Print
-`echo "string"` - Print to terminal like in `echo "Hello World"`.
+```bash
+echo "<string>"
+```
+Print a string to terminal.
+
+#### Activity - Display a String to Terminal
+Display the string "Today is cloudy" to terminal.
+
+```bash
+echo "Today is cloudy"
+```
+
 ### Help
-`man <command>` - Help on a specific command like in `man clear`. Git Bash doesn't support `man`. Use `--help` like in `touch --help`. Press `ctrl + z` to close help from `man`.
-### Open Current Directory
-`open .` - Open current directory.
-`open <filename>` - Open files.
-### Hidden Files
-Hidden files start with a `.`.
+```bash
+man <command>
+```
+Display the details on a specific command like in `man clear`. Git Bash doesn't support `man`. Use `--help` like in `touch --help`. Press `ctrl + z` to close help from `man`.
+
+#### Activity - Use Help
+See the details of `exit` command.
+```bash
+exit --help
+```
+
 ### Write
-`>` - Write to file like in `echo "Hello World" > another-file.txt`.
+`>` is used to write to file like in `echo "Hello World" > another-file.txt`.
+`>` will overwrite whatever is inside the file if the file already exists.
+
+#### Activity - Create a File with a String then Overwrite
+```bash
+cd E:
+mkdir git-folder
+cd git-folder
+echo "Today is raining" > file.txt
+nano file.txt
+echo "Hello World" > file.txt
+nano file.txt
+```
+
 ### Append
 `>>` - Append to the file like in `echo "Another Line" >> another-file.txt`.
+
+#### Activity - Create a File with a String in it then Append
+```bash
+cd E:
+mkdir git-folder
+cd git-folder
+echo "Bread is breakfast" >> diary.txt
+nano diary.txt
+echo "Ordered a pizza this afternoon" >> diary.txt
+nano diary.txt
+```
+
 ### List File Contents
-`cat <name>` - List contents of the file. `cat file.txt` will show contents of file unless it is an empty file.
-### Remove
-`rm <filename / directory>` - Remove file or directory like in `rm new-folder` (directory needs to be empty to be deleted).
-`rm -rf <name>` - Forcibly removes files inside a folder recursively (deletes the folder) like in `rm -rf new-folder`.
-### Close Git Bash
-`exit` - Closes Git Bash terminal.
+```bash
+cat <name>
+```
+List contents of the file. `cat file.txt` will show contents of the file unless it is an empty file.
+
+#### Activity - See the Contents of File
+Use editor to write in the file and then use `cat` command to see the file's contents.
+
+```bash
+cd E:
+mkdir git-folder
+cd git-folder
+touch index.html
+nano index.html
+cat index.html
+```
+
+### Remove File / Directory
+```bash
+rm <file / directory>
+```
+Remove file or directory by putting the name of file or directory like in `rm new-folder` (directory needs to be empty to be deleted). `rm -rf <name>` forcibly removes files inside a folder recursively (deletes the folder) like in `rm -rf new-folder`. If removing a file, the path to the file can be used like in `rm folder/file.txt`.
+
+#### Activity - Delete Files and a Folder
+```bash
+cd E:
+mkdir folder1
+cd folder1
+touch file1.txt
+ls
+rm file1.txt
+ls
+mkdir folder2
+cd folder2
+touch file2.txt
+ls
+cd ..
+rm folder2/file2.txt
+cd folder2
+ls
+cd ..
+rm folder2
+```
+
+### Close Git Bash / Bash Terminal in VSCode
+```bash
+exit
+```
+Close the terminal.
+
+#### Activity - Close the Terminal
+```bash
+pwd
+ls -la
+clear
+exit
+```
+
+### Hidden Files
+Hidden files start with a `.` in Unix-like systems. In Windows, files and folders are hidden depending on the file / folder attribute.
 
 ### Activity - Initialize a Git Repository and Create a New Commit
 1. Check the current location in the terminal.
@@ -879,15 +1002,48 @@ Show the entire history of all operations made in repository. Use `git reflog sh
 Garbage collection runs automatically from time to time to clean the repository. It can be manually started.
 
 ## Git Concepts
-### Ignore
-- Explicitly tells git which files and folders to ignore.
+### Git Objects
+Git stores blobs, trees, commits and annotated text in the Git repository.
+#### Blob
+Git stores any files with any extensions, either video files, pictures, text files - are stored as blobs. A blob represents a single file in a Git file system.
+#### Tree
+With the help of tree object type, Git actually stores information about directories. In other file systems, directories may contain files or be empty or be mixed with files and directories. Tree in Git may be a set of blobs or set of blobs and other trees. Tree is representation of folder in Git. Tree represents a directory.
+#### Commit
+With commit object type, we are able to actually store different versions of our project.
+#### Annotated Tag
+Annotated tag is persistent text pointer to a specific commit.
+
+### Three Main Areas in a Project
+- Working Directory - contains untracked, modified and unmodified files
+- Staging Area - contains staged and unmodified files
+- Git Repository - contains unmodified files
+#### Working Directory
+Untracked files are in working directory.
+#### Staging Area
+Sits between working directory and Git repository. It is usually called index and it is actually responsible for preparing files to be inserted into the Git repository and also in the opposite way, It prepares file taken from Git repository to be put into working directory. Putting files into staging area is a mandatory step in all operations either when you want to place files from working directory into Git repository or when you want to read files from Git repository and checkout them into your working directory.
+#### Git Repository
+Unmodified files are in Git repository.
+
+### File Status
+Every file in Git may have one of four tracking statuses:
+1. Untracked - File only exist in working directory.
+2. Tracked - Files that are monitored by git.
+   - Modified - Use git add to put this file to staging area (Deleted is another state and it is also added to staging area).
+   - Staged - This file is still located in working directory but is only written in staging area for simplicity's sake. If `git commit` is not used, the file in Git repository is an old version of the staged file.
+   - Unmodified - Files that are present in working directory, staging area and Git repository.
+3. Ignored - Files that are excluded from staging and committing.
+4. Committed - Committed files are saved in Git and a new commit will appear in commit history. The changes are only saved locally. If there is one or more commits, those changes can be pushed to the Remote Repository.
+
+### Initialization
+When a directory is initialized, a hidden .git folder will be created in the directory.
+
+### Ignore Files in Git
+- Explicitly tells Git which files and folders to ignore.
 - Changes in ignored files and folders are ignored.
 - Rules are defined in the separate file .gitignore.
 - .gitignore file itself must be committed.
-
-#### .gitignore
-The first file that should be created after initializing a Git repository. Rules can be created inside that will help Git to know which files to ignore.
-
+#### .gitignore File
+The first file that should be created after initializing a Git repository is the .gitignore file. Rules can be created inside that will help Git to know which files to ignore.
 #### Ignore Previously Committed File
 Option 1
 - Add ignore rule in .gitignore.
@@ -897,23 +1053,8 @@ Option 2
 - Add ignore rule in .gitignore.
 - Delete file only from repository keeping it in the working directory by using command `git rm --cached <filename>` as in `git rm --cached new-file.txt` and git will automatically stage this change.
 
-### Initialization
-When a directory is initialized, a hidden .git folder will be created.
-
 ### Local Repository
 A copy of remote repository that a team member or collaborator can work on in their own computer.
-
-### HEAD
-The current commit or branch.
-
-### Detached HEAD State
-Detached HEAD state happens when HEAD is pointing to a commit.
-
-`git branch <branch> <hash>` - After going back to another branch from detached head state, create branch for experimental commits.
-When in last experimental commit while in detached head state, `git checkout -b <branch>` can be used to save experimental commits. If you are just experimenting and will throw away changes, just go to another branch while in detached head state. By default, unreachable git objects are garbage collected after 30 days. New commits created while in detached head state will not be included in master branch and while creating new commits in detached head state, creating a branch is ok to make sure those changes are not lost. Sometimes when you want to retain experimental commits, you can create a branch while in detached head state. While in detached head state, you can create experimental commits and if you go to a branch and out of detached head state, those experimental commits will be garbage collected by git. When head points to a currently checked out branch, creating new commits will automatically make head point to the new commits. Checking a specific commit with its hash will make head go into detached head state. Checking out a specific commit. If you make a commit while located in detached HEAD state, those commits that were made in detached HEAD state will be lost and deleted automatically by Git and you will not be able to return to those commits. That is why in most cases, HEAD is referenced to specific branch, not commit.
-
-### Merging
-Combine the changes from a feature branch into a receiving branch (which can be main branch).
 
 ### Remote
 The remote server where the remote repository is. Usually named origin.
@@ -921,17 +1062,29 @@ The remote server where the remote repository is. Usually named origin.
 ### Origin
 The default name of remote server.
 
+### HEAD
+The current commit or branch.
+
+### Commit
+A commit is like saving the state of a project in a specific moment of time. But saving (or just creating a commit) is not enough to make sure the we won't have to worry about the project. Pushing the commit or commits to remote (remote repository) will allow us to get all versions of our project even if our local Git repository or project folder is gone from our computer. Pushing to remote also allows collaboration with other people.
+
+### Branch
+A branch contains its own commit history that are different from other branches. Allows team members to work on different features simultaneously (by making a branch for each feature). Branches can be merged to other branches. A branch is like a bookmark which is easy to remember instead of memorizing the hash of a commit so checking out a branch is fast and easy than checking out a commit that will have different hash whenever the branch is updated with a new commit that is why branch is useful since it will automatically bookmark the newest commit added to the branch.
+
+### Merging
+Combine the changes from a feature branch into a receiving branch (which can be main branch).
+
+### Detached HEAD State
+Detached HEAD state happens when HEAD is pointing to a commit.
+
+`git branch <branch> <hash>` - After going back to another branch from detached head state, create branch for experimental commits.
+When in last experimental commit while in detached head state, `git checkout -b <branch>` can be used to save experimental commits. If you are just experimenting and will throw away changes, just go to another branch while in detached head state. By default, unreachable git objects are garbage collected after 30 days. New commits created while in detached head state will not be included in master branch and while creating new commits in detached head state, creating a branch is ok to make sure those changes are not lost. Sometimes when you want to retain experimental commits, you can create a branch while in detached head state. While in detached head state, you can create experimental commits and if you go to a branch and out of detached head state, those experimental commits will be garbage collected by git. When head points to a currently checked out branch, creating new commits will automatically make head point to the new commits. Checking a specific commit with its hash will make head go into detached head state. Checking out a specific commit. If you make a commit while located in detached HEAD state, those commits that were made in detached HEAD state will be lost and deleted automatically by Git and you will not be able to return to those commits. That is why in most cases, HEAD is referenced to specific branch, not commit.
+
 ### Pull Request
 Changes you want to be applied to a branch (usually main) that will undergo review by other team members and can be accepted or not.
 
 Each pull request is connected to a specific branch. Start review process. A dev creating a pull request wants to merge the feature into main branch and pull request can be called merge request. Pull request is named pull request because when a dev finish a feature, he will push it to remote repository he will ask other devs to pull remote changes in the specific branch, check it out and veryify how the feature works and give feedback. Pull requests help devs communicate and collaborate and move development process easier and faster.
 When a dev has finished working on a specific branch and commits of changes were created and branch was published to remote, it is not good in most cases to merge those changes into main / release branch directly so a dev that has finished its work on a specific feature proposes changes that should be applied to main branch that may or may not be applied into master / release. After review of other devs, changes may be rejected and then pull request will be closed and corresponding branch will be deleted. Proposal of potential changes. Lets you share your changes with your team for review and feedback. Once approved and merged, your changes becomes a part of the main branch. Compare is the branch you want to merge from and Base is the branch you want to merge to in GitHub. If everything looks good and there are no merge conflicts, others can merge it. Your branch will be merged to main branch. Old branch will be one commit behind and zero commits ahead so it is ok to delete it. GitHub executes a Git operation in the background which is `git merge <branch>` and then the branch you want to merge. Using GitHub's PRs is preferable. Merge happens only in the remote repository so update local repository with `git pull` (this command is shorthand for `git pull origin main` but by default GitHub pulls from the remote origin from the same branch you're currently in).
-
-### Commits
-A state of a project in a specific moment of time.
-
-### Branches
-Contains their own commit history that are differnt from other branches. Allows team members to work on different features simultaneously. Branches can be merged to other branches.
 
 ### Merge Conflict
 An error that appears when there are files that are in conflict with one another when trying to merge branches. The conflicts should be resolved first to proceed with merging.
@@ -1036,23 +1189,6 @@ When a branch is created from master branch and the new branch got a commit and 
 ### Three Way Merge
 Git will create new merge commit that will contain all changes.
 
-### Git Areas
-- Working Directory - contains untracked, modified and unmodified files
-- Staging Area - contains staged and unmodified files
-- Git Repository - contains unmodified files
-
-### File Status
-Every file in Git may have one of four tracking statuses:
-1. Untracked - File only exist in working directory.
-2. Tracked - Files that are monitored by git.
-   - Modified - Use git add to put this file to staging area (Deleted is another state and it is also added to staging area).
-   - Staged - This file is still located in working directory but is only written in staging area for simplicity's sake. If `git commit` is not used, the file in Git repository is an old version of the staged file.
-   - Unmodified - Files that are present in working directory, staging area and Git repository.
-3. Ignored - Files that are excluded from staging and committing.
-
-### Staging Area
-Sits between working directory and Git repository. It is usually called index and it is actually responsible for preparing files to be inserted into the Git repository and also in the opposite way, It prepares file taken from Git repository to be put into working directory. Putting files into staging area is a mandatory step in all operations either when you want to place files from working directory into Git repository or when you want to read files from Git repository and checkout them into your working directory.
-
 ### Hash Functions
 There is an online tool for generating hash. Git utilizes SHA1 function and uses hexadecimal format.
 - MD5 (128 bit)
@@ -1086,23 +1222,12 @@ Low level git command. Reads Git objects.
 - `git cat-file -s <hash>` - Size of the object will be printed to terminal.
 - `git cat-file -t <hash>` - Git type of the object will be printed to terminal.
 
-### Git Objects
-Git stores blobs, trees, commits and annotated text in repository.
+
 
 ### Config File
 Config file is a configuration of your Git repository and default settings.
 
-### Blob
-Git stores any files with any extensions, either video files, pictures, text files - are stored as blobs. A blob represents a single file in a Git file system.
 
-### Tree
-With the help of tree object type, Git actually stores information about directories. In other file systems, directories may contain files or be empty or be mixed with files and directories. Tree in Git may be a set of blobs or set of blobs and other trees. Tree is representation of folder in Git. Tree represents a directory.
-
-### Commit
-With commit object type, we are able to actually store different versions of our project.
-
-### Annotated Tag
-Annotated tag is persistent text pointer to a specific commit.
 
 ### Management of Blobs and Trees
 For management of blobs and trees, we will use low level git commands like `git hash-object` and `git cat-file`.
