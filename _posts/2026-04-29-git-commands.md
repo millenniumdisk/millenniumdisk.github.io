@@ -100,9 +100,10 @@ cd images
 5. Create a folder.
 6. Go to the newly created folder.
 7. Create another folder.
-8. Go back one level.
-9. Go back another level.
-10. Go to the last created folder.
+8. Go to the created folder.
+9. Go back one level (to go to images folder).
+10. Go back another level (to go to the drive like [E:]).
+11. Go to the last created folder.
 
 ```bash
 pwd
@@ -112,6 +113,7 @@ clear
 mkdir images
 cd images
 mkdir company-logos
+cd company-logos
 cd ..
 cd ..
 cd images/company-logos
