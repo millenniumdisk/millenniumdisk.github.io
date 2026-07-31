@@ -10,9 +10,10 @@ title: Git Commands
 ### Overview
 The major categories are:
 - Advanced
+  - Tags
+  - Ignore Files
   - Reset
   - Stashing
-  - Tags
   - Revert
   - Rebasing
   - Rebasing with Squashing
@@ -505,6 +506,35 @@ exit
 ### Hidden Files
 Hidden files start with a `.` in Unix-like systems. In Windows, files and folders are hidden depending on the file / folder attribute.
 
+## Git Concepts
+
+### Git Objects
+Git stores blobs, trees, commits and annotated text in the Git repository.
+
+### Three Main Areas in a Project
+- Working Directory - contains untracked, modified and unmodified files
+- Staging Area - contains staged and unmodified files
+- Git Repository - contains unmodified files
+
+#### Working Directory
+Untracked files are in working directory.
+
+#### Staging Area
+Sits between working directory and Git repository. It is usually called index and it is actually responsible for preparing files to be inserted into the Git repository and also in the opposite way, It prepares file taken from Git repository to be put into working directory. Putting files into staging area is a mandatory step in all operations either when you want to place files from working directory into Git repository or when you want to read files from Git repository and checkout them into your working directory.
+
+#### Git Repository
+Unmodified files are in Git repository.
+
+### File Status
+Every file in Git may have one of four tracking statuses:
+1. Untracked - File only exist in working directory.
+2. Tracked - Files that are monitored by git.
+   - Modified - Use git add to put this file to staging area (Deleted is another state and it is also added to staging area).
+   - Staged - This file is still located in working directory but is only written in staging area for simplicity's sake. If `git commit` is not used, the file in Git repository is an old version of the staged file.
+   - Unmodified - Files that are present in working directory, staging area and Git repository.
+3. Ignored - Files that are excluded from staging and committing.
+4. Committed - Committed files are saved in Git and a new commit will appear in commit history. The changes are only saved locally. If there is one or more commits, those changes can be pushed to the Remote Repository.
+
 ## Setup
 
 ### Display Git Version Number
@@ -553,7 +583,7 @@ Change branch into main to change the default name of branch in initialization t
 ```bash
 git init
 ```
-Initialize current directory as Git repository. It will create a `.git` folder that can only be managed by Git.
+Initialize current directory as Git repository. It will create a hidden `.git` folder that can only be managed by Git. This is about local repositories. Not related to remotes (remote repository).
 
 #### Activity - Initialize a Git Repository
 1. Check the current location in the terminal.
@@ -574,6 +604,18 @@ ls -la
 cd git-basics
 git init
 ```
+
+### Local Repository
+A copy of remote repository that a team member or collaborator can work on in their own computer.
+
+### Remote
+The remote server where the remote repository is. Usually named origin. We need to be connected to the internet.
+
+### Origin
+The default name of remote server.
+
+### HEAD
+The current commit or branch.
 
 ## Inspect
 
@@ -667,7 +709,15 @@ git reset .
 ```
 Unstages all files but working directory won't be changed.
 
+### Blob
+Git stores any files with any extensions, either video files, pictures, text files - are stored as blobs. A blob represents a single file in a Git file system.
+
+### Tree
+With the help of tree object type, Git actually stores information about directories. In other file systems, directories may contain files or be empty or be mixed with files and directories. Tree in Git may be a set of blobs or set of blobs and other trees. Tree is representation of folder in Git. Tree represents a directory.
+
 ## Commits
+With a commit object type, we are able to actually store different versions of our project. A commit is like saving the state of a project in a specific moment of time. But saving (or just creating a commit) is not enough to make sure the we won't have to worry about the project. Pushing the commit or commits to remote (remote repository) will later on allow us to get all versions of our project even if our local Git repository or project folder is gone from our computer. Pushing to remote also allows collaboration with other people.
+
 ### Create a Commit
 ```bash
 git commit
@@ -692,7 +742,11 @@ git commit -am "<description>"
 ```
 Stage and commit files (only for previously tracked files) with `git commit -a -m "<description>"` or `git commit -am "<description>"`.
 
-## Branches
+
+## Branch
+A branch contains its own commit history that are different from other branches. Allows team members to work on different features simultaneously (by making a branch for each feature). Branches can be merged to other branches. A branch is like a bookmark which is easy to remember instead of memorizing the hash of a commit so checking out a branch is fast and easy than checking out a commit that will have different hash whenever the branch is updated with a new commit that is why branch is useful since it will automatically bookmark the newest commit added to the branch.
+
+
 
 ### Show Local Branches
 ```bash
@@ -742,7 +796,10 @@ git checkout -b <branch>
 ```
 Create a branch and check it out.
 
-### Merge a Branch
+### Merging
+Combine the changes from a feature branch into a receiving branch (which can be main branch).
+
+#### Merge a Branch
 ```bash
 git merge <branch>
 ```
@@ -758,331 +815,6 @@ Move branch to current commit.
 git branch --force <branch> [<new-tip-commit>]
 ```
 `new-tip-commit` can be a branch name (ex. master, origin/master) and branch will be moved there.
-
-## Remotes (Remote Repository)
-### List Remote Repositories
-`git remote` - Show the remote servers that were already set up. Show the remote servers for your local repositories. Using `git remote -v` will show two URLS for fetch and push commands. A local repository that is not connected to a remote repository will have an empty output when using `git remote`. It doesn't matter what the branch is for `git remote`. Use `git remote show origin` to show local stale branches and entire information about the connection between local repository and remote repository. See additional information and not just the URLS used for fetch and push (origin can be changed to other remote server name). Head branch is default remote branch in remote repository. You will see list of remote branches and if they are tracked (with tracking branches for push and pull). If we see up-to-date, it means branches are in sync.
-
-### Remote
-`git remote add <server> <url>` - Set up a remote server. Server is the name of the remote server and url is the url of the remote server.
-`git remote add origin <url>` - Set the url of origin. Set up the remote origin server in order to Bind local repository to remote repository. To link local repository to remote origin. You can have multiple remote repositories. Just change the name like in `git remote add <name> <url>`.
-
-### Make Git Remember Upstream Branch
-```bash
-git push -u <remote> <branch>
-```
-Make Git remember an upstream branch (`git push -u origin temp`) in remote repository and remote is the remote server which turns the local branch into a tracking branch. This is a shorter version of `git push --set-upstream <remote> <branch>`.
-
-`git push` - The -u in `git push -u origin <branch>` makes git to remember the upstream branch. In `git push -u <server> <branch>` or `git push -u origin <branch>`, branch can be master branch and remote branch will be created in remote server. Set upstream branch for local branch with `git push -u origin <branch>` where git will get branch from origin remote server and origin can be changed to other remote server. `git push -u origin <branch>` is used to track remote branch after set up of remote server. When local branch has a corresponding remote branch the local branch becomes a tracking branch, the command `git push` instead can be used when making a new commit and push changes to remote branch. To create a remote branch when a new local branch is created then local branch will track the new remote branch, use `git push --set-upstream origin <branch>` (branch is going to be the name of remote branch) where branch is the same name of local branch since it is what will be suggested in the terminal and origin is the name of server and origin is default name and instead of the longer command, `git push -u origin <branch>` can be used and -v option can also be added as `git push -v -u origin <branch>`. If we push a local branch with `git push -v` and there is no corresponding remote branch that is tracked by the local branch, there will be a prompt that says there's no upstream branch. After testing and you are happy with the changes, you can push the changes from your local git repository to the remote git repository. Put your changes to remote repository. Publish local branch with `git push --set-upstream origin <branch>` where upstream branch is a remote branch that your local branch tracks. When you set an upstream branch, you link your local branch to a branch on the remote repository. You push a local branch to the origin remote repository. The command `git push -u origin <branch>` can be used instead. The `-u` says the branch is an upstream branch and origin is the name of the remote repository. Both `--set-upstream` and `-u` establish a tracking relationship between your local branch and the remote branch so in the future, pushing from local branch to remote branch only needs `git push`. git push -u origin main` To put the changes in main branch to remote repository. Another version can be used with -v option as `git push -v` and there will be a prompt asking for GitHub account username and password then remote branch will point to the commit in local branch and git updates local tracking reference for refs/remotes/origin/branch where branch is the remote branch name and local branch and remote branch will point to the same commit. Changes in local repository will be incorporated into remote repository.
-
-### Add a Remote Server
-```bash
-git remote add <remote> <url>
-```
-Remote is the server name and URL is the URL of the remote repository (`git remote add origin <url>`). More than one remote server can be added.
-
-### Push Changes to Remote Repository
-```bash
-git push
-```
-After testing of changes in local repository, push them to remote repository that Git remembers.
-
-### Fetch Changes From Remote Repository
-```bash
-git fetch
-```
-Get changes and metadata about remote branches references from remote repository but won't merge those changes. If a remote branch is deleted then this command is used, the references of remote branches in the local repository won't be updated. The `-v` or verbose option can be used (`git fetch -v`) to see more details.
-
-`git fetch` - Can be used as `git fetch -v` (verbose option) to see detailed operation and helps in seeing how many branches are in remote. It will not create local tracking branch. Can be used in any branch. When a new remote branch is created in remote repository, the new change can't be seen with `git branch -r` or `git branch -a` so `git fetch` should be used first to get remote changes and put them in local repository and it is not destructive since it won't change working directory and staging area and it will not merge any remote changes to your local changes. Get changes from remote git repository and updates the local git repository. Local working directory and staging area are not touched. If a branch is created in remote git repository, that branch can be seen in local git repository after using `git fetch`.
-
-### Pull Changes From Remote Repository
-```bash
-git pull
-```
-Fetches changes from remote repository and merges those changes behind the scenes. The `-v` or verbose option can also be added to observe fetch and merge operations (`git pull -v`).
-
-`git pull` - The option -v can be used as in `git pull -v` for detailed pull. We need a local tracking branch to use `git pull`. Operation is performed partially, only locally in your git repository and it is a two step process of fetching remote changes and then merging them into local changes. A destructive operation that also updates the working directory and staging area because the changes from remote git repository is merged to the local git repository. Is the command to use to make your local branch up-to-date when somebody made changes to remote branch either directly or by merging other changes into it. This command fetches changes from the remote repository and merges them into your local repository for that branch.
-
-### Remove Stale Branch
-```bash
-git fetch --prune
-```
-Cleans local repository by removing references of remote branches that were deleted. `git remote prune origin` will remove stale branch.
-
-### Clone a Remote Repository
-```bash
-git clone <url>
-```
-Create a local repository based on the remote repository by using its URL. The branch created in local repository will be automatically be a tracking branch that is connected to the remote branch. A default branch defined in the remote repository will be the branch created in local repository.
-
-Only default remote branch is created as local branch (not all remote branches in remote repository is created in local branch with this). Git automatically creates binding between remote repository and local repository default remote repository is created for local repository and the name of the default remote repository is origin. Local repository can be connected to multiple remote repositories and every remote repositories will have different names and when you use push, pull or fetch, you choose which remote repository you want to interact with. To clone a repository, use `git clone <url>` to download a project with its Git repository where the url is from a git hosting service like GitHub. When you clone a repository, Git automatically names the remote repository as origin (origin is url of remote repository).
-
-### Update Tracking Statuses
-`git remote update origin --prune` - Removes a remote branch from being tracked by a local branch if remote branch is deleted. Use the command so that git will know there is no remote branch. When a remote branch is created and then a branch for it is created locally with `git checkout <branch>` where branch is the new remote branch and remote branch will be deleted and then fetch and use `git branch -vv` to see local branch is still tracking the deleted remote branch so use `git remote update origin --prune` to update status of tracking branch and tracking status will change for local branch. The local branch can be deleted with `git branch -D <branch>` or force deletion because there will be an error with `git branch -d <branch>` because local branch is not merged.
-
-### Update All Branches Set to Track Remotes
-`git remote update`
-Only updates all branches set to track remotes. No changes will be merged. `git remote update origin` is another command.
-
-### Delete Remote Branch
-`git push origin -d temp` - Delete remote branch. We can create a local branch and then create and track remote branch by using `git push -u origin temp` then use `git push origin -d temp` to delete remote branch. Check with `git branch -a`. Delete local branch with `git branch -D <branch`>
-
-## Advanced
-
-### Reset
-Reset is intended for private branches and not for public branches in remote like production, release, master, dev, etc.
-
-You can commit changes again when mixed or soft reset are used. Hard reset is when changes are removed from git repository, staging area and working directory and commits are removed. Soft reset is when changes are removed in git repository but changes are still in staging area and working directory and commits are removed. Default reset is mixed reset where changes are in working directory but changes are removed in git repository and staging area and commits are removed. You can use relative refs instead of hash. Revert is one of two primary ways to reverse changes in Git (the other is Revert). Revert to a previous commit with the possibility of choosing whether you want to keep or discard the changes in the working directory. Git Reset is when you checkout a particular commit with `git checkout` and then you want to delete everything that comes after it. When using mixed reset, the file will turn a different color which means there are changes in the file and green lines will appear which means those are the additional or new changes or modifications and they are unstaged. These changes came from the commits that have been reset. You can keep those changes, modify the changes then stage and commit or remove those changes entirely. It can be used with relative refs like in `git reset HEAD~1` wherein main is the current branch and it will be moved to its parent. Reset like `git reset HEAD~1` works great for local branches on your own machine but its method of rewriting doesn't work for remote branches that others are using so to reverse changes and share those reversed changes with others, use Revert like `git revert HEAD`.
-- `git reset --soft <hash>` - Soft Reset - Moves to specified commit in history but keeps changes staged in a working directory (staged changes are those added to Git tracking with `git add .` and before they are untracked and then they become tracked).
-- `git reset <hash>` - Mixed Reset - It is the default. Put the hash of the commit to move to that specified commit in history, unstage the changes and keeps them in the working directory but they won't be staged. All changes made after the specified commit will be in your working directory but not staged. You can manually stage them with `git add .`
-- `git reset --hard <hash>` - Hard Reset - It moves to the specified commit in history and discards all changes in the working directory and staging area. All those changes made after the selected commit will be discarded entirely and no trace will be left.
-
-#### Hard Reset
-```bash
-git reset --hard <hash>
-```
-It moves to the specified commit in history, deletes the commits after the current commit and discards all changes in the working directory and staging area.
-
-#### Mixed Reset
-```bash
-git reset <hash>
-```
-Move to a specified commit in history, deletes the commits after the current commit then unstages the changes and keeps them in the working directory. Mixed reset is the default mode of reset command.
-
-#### Soft Reset
-```bash
-git reset --soft <hash>
-```
-Moves to a specified commit in history, deletes the commits after the current commit then keeps the changes staged and in working directory.
-
-### Stashing
-
-#### Stash Changes
-```bash
-git stash
-```
-Git creates a temporary commit of uncommitted and even of staged and unstaged changes made in current branch and stores it in Git repository for later use then the branch goes back to its previous state without the changes.
-
-Use `git stash pop` to get the previous changes stored in stash and changes will be applied and stash file will be deleted in git repository. Just use `git stash` to save uncommitted changes in a branch even if only one is a staged file and the other file is just modified and the changes will be removed but they are stored for later on (git creates a temporary commit and stores it in git repository). Stashing allows you to save uncommitted work. If you are working on a specific feature branch like temp branch and you have created some files, modified some files and you have staged some changes but not yet committed them and if at this moment of time you want to check out other feature branch like temp2 branch but you want to keep changes made in temp branch, that is where stashing comes in. After coming back to temp branch, you can retrieve changes from stash continue work on them. After using the command, it will be saved and you can work right away on what you want to focus on that is different then do the usual add, commit and push as fix to a bug then get the code back with `git stash apply <name>`. Use `git stash list` to see the names like `git stash apply stash@{0}`. If the previous bug fix is in the same line, a merge conflict will appear and you need to manually choose which to keep and remove the lines around what we want to keep then you can continue working on your feature. It will save your uncommitted changes, both staged and unstaged without committing them (use on code you don't want to lose). This is used when you are in the middle of working on a feature and it is not complete yet and is also not ready to commit yet but you want to keep your active changes somewhere and work on it later so you can work on an urgent bug fixing or a different more important task.
-
-#### Pop Stashed Changes
-```bash
-git stash pop
-```
-Get the previous changes stored in stash then apply those changes and then the stash file will be deleted in the Git repository.
-
-### Tags
-#### Show Tag List
-```bash
-git tag
-```
-Show list of current lightweight and annotated tags. Lightweight and annotated tags can't be distinguished with this command.
-
-#### Add a Lightweight Tag
-```bash
-git tag <name>
-```
-Always use an annotated tag instead of a lightweight tag since it is a more detailed tag.
-
-Add a lightweight tag to the current commit in current branch (`git tag v1.0.0`). Stored in .git/refs/tags (stored where branches are which are also pointers) Just a text pointer to a specific commit.
-
-#### Add an Annotated Tag
-```bash
-git tag -a <name> -m "<description>"
-```
-Create an annotated tag (better tag) with tag name and tag description to the current commit.
-
-Message is required. Create an annotated tag and author and date will be added automatically. It is not possible to distinguish the difference between lightweight tag and annotated tag when using `git tag` but using `git tag -v <tag>` as in `git tag -v v1.0.0` will show details of the annotated tag. Signature can be added to annotated tag.
-
-- Added with `git tag -a v1.0.0 -m "<message>"` like in `git tag -a v1.0.0 -m "New tag"`.
-- Stored in .git/refs/tags.
-- Also stored in .git/objects.
-- Stores tag message.
-- Stores tag author and date.
-- Description is optional to add.
-Git tags are not pushed to remote by default with `git push` because if any devs can push tags then there will be conflicts in tag names. Tags should have unique names. When creating a lightweight tag, a new file will be created and inside the file is pointer to specific commit. Annotated tag or text is used to store not only the tag but also the tag message and tag author will be from git configuration. Use only annotated tags because it got dates unlike lightweight tags. Annotated tag is git object. Create tags with different names. Tag names should be unique across the entire repository. When major features are merged into master branch, you can add a specific tag (like v1.2.0). Mostly used to add release versions of the project. If you make some commits in detached head state and then go back and check out master branch or other branch, those commits made in detached head state will be removed by git (garbage collected). You can check out specific tag and you will move to specific commit (goes into detached head state). You can create tags anywhere in the project at any time. Tags don't move while branches are developing and tags will still point to specific commits. Git tag is a static text pointer to a specific commit in commit history (branches are dynamic because they move when there is a new commit). Used for adding software version numbers. When a branch is merged, a minor version is incremented and if another branch is merged, patch number can be incremented depending on what feature is added and tag is added on the new merge commit created after merging.
-
-#### Display Annotated Tag Details
-```bash
-git tag -v <name>
-```
-Show details of an annotated tag (`git tag -v v1.0.0`). This command won't work on lightweight tags.
-
-#### Display Commit Details with Tag
-```bash
-git show <tag>
-```
-Get the commit with the specific tag (`git show v1.0.0`).
-
-#### Push Local Tags to Remote
-```bash
-git push --tags
-```
-Push tags to remote. Use `-v` option for more details (`git push -v --tags`).
-
-When pushing tags, commits are not pushed to remote (use `git push` to push commits to remote). Pushes local tags to remote git server. The command `git push -v --tags` can also be used for a detailed output with verbose option. `git push -v origin <tag>` as in `git push -v origin v1.0.1` only pushes tag to remote git server.
-
-#### Push One Tag to Remote
-```bash
-git push <remote> <tag>
-```
-Push tag to remote (`git push origin v1.0.1`). The `-v` option can be used (`git push -v origin v1.0.1`).
-
-#### Delete a Tag
-```bash
-git push --delete origin <tagname>
-```
-The `git push -d origin <tagname>` can also be used to delete a tag or push an empty ref to the remote tag name (`git push origin :tagname`). The command `git push origin :refs/tags/<tagname>` can be used to be sure that a branch won't be deleted because Git has a tag namespace and branch namespace. The command `git tag --delete <tagname>` or `git tag -d <tagname>` will delete the local tag.
-
-#### Create Tags in GitHub
-Go to releases and click draft a new release.
-
-### Revert
-```bash
-git revert <hash>
-```
-Revert the changes made by one specific commit when changes were already pushed to remote by creating a new commit that inverses the changes made by the specified commit. (`git revert HEAD`). Can be used on public branches in remote like master, release, dev, production, etc. When the commit specified is not the last commit, conflicts might appear that should be resolved to continue revert operation. Works on only one commit. History of commits won't be changed.
-
-Use :wq to accept default commit message. `git revert --continue` is used after resolving conflicts with staging the changes and `git revert --abort` is used to cancel revert operation. When git revert is used on 4th commit before last commit with `git revert <hash>` where hash is 4th commit before last commit, there will be an error because of conflicts and git status will show that there are unmerged paths and conflicts should be resolved first and after that continue revert operation so go to vscode and find conflicts in the file. Git revert is really useful when you have already pushed changes to remote repository in specific public branch and some other people have already pulled those changes so if you want to revert changes, you don't have any other option except git revert and git revert is a safe operation and it doesn't modify history but it adds additional commit. With git revert, you only revert only a single commit but with git reset you are able to reset multiple commits. History won't be adjusted and after using git revert, it can be push the change to remote repository but git revert is a safe operation and if you want to apply changes to public branch, you can. Put commit hash in hash and head can be used instead as in `git revert HEAD` to revert last commit and create a new commit that inverses changes in last commit and git will offer you to edit commit message in terminal just write :wq then enter to accept default message because git opens message in vim editor. Git revert operation reverts specific commit, just a specific commit, and you need hash of that commit and git revert will take the specific commit and then inverse all changes that were made in that commit and create a brand new commit. Git revert is opposite of reset since it is not a destructive operation and it doesn't modify git history and that is why it can be safely used on any public branches like master branch, release branch or dev branch. You can use relative refs instead of hash. One of the primary ways to reverse changes in Git (the other is Reset). If you've deployed a feature that broke `production` branch and you want to undo its effects without losing the commit history. You want the logs to be there but you want to revert to an old commit. It is ideal when you have nothing to hide and you want to maintain a clear record of changes that you did and it is like the opposite of `git reset`. A mini merge conflict will appear and it is trying to figure out what we want to keep and what we want to remove. Remove all lines that you don't need. Save and add those changes to staging with `git add .` then use `git revert --continue` to succesfully finalize the revert. A message will say that we will revert the commit, we just need to provide a commit message. We can exit that window with `:qa!` then enter. A new commit will be added. Both reset and revert have use cases (whether you want to hide your tracks or you want to show everybody that you messed up and you fixed it later on.
-
-### Rebasing
-```bash
-git rebase <branch>
-```
-Rebasing Steps:
-1. `git checkout <branch>` - Go to feature branch to be rebased on top of base or main branch (`git checkout feature1`).
-2. `git rebase <branch>` - Rebase feature branch on top of base or main branch (`git rebase main`). Git creates brand new commits that are copies of the old commits.
-3. `git checkout <branch>` - Checkout base or main branch (`git checkout main`).
-4. `git merge <branch>` - Merge feature branch into base or main branch (`git merge feature1`). Old commits from feature branch will be garbage collected because there's no more pointers there and feature branch pointer now points to brancd new commits.
-A two step process to make commit history look linear. This command rewrites commit history and doesn't keep the entire history of all commits.
-
-We won't be able to see when branches were made and merged and which commits were made in a specific branch after using rebasing. Merging doesn't change commits but rebasing change commits and it create new commits. Rebasing also can make it seem like commits were made before the other commits because of a differnt timestamp. Rebase the current branch which can be feature branch onto the branch which can be master branch as in `git rebase master` in order to copy commits in current branch and put it in a linear fashion after the last commit in master branch (old commits in current branch will be deleted). After using rebase command, checkout the base branch which can be master and then merge the feature branch into main branch by using `git merge <branch>` where branch is the feature branch we want to merge into master and then you can delete the feature branch that was merged into master by using `git branch -d <branch>` as in `git branch -d feature1` then push changes to remote with `git push`. With `git rebase main`, if bugFix branch is the current branch, the work in bugFix will be copied and put as latest work in main branch. Take a set of commits, copy them and put them somewhere else. It can make a nice linear sequence of commits for a cleaner commit log if it is allowed. Use `git rebase bugFix` when main is current branch so main will just point to the copied commit from bugFix and that copied commit is where bugFix now points too also.
-
-#### Rebasing Branches
-- Rewrites history.
-- History becomes linear.
-- Doesn't keep entire history of all commits.
-
-#### Steps in Rebasing (Rebasing is a two step process [part 1 and 2 is step 1 and part 3 and 4 is step 2])
-Merge feature branch (feature1 branch) into base branch (master branch) using rebasing:
-1. Checkout feature branch by using `git checkout <branch>` as in `git checkout feature1`.
-2. Rebase feature branch on top of the base branch by using `git rebase <branch>` as in `git rebase master` (brand new commits will have the last commit of base or master branch as parent to form linearly and those brand new commits are just copies of old commits created by git).
-3. Checkout base branch with `git checkout <branch>` as in `git checkout master`.
-4. Merge feature branch into the base branch with `git merge <branch>` as in `git merge feature1` and fast forward merge will be used.
-5. Old commits from feature branch (feature1) will be garbage collected because there are no pointers there and the feature branch pointer now points to the brand new commits.
-Rebasing of branches - There will be no new merge commit with rebasing. With rebasing, history is linear and every commit got only one parent and information about feature branches actually lost unlike merging that keeps entire history of all commits. Rebasing is alternative way to merge two different branches or more together. There are advantages and disadvantages of this process. Advantage is rebasing keeps history linear. With merging, there are commits with multiple parents but with rebasing every commit has just a single parent if you of course only rebase branches and don't merge them and there are no commits that have multiple parents and that means that history becomes linear. Drawbacks of rebasing: rebasing rewrites history and that means that it doesn't keep the entire history of all commits and some commits actually are lost during rebasing and you won't be able to travel in history to find commits that were made in specific branches that were rebased and so on.
-You need to merge release or master branch into your current feature local branch in order to keep it up-to-date with already published features. In such case, you could use rebasing but never use rebasing on public branches like master or release because rebasing is a destructive operation and it changes history but locally on your private branches, you could use it. Rebasing is a two step process. First step is rebasing of the feature branch on top of the master or release branch that is public branch and then merging of feature branch into master or release branch and then fast forward merge will be done and no new merge commits will be created. Rebasing creates branch new commits and commits that were created in a branch that was rebased will be automatically deleted by git. Use rebasing with care.
-
-#### Rebasing with Squashing
-In many public, especially large repositories with many collaborators, many pull requests, many feature branches, rebasing with squashing technique is applied when merging specific pull request or specific branch into main branch, release or master branch. After merging of specific feature branch into dev branch, instead of 3 commits, only 1 commit was added. Repository don't have many merge commits because those guys don't perform 3 way merging, they use rebasing with squashing. Every feature collapses into 1 single commit and is then added to main dev branch. Useful for keeping history line of public branches pretty clean. There are not many commits with many parents. There are not much merge commits. There are 3 choices that will appear in github. The usual create a merge commit, squash and merge and rebase and merge. Choose the 2nd one to make 3 commits into 1 commit. 2nd one is rebasing with squashing. The 1st one is just going to create a merge commit while the 3rd one is just going to do rebasing but no squashing.
-
-#### Interactive Rebasing with Squashing
-`git rebase -i <hash>`
-Use the command while in the feature branch where the commits to be squashed are. The master branch points to the 4th commit so use the hash of 4th commitl. A prompt will appear that contains all commit message of the 3 commits. Change the word pick to squash or just type s. Press i to insert. Git wlll create new single commit that will be based on those 3 commits. Type :wq then enter. If you are happy with commit message, type :wq again then enter. Rebasing will happen. It is now 1 commit instead of 3 commits. 1 commit incorporated all changes from previous 3 commits. It is now safe to merge feature branch to main master branch. Checkout master with `git checkout master`. Merge feature to master branch as in `git merge -v feature2`. Fast forward merge will be performed because rebasing was just performed. Same operation was performed locally on computer just like in github. As argument in rebase command, hash of commit that was last commit before creation of specific feature branch is to be passed. Rebasing with squashing with terminal is a bit more complex than one button click in github. Interactive rebasing must be used. It is rebasing with -i option. If you want to squash 3 commits then get the hash of 4th commit that will not be squashed and use the hash in the command.
-
-### Reflog
-Reflog can be used in:
-1. `git log` - Select an old commit that is not the last commit.
-2. `git reset --hard <hash>` - Use the selected old commit.
-3. `git log` - Check commits history.
-4. `git reflog` - You will see the operation in the output of reflog.
-5. `git reset --hard <hash>` - Use the commit previously show by reflog with HEAD@{1} counter to make repository go back to its previous state.
-Show the entire history of all operations made in repository. Use `git reflog show <branch>` to see operations done in a branch. Only changes made in local repository can be seen in reflog. Instead of hash, you can use the references from the output of reflog (`git checkout HEAD@{6}`). perations in reflog are stored for only 90 days by default.
-
-`git reflog` - Use `git lg` then select an old commit hash like from 5 weeks ago and then `git reset --hard <hash>` to make head point to commit made 5 weeks ago then check with `git lg` then you will see that operation in `git reflog` and if you are not happy with reset operation and you want to get back to the state before git reset, you can perform another git reset but by using the 2nd hash of `git reflog` output (the one with HEAD@{1}) so copy the hash and use `git reset --hard <hash>` and the hash is the 2nd commit hash and you will see changes back again. `git reflog` doesn't show operations made in remote repository or on other computers or collaborators. Operations in reflog are stored for 90 days by default so you can't go back to a previous state in repository that are older than 90 days. You can use HEAD@{0} instead of hash and you can change the number 0 to other numbers because they are references to the commit hash as in `git checkout HEAD@{6}`. By using the info from the `git reflog` output, you can go into detached head state by copying the commit hash and then using `git checkout <hash>`. You will see hash, references like head and dev branch and something like HEAD@{0}. This is counter for a specific reference. You see references of head by default with `git reflog`. You can use it for to see which operations were made in that branch with `git reflog show <branch>` as in `git reflog show temp`. You can use it with any branch. A useful command that will show the entire history of all operations made in repository. This will output only changes made in your computer (on your local repository). Using the result of this command, you can revert back to the state that was in repository before performing reset operation. Let's assume you have resetted to five commits back and then you want revert this operation and get five commits back again. It is possible with reflog command.
-
-### Cherry Pick
-`git cherry-pick <hash>` - Insert a commit. This is not destructive. It simply allows you to apply any other changes fast and easy. Hash can be hash of commit that is in another branch and it will be added to current branch and new commit will be added. --no-commit can be added as in `git cherry-pick --no-commit <hash>` in order to get changes and stage them but not commit them so that you can add your own commit message with `git commit -m <description>`. `git cherry-pick <hash> <hash> <...>` is used to get multiple commits. Cherry pick allows you to take any commit and insert it into currently checked out branch as a last commit and use cherry pick operation in several scenarios. For example, you are working on a separate feature branch and have made several commits there and want to take just one commit of that feature branch and insert it into for example master branch or release branch like a bugfix or something else and you can do that with cherry pick operation. Another scenario for example you hae moved to detached head state and moved 1 or 2 commits there but you don't want to create a new feature branch and afterwards merge it into release or master branch. You just want to take 1 or both commits from detached head state and afterwards insert them into master or release branch. You can do this also using cherry pick operation. Can be used to get and copy only one commit if that commit contains a bug fix and the other commits only contains debug and console.log or print to track down the bug. It is best when you know which commits you want and you know their hashes, if you don't know which commits you want, use interactive rebasing. It is the best way to review a series of commits you're about to rebase. If main is current branch, `git cherry-pick <hash> <hash>` can copy a commit from a branch and copy another commit from another branch to main branch. Copy a series of commits below your current location (HEAD) or current branch. Commits can be picked from another branch and those commits don't need to be connected one after another in the commit history.
-
-### Amend
-`git commit --amend -m "<description>"` - Modify last commit and create a brand new commit while old one is removed. Amend option for git commit command is useful when you have occasionally made some typo or mistake in the very last commit. With amend option you can adjust information in the last commit. Git will create a brand new commit and previous one will be garbage collected that is why amend is destructive operation. Destructive operations should be done with caution only on private branches, not in public branches like dev, release or master. Use amend option to adjust last commit. Author can be changed with `git commit --amend --author="Ray Ferringson <rayferringson@gmail.com>"`and then there will be a prompt to modify commit message in the new commit and message is taken from the previous commit. If you are happy with the message, enter :wq. Amend command can't be used in older commits, it can only be used on the last commit.
-
-### Run Garbage Collection
-`git gc`
-Garbage collection runs automatically from time to time to clean the repository. It can be manually started.
-
-## Git Concepts
-
-### Git Objects
-Git stores blobs, trees, commits and annotated text in the Git repository.
-
-#### Blob
-Git stores any files with any extensions, either video files, pictures, text files - are stored as blobs. A blob represents a single file in a Git file system.
-
-#### Tree
-With the help of tree object type, Git actually stores information about directories. In other file systems, directories may contain files or be empty or be mixed with files and directories. Tree in Git may be a set of blobs or set of blobs and other trees. Tree is representation of folder in Git. Tree represents a directory.
-
-#### Commit
-With commit object type, we are able to actually store different versions of our project.
-
-#### Annotated Tag
-Annotated tag is persistent text pointer to a specific commit.
-
-### Three Main Areas in a Project
-- Working Directory - contains untracked, modified and unmodified files
-- Staging Area - contains staged and unmodified files
-- Git Repository - contains unmodified files
-
-#### Working Directory
-Untracked files are in working directory.
-
-#### Staging Area
-Sits between working directory and Git repository. It is usually called index and it is actually responsible for preparing files to be inserted into the Git repository and also in the opposite way, It prepares file taken from Git repository to be put into working directory. Putting files into staging area is a mandatory step in all operations either when you want to place files from working directory into Git repository or when you want to read files from Git repository and checkout them into your working directory.
-
-#### Git Repository
-Unmodified files are in Git repository.
-
-### File Status
-Every file in Git may have one of four tracking statuses:
-1. Untracked - File only exist in working directory.
-2. Tracked - Files that are monitored by git.
-   - Modified - Use git add to put this file to staging area (Deleted is another state and it is also added to staging area).
-   - Staged - This file is still located in working directory but is only written in staging area for simplicity's sake. If `git commit` is not used, the file in Git repository is an old version of the staged file.
-   - Unmodified - Files that are present in working directory, staging area and Git repository.
-3. Ignored - Files that are excluded from staging and committing.
-4. Committed - Committed files are saved in Git and a new commit will appear in commit history. The changes are only saved locally. If there is one or more commits, those changes can be pushed to the Remote Repository.
-
-### Initialization
-When a directory is initialized, a hidden .git folder will be created in the directory.
-
-### Ignore Files in Git
-- Explicitly tells Git which files and folders to ignore.
-- Changes in ignored files and folders are ignored.
-- Rules are defined in the separate file .gitignore.
-- .gitignore file itself must be committed.
-
-#### .gitignore File
-The first file that should be created after initializing a Git repository is the .gitignore file. Rules can be created inside that will help Git to know which files to ignore.
-
-#### Ignore Previously Committed File
-Option 1
-- Add ignore rule in .gitignore.
-- Delete file in working directory.
-- Commit changes.
-Option 2
-- Add ignore rule in .gitignore.
-- Delete file only from repository keeping it in the working directory by using command `git rm --cached <filename>` as in `git rm --cached new-file.txt` and git will automatically stage this change.
-
-### Local Repository
-A copy of remote repository that a team member or collaborator can work on in their own computer.
-
-### Remote
-The remote server where the remote repository is. Usually named origin.
-
-### Origin
-The default name of remote server.
-
-### HEAD
-The current commit or branch.
-
-### Commit
-A commit is like saving the state of a project in a specific moment of time. But saving (or just creating a commit) is not enough to make sure the we won't have to worry about the project. Pushing the commit or commits to remote (remote repository) will allow us to get all versions of our project even if our local Git repository or project folder is gone from our computer. Pushing to remote also allows collaboration with other people.
-
-### Branch
-A branch contains its own commit history that are different from other branches. Allows team members to work on different features simultaneously (by making a branch for each feature). Branches can be merged to other branches. A branch is like a bookmark which is easy to remember instead of memorizing the hash of a commit so checking out a branch is fast and easy than checking out a commit that will have different hash whenever the branch is updated with a new commit that is why branch is useful since it will automatically bookmark the newest commit added to the branch.
-
-### Merging
-Combine the changes from a feature branch into a receiving branch (which can be main branch).
 
 ### Detached HEAD State
 Detached HEAD state happens when HEAD is pointing to a commit.
@@ -1232,15 +964,274 @@ Low level git command. Reads Git objects.
 - `git cat-file -s <hash>` - Size of the object will be printed to terminal.
 - `git cat-file -t <hash>` - Git type of the object will be printed to terminal.
 
-
-
 ### Config File
 Config file is a configuration of your Git repository and default settings.
-
-
 
 ### Management of Blobs and Trees
 For management of blobs and trees, we will use low level git commands like `git hash-object` and `git cat-file`.
 
 ### Pipe Symbol
 `echo "Hello, Git" | git hash-object --stdin` - We take the output of another command as input of a different command with pipe symbol.
+
+## Remotes (Remote Repository)
+### List Remote Repositories
+`git remote` - Show the remote servers that were already set up. Show the remote servers for your local repositories. Using `git remote -v` will show two URLS for fetch and push commands. A local repository that is not connected to a remote repository will have an empty output when using `git remote`. It doesn't matter what the branch is for `git remote`. Use `git remote show origin` to show local stale branches and entire information about the connection between local repository and remote repository. See additional information and not just the URLS used for fetch and push (origin can be changed to other remote server name). Head branch is default remote branch in remote repository. You will see list of remote branches and if they are tracked (with tracking branches for push and pull). If we see up-to-date, it means branches are in sync.
+
+### Remote
+`git remote add <server> <url>` - Set up a remote server. Server is the name of the remote server and url is the url of the remote server.
+`git remote add origin <url>` - Set the url of origin. Set up the remote origin server in order to Bind local repository to remote repository. To link local repository to remote origin. You can have multiple remote repositories. Just change the name like in `git remote add <name> <url>`.
+
+### Make Git Remember Upstream Branch
+```bash
+git push -u <remote> <branch>
+```
+Make Git remember an upstream branch (`git push -u origin temp`) in remote repository and remote is the remote server which turns the local branch into a tracking branch. This is a shorter version of `git push --set-upstream <remote> <branch>`.
+
+`git push` - The -u in `git push -u origin <branch>` makes git to remember the upstream branch. In `git push -u <server> <branch>` or `git push -u origin <branch>`, branch can be master branch and remote branch will be created in remote server. Set upstream branch for local branch with `git push -u origin <branch>` where git will get branch from origin remote server and origin can be changed to other remote server. `git push -u origin <branch>` is used to track remote branch after set up of remote server. When local branch has a corresponding remote branch the local branch becomes a tracking branch, the command `git push` instead can be used when making a new commit and push changes to remote branch. To create a remote branch when a new local branch is created then local branch will track the new remote branch, use `git push --set-upstream origin <branch>` (branch is going to be the name of remote branch) where branch is the same name of local branch since it is what will be suggested in the terminal and origin is the name of server and origin is default name and instead of the longer command, `git push -u origin <branch>` can be used and -v option can also be added as `git push -v -u origin <branch>`. If we push a local branch with `git push -v` and there is no corresponding remote branch that is tracked by the local branch, there will be a prompt that says there's no upstream branch. After testing and you are happy with the changes, you can push the changes from your local git repository to the remote git repository. Put your changes to remote repository. Publish local branch with `git push --set-upstream origin <branch>` where upstream branch is a remote branch that your local branch tracks. When you set an upstream branch, you link your local branch to a branch on the remote repository. You push a local branch to the origin remote repository. The command `git push -u origin <branch>` can be used instead. The `-u` says the branch is an upstream branch and origin is the name of the remote repository. Both `--set-upstream` and `-u` establish a tracking relationship between your local branch and the remote branch so in the future, pushing from local branch to remote branch only needs `git push`. git push -u origin main` To put the changes in main branch to remote repository. Another version can be used with -v option as `git push -v` and there will be a prompt asking for GitHub account username and password then remote branch will point to the commit in local branch and git updates local tracking reference for refs/remotes/origin/branch where branch is the remote branch name and local branch and remote branch will point to the same commit. Changes in local repository will be incorporated into remote repository.
+
+### Add a Remote Server
+```bash
+git remote add <remote> <url>
+```
+Remote is the server name and URL is the URL of the remote repository (`git remote add origin <url>`). More than one remote server can be added.
+
+### Push Changes to Remote Repository
+```bash
+git push
+```
+After testing of changes in local repository, push them to remote repository that Git remembers.
+
+### Fetch Changes From Remote Repository
+```bash
+git fetch
+```
+Get changes and metadata about remote branches references from remote repository but won't merge those changes. If a remote branch is deleted then this command is used, the references of remote branches in the local repository won't be updated. The `-v` or verbose option can be used (`git fetch -v`) to see more details.
+
+`git fetch` - Can be used as `git fetch -v` (verbose option) to see detailed operation and helps in seeing how many branches are in remote. It will not create local tracking branch. Can be used in any branch. When a new remote branch is created in remote repository, the new change can't be seen with `git branch -r` or `git branch -a` so `git fetch` should be used first to get remote changes and put them in local repository and it is not destructive since it won't change working directory and staging area and it will not merge any remote changes to your local changes. Get changes from remote git repository and updates the local git repository. Local working directory and staging area are not touched. If a branch is created in remote git repository, that branch can be seen in local git repository after using `git fetch`.
+
+### Pull Changes From Remote Repository
+```bash
+git pull
+```
+Fetches changes from remote repository and merges those changes behind the scenes. The `-v` or verbose option can also be added to observe fetch and merge operations (`git pull -v`).
+
+`git pull` - The option -v can be used as in `git pull -v` for detailed pull. We need a local tracking branch to use `git pull`. Operation is performed partially, only locally in your git repository and it is a two step process of fetching remote changes and then merging them into local changes. A destructive operation that also updates the working directory and staging area because the changes from remote git repository is merged to the local git repository. Is the command to use to make your local branch up-to-date when somebody made changes to remote branch either directly or by merging other changes into it. This command fetches changes from the remote repository and merges them into your local repository for that branch.
+
+### Remove Stale Branch
+```bash
+git fetch --prune
+```
+Cleans local repository by removing references of remote branches that were deleted. `git remote prune origin` will remove stale branch.
+
+### Clone a Remote Repository
+```bash
+git clone <url>
+```
+Create a local repository based on the remote repository by using its URL. The branch created in local repository will be automatically be a tracking branch that is connected to the remote branch. A default branch defined in the remote repository will be the branch created in local repository.
+
+Only default remote branch is created as local branch (not all remote branches in remote repository is created in local branch with this). Git automatically creates binding between remote repository and local repository default remote repository is created for local repository and the name of the default remote repository is origin. Local repository can be connected to multiple remote repositories and every remote repositories will have different names and when you use push, pull or fetch, you choose which remote repository you want to interact with. To clone a repository, use `git clone <url>` to download a project with its Git repository where the url is from a git hosting service like GitHub. When you clone a repository, Git automatically names the remote repository as origin (origin is url of remote repository).
+
+### Update Tracking Statuses
+`git remote update origin --prune` - Removes a remote branch from being tracked by a local branch if remote branch is deleted. Use the command so that git will know there is no remote branch. When a remote branch is created and then a branch for it is created locally with `git checkout <branch>` where branch is the new remote branch and remote branch will be deleted and then fetch and use `git branch -vv` to see local branch is still tracking the deleted remote branch so use `git remote update origin --prune` to update status of tracking branch and tracking status will change for local branch. The local branch can be deleted with `git branch -D <branch>` or force deletion because there will be an error with `git branch -d <branch>` because local branch is not merged.
+
+### Update All Branches Set to Track Remotes
+`git remote update`
+Only updates all branches set to track remotes. No changes will be merged. `git remote update origin` is another command.
+
+### Delete Remote Branch
+`git push origin -d temp` - Delete remote branch. We can create a local branch and then create and track remote branch by using `git push -u origin temp` then use `git push origin -d temp` to delete remote branch. Check with `git branch -a`. Delete local branch with `git branch -D <branch`>
+
+## Advanced
+
+### Annotated Tags
+Annotated tag is one of the four Git objects and it is a persistent text pointer to a specific commit. There are two types of tag: lightweight tag and annotated tag. Annotated tag is better because it contains more information.
+
+#### Show Tag List
+```bash
+git tag
+```
+Show list of current lightweight and annotated tags. Lightweight and annotated tags can't be distinguished with this command.
+
+#### Add a Lightweight Tag
+```bash
+git tag <name>
+```
+Always use an annotated tag instead of a lightweight tag since it is a more detailed tag.
+
+Add a lightweight tag to the current commit in current branch (`git tag v1.0.0`). Stored in .git/refs/tags (stored where branches are which are also pointers) Just a text pointer to a specific commit.
+
+#### Add an Annotated Tag
+```bash
+git tag -a <name> -m "<description>"
+```
+Create an annotated tag (better tag) with tag name and tag description to the current commit.
+
+Message is required. Create an annotated tag and author and date will be added automatically. It is not possible to distinguish the difference between lightweight tag and annotated tag when using `git tag` but using `git tag -v <tag>` as in `git tag -v v1.0.0` will show details of the annotated tag. Signature can be added to annotated tag.
+
+- Added with `git tag -a v1.0.0 -m "<message>"` like in `git tag -a v1.0.0 -m "New tag"`.
+- Stored in .git/refs/tags.
+- Also stored in .git/objects.
+- Stores tag message.
+- Stores tag author and date.
+- Description is optional to add.
+Git tags are not pushed to remote by default with `git push` because if any devs can push tags then there will be conflicts in tag names. Tags should have unique names. When creating a lightweight tag, a new file will be created and inside the file is pointer to specific commit. Annotated tag or text is used to store not only the tag but also the tag message and tag author will be from git configuration. Use only annotated tags because it got dates unlike lightweight tags. Annotated tag is git object. Create tags with different names. Tag names should be unique across the entire repository. When major features are merged into master branch, you can add a specific tag (like v1.2.0). Mostly used to add release versions of the project. If you make some commits in detached head state and then go back and check out master branch or other branch, those commits made in detached head state will be removed by git (garbage collected). You can check out specific tag and you will move to specific commit (goes into detached head state). You can create tags anywhere in the project at any time. Tags don't move while branches are developing and tags will still point to specific commits. Git tag is a static text pointer to a specific commit in commit history (branches are dynamic because they move when there is a new commit). Used for adding software version numbers. When a branch is merged, a minor version is incremented and if another branch is merged, patch number can be incremented depending on what feature is added and tag is added on the new merge commit created after merging.
+
+#### Display Annotated Tag Details
+```bash
+git tag -v <name>
+```
+Show details of an annotated tag (`git tag -v v1.0.0`). This command won't work on lightweight tags.
+
+#### Display Commit Details with Tag
+```bash
+git show <tag>
+```
+Get the commit with the specific tag (`git show v1.0.0`).
+
+#### Push Local Tags to Remote
+```bash
+git push --tags
+```
+Push tags to remote. Use `-v` option for more details (`git push -v --tags`).
+
+When pushing tags, commits are not pushed to remote (use `git push` to push commits to remote). Pushes local tags to remote git server. The command `git push -v --tags` can also be used for a detailed output with verbose option. `git push -v origin <tag>` as in `git push -v origin v1.0.1` only pushes tag to remote git server.
+
+#### Push One Tag to Remote
+```bash
+git push <remote> <tag>
+```
+Push tag to remote (`git push origin v1.0.1`). The `-v` option can be used (`git push -v origin v1.0.1`).
+
+#### Delete a Tag
+```bash
+git push --delete origin <tagname>
+```
+The `git push -d origin <tagname>` can also be used to delete a tag or push an empty ref to the remote tag name (`git push origin :tagname`). The command `git push origin :refs/tags/<tagname>` can be used to be sure that a branch won't be deleted because Git has a tag namespace and branch namespace. The command `git tag --delete <tagname>` or `git tag -d <tagname>` will delete the local tag.
+
+#### Create Tags in GitHub
+Go to releases and click draft a new release.
+
+### Ignore Files in Git
+- Explicitly tells Git which files and folders to ignore.
+- Changes in ignored files and folders are ignored.
+- Rules are defined in the separate file .gitignore.
+- .gitignore file itself must be committed.
+
+#### .gitignore File
+The first file that should be created after initializing a Git repository is the .gitignore file. Rules can be created inside that will help Git to know which files to ignore.
+
+#### Ignore Previously Committed File
+Option 1
+- Add ignore rule in .gitignore.
+- Delete file in working directory.
+- Commit changes.
+Option 2
+- Add ignore rule in .gitignore.
+- Delete file only from repository keeping it in the working directory by using command `git rm --cached <filename>` as in `git rm --cached new-file.txt` and git will automatically stage this change.
+
+### Reset
+Reset is intended for private branches and not for public branches in remote like production, release, master, dev, etc.
+
+You can commit changes again when mixed or soft reset are used. Hard reset is when changes are removed from git repository, staging area and working directory and commits are removed. Soft reset is when changes are removed in git repository but changes are still in staging area and working directory and commits are removed. Default reset is mixed reset where changes are in working directory but changes are removed in git repository and staging area and commits are removed. You can use relative refs instead of hash. Revert is one of two primary ways to reverse changes in Git (the other is Revert). Revert to a previous commit with the possibility of choosing whether you want to keep or discard the changes in the working directory. Git Reset is when you checkout a particular commit with `git checkout` and then you want to delete everything that comes after it. When using mixed reset, the file will turn a different color which means there are changes in the file and green lines will appear which means those are the additional or new changes or modifications and they are unstaged. These changes came from the commits that have been reset. You can keep those changes, modify the changes then stage and commit or remove those changes entirely. It can be used with relative refs like in `git reset HEAD~1` wherein main is the current branch and it will be moved to its parent. Reset like `git reset HEAD~1` works great for local branches on your own machine but its method of rewriting doesn't work for remote branches that others are using so to reverse changes and share those reversed changes with others, use Revert like `git revert HEAD`.
+- `git reset --soft <hash>` - Soft Reset - Moves to specified commit in history but keeps changes staged in a working directory (staged changes are those added to Git tracking with `git add .` and before they are untracked and then they become tracked).
+- `git reset <hash>` - Mixed Reset - It is the default. Put the hash of the commit to move to that specified commit in history, unstage the changes and keeps them in the working directory but they won't be staged. All changes made after the specified commit will be in your working directory but not staged. You can manually stage them with `git add .`
+- `git reset --hard <hash>` - Hard Reset - It moves to the specified commit in history and discards all changes in the working directory and staging area. All those changes made after the selected commit will be discarded entirely and no trace will be left.
+
+#### Hard Reset
+```bash
+git reset --hard <hash>
+```
+It moves to the specified commit in history, deletes the commits after the current commit and discards all changes in the working directory and staging area.
+
+#### Mixed Reset
+```bash
+git reset <hash>
+```
+Move to a specified commit in history, deletes the commits after the current commit then unstages the changes and keeps them in the working directory. Mixed reset is the default mode of reset command.
+
+#### Soft Reset
+```bash
+git reset --soft <hash>
+```
+Moves to a specified commit in history, deletes the commits after the current commit then keeps the changes staged and in working directory.
+
+### Stashing
+
+#### Stash Changes
+```bash
+git stash
+```
+Git creates a temporary commit of uncommitted and even of staged and unstaged changes made in current branch and stores it in Git repository for later use then the branch goes back to its previous state without the changes.
+
+Use `git stash pop` to get the previous changes stored in stash and changes will be applied and stash file will be deleted in git repository. Just use `git stash` to save uncommitted changes in a branch even if only one is a staged file and the other file is just modified and the changes will be removed but they are stored for later on (git creates a temporary commit and stores it in git repository). Stashing allows you to save uncommitted work. If you are working on a specific feature branch like temp branch and you have created some files, modified some files and you have staged some changes but not yet committed them and if at this moment of time you want to check out other feature branch like temp2 branch but you want to keep changes made in temp branch, that is where stashing comes in. After coming back to temp branch, you can retrieve changes from stash continue work on them. After using the command, it will be saved and you can work right away on what you want to focus on that is different then do the usual add, commit and push as fix to a bug then get the code back with `git stash apply <name>`. Use `git stash list` to see the names like `git stash apply stash@{0}`. If the previous bug fix is in the same line, a merge conflict will appear and you need to manually choose which to keep and remove the lines around what we want to keep then you can continue working on your feature. It will save your uncommitted changes, both staged and unstaged without committing them (use on code you don't want to lose). This is used when you are in the middle of working on a feature and it is not complete yet and is also not ready to commit yet but you want to keep your active changes somewhere and work on it later so you can work on an urgent bug fixing or a different more important task.
+
+#### Pop Stashed Changes
+```bash
+git stash pop
+```
+Get the previous changes stored in stash then apply those changes and then the stash file will be deleted in the Git repository.
+
+### Revert
+```bash
+git revert <hash>
+```
+Revert the changes made by one specific commit when changes were already pushed to remote by creating a new commit that inverses the changes made by the specified commit. (`git revert HEAD`). Can be used on public branches in remote like master, release, dev, production, etc. When the commit specified is not the last commit, conflicts might appear that should be resolved to continue revert operation. Works on only one commit. History of commits won't be changed.
+
+Use :wq to accept default commit message. `git revert --continue` is used after resolving conflicts with staging the changes and `git revert --abort` is used to cancel revert operation. When git revert is used on 4th commit before last commit with `git revert <hash>` where hash is 4th commit before last commit, there will be an error because of conflicts and git status will show that there are unmerged paths and conflicts should be resolved first and after that continue revert operation so go to vscode and find conflicts in the file. Git revert is really useful when you have already pushed changes to remote repository in specific public branch and some other people have already pulled those changes so if you want to revert changes, you don't have any other option except git revert and git revert is a safe operation and it doesn't modify history but it adds additional commit. With git revert, you only revert only a single commit but with git reset you are able to reset multiple commits. History won't be adjusted and after using git revert, it can be push the change to remote repository but git revert is a safe operation and if you want to apply changes to public branch, you can. Put commit hash in hash and head can be used instead as in `git revert HEAD` to revert last commit and create a new commit that inverses changes in last commit and git will offer you to edit commit message in terminal just write :wq then enter to accept default message because git opens message in vim editor. Git revert operation reverts specific commit, just a specific commit, and you need hash of that commit and git revert will take the specific commit and then inverse all changes that were made in that commit and create a brand new commit. Git revert is opposite of reset since it is not a destructive operation and it doesn't modify git history and that is why it can be safely used on any public branches like master branch, release branch or dev branch. You can use relative refs instead of hash. One of the primary ways to reverse changes in Git (the other is Reset). If you've deployed a feature that broke `production` branch and you want to undo its effects without losing the commit history. You want the logs to be there but you want to revert to an old commit. It is ideal when you have nothing to hide and you want to maintain a clear record of changes that you did and it is like the opposite of `git reset`. A mini merge conflict will appear and it is trying to figure out what we want to keep and what we want to remove. Remove all lines that you don't need. Save and add those changes to staging with `git add .` then use `git revert --continue` to succesfully finalize the revert. A message will say that we will revert the commit, we just need to provide a commit message. We can exit that window with `:qa!` then enter. A new commit will be added. Both reset and revert have use cases (whether you want to hide your tracks or you want to show everybody that you messed up and you fixed it later on.
+
+### Rebasing
+```bash
+git rebase <branch>
+```
+Rebasing Steps:
+1. `git checkout <branch>` - Go to feature branch to be rebased on top of base or main branch (`git checkout feature1`).
+2. `git rebase <branch>` - Rebase feature branch on top of base or main branch (`git rebase main`). Git creates brand new commits that are copies of the old commits.
+3. `git checkout <branch>` - Checkout base or main branch (`git checkout main`).
+4. `git merge <branch>` - Merge feature branch into base or main branch (`git merge feature1`). Old commits from feature branch will be garbage collected because there's no more pointers there and feature branch pointer now points to brancd new commits.
+A two step process to make commit history look linear. This command rewrites commit history and doesn't keep the entire history of all commits.
+
+We won't be able to see when branches were made and merged and which commits were made in a specific branch after using rebasing. Merging doesn't change commits but rebasing change commits and it create new commits. Rebasing also can make it seem like commits were made before the other commits because of a differnt timestamp. Rebase the current branch which can be feature branch onto the branch which can be master branch as in `git rebase master` in order to copy commits in current branch and put it in a linear fashion after the last commit in master branch (old commits in current branch will be deleted). After using rebase command, checkout the base branch which can be master and then merge the feature branch into main branch by using `git merge <branch>` where branch is the feature branch we want to merge into master and then you can delete the feature branch that was merged into master by using `git branch -d <branch>` as in `git branch -d feature1` then push changes to remote with `git push`. With `git rebase main`, if bugFix branch is the current branch, the work in bugFix will be copied and put as latest work in main branch. Take a set of commits, copy them and put them somewhere else. It can make a nice linear sequence of commits for a cleaner commit log if it is allowed. Use `git rebase bugFix` when main is current branch so main will just point to the copied commit from bugFix and that copied commit is where bugFix now points too also.
+
+#### Rebasing Branches
+- Rewrites history.
+- History becomes linear.
+- Doesn't keep entire history of all commits.
+
+#### Steps in Rebasing (Rebasing is a two step process [part 1 and 2 is step 1 and part 3 and 4 is step 2])
+Merge feature branch (feature1 branch) into base branch (master branch) using rebasing:
+1. Checkout feature branch by using `git checkout <branch>` as in `git checkout feature1`.
+2. Rebase feature branch on top of the base branch by using `git rebase <branch>` as in `git rebase master` (brand new commits will have the last commit of base or master branch as parent to form linearly and those brand new commits are just copies of old commits created by git).
+3. Checkout base branch with `git checkout <branch>` as in `git checkout master`.
+4. Merge feature branch into the base branch with `git merge <branch>` as in `git merge feature1` and fast forward merge will be used.
+5. Old commits from feature branch (feature1) will be garbage collected because there are no pointers there and the feature branch pointer now points to the brand new commits.
+Rebasing of branches - There will be no new merge commit with rebasing. With rebasing, history is linear and every commit got only one parent and information about feature branches actually lost unlike merging that keeps entire history of all commits. Rebasing is alternative way to merge two different branches or more together. There are advantages and disadvantages of this process. Advantage is rebasing keeps history linear. With merging, there are commits with multiple parents but with rebasing every commit has just a single parent if you of course only rebase branches and don't merge them and there are no commits that have multiple parents and that means that history becomes linear. Drawbacks of rebasing: rebasing rewrites history and that means that it doesn't keep the entire history of all commits and some commits actually are lost during rebasing and you won't be able to travel in history to find commits that were made in specific branches that were rebased and so on.
+You need to merge release or master branch into your current feature local branch in order to keep it up-to-date with already published features. In such case, you could use rebasing but never use rebasing on public branches like master or release because rebasing is a destructive operation and it changes history but locally on your private branches, you could use it. Rebasing is a two step process. First step is rebasing of the feature branch on top of the master or release branch that is public branch and then merging of feature branch into master or release branch and then fast forward merge will be done and no new merge commits will be created. Rebasing creates branch new commits and commits that were created in a branch that was rebased will be automatically deleted by git. Use rebasing with care.
+
+#### Rebasing with Squashing
+In many public, especially large repositories with many collaborators, many pull requests, many feature branches, rebasing with squashing technique is applied when merging specific pull request or specific branch into main branch, release or master branch. After merging of specific feature branch into dev branch, instead of 3 commits, only 1 commit was added. Repository don't have many merge commits because those guys don't perform 3 way merging, they use rebasing with squashing. Every feature collapses into 1 single commit and is then added to main dev branch. Useful for keeping history line of public branches pretty clean. There are not many commits with many parents. There are not much merge commits. There are 3 choices that will appear in github. The usual create a merge commit, squash and merge and rebase and merge. Choose the 2nd one to make 3 commits into 1 commit. 2nd one is rebasing with squashing. The 1st one is just going to create a merge commit while the 3rd one is just going to do rebasing but no squashing.
+
+#### Interactive Rebasing with Squashing
+`git rebase -i <hash>`
+Use the command while in the feature branch where the commits to be squashed are. The master branch points to the 4th commit so use the hash of 4th commitl. A prompt will appear that contains all commit message of the 3 commits. Change the word pick to squash or just type s. Press i to insert. Git wlll create new single commit that will be based on those 3 commits. Type :wq then enter. If you are happy with commit message, type :wq again then enter. Rebasing will happen. It is now 1 commit instead of 3 commits. 1 commit incorporated all changes from previous 3 commits. It is now safe to merge feature branch to main master branch. Checkout master with `git checkout master`. Merge feature to master branch as in `git merge -v feature2`. Fast forward merge will be performed because rebasing was just performed. Same operation was performed locally on computer just like in github. As argument in rebase command, hash of commit that was last commit before creation of specific feature branch is to be passed. Rebasing with squashing with terminal is a bit more complex than one button click in github. Interactive rebasing must be used. It is rebasing with -i option. If you want to squash 3 commits then get the hash of 4th commit that will not be squashed and use the hash in the command.
+
+### Reflog
+Reflog can be used in:
+1. `git log` - Select an old commit that is not the last commit.
+2. `git reset --hard <hash>` - Use the selected old commit.
+3. `git log` - Check commits history.
+4. `git reflog` - You will see the operation in the output of reflog.
+5. `git reset --hard <hash>` - Use the commit previously show by reflog with HEAD@{1} counter to make repository go back to its previous state.
+Show the entire history of all operations made in repository. Use `git reflog show <branch>` to see operations done in a branch. Only changes made in local repository can be seen in reflog. Instead of hash, you can use the references from the output of reflog (`git checkout HEAD@{6}`). perations in reflog are stored for only 90 days by default.
+
+`git reflog` - Use `git lg` then select an old commit hash like from 5 weeks ago and then `git reset --hard <hash>` to make head point to commit made 5 weeks ago then check with `git lg` then you will see that operation in `git reflog` and if you are not happy with reset operation and you want to get back to the state before git reset, you can perform another git reset but by using the 2nd hash of `git reflog` output (the one with HEAD@{1}) so copy the hash and use `git reset --hard <hash>` and the hash is the 2nd commit hash and you will see changes back again. `git reflog` doesn't show operations made in remote repository or on other computers or collaborators. Operations in reflog are stored for 90 days by default so you can't go back to a previous state in repository that are older than 90 days. You can use HEAD@{0} instead of hash and you can change the number 0 to other numbers because they are references to the commit hash as in `git checkout HEAD@{6}`. By using the info from the `git reflog` output, you can go into detached head state by copying the commit hash and then using `git checkout <hash>`. You will see hash, references like head and dev branch and something like HEAD@{0}. This is counter for a specific reference. You see references of head by default with `git reflog`. You can use it for to see which operations were made in that branch with `git reflog show <branch>` as in `git reflog show temp`. You can use it with any branch. A useful command that will show the entire history of all operations made in repository. This will output only changes made in your computer (on your local repository). Using the result of this command, you can revert back to the state that was in repository before performing reset operation. Let's assume you have resetted to five commits back and then you want revert this operation and get five commits back again. It is possible with reflog command.
+
+### Cherry Pick
+`git cherry-pick <hash>` - Insert a commit. This is not destructive. It simply allows you to apply any other changes fast and easy. Hash can be hash of commit that is in another branch and it will be added to current branch and new commit will be added. --no-commit can be added as in `git cherry-pick --no-commit <hash>` in order to get changes and stage them but not commit them so that you can add your own commit message with `git commit -m <description>`. `git cherry-pick <hash> <hash> <...>` is used to get multiple commits. Cherry pick allows you to take any commit and insert it into currently checked out branch as a last commit and use cherry pick operation in several scenarios. For example, you are working on a separate feature branch and have made several commits there and want to take just one commit of that feature branch and insert it into for example master branch or release branch like a bugfix or something else and you can do that with cherry pick operation. Another scenario for example you hae moved to detached head state and moved 1 or 2 commits there but you don't want to create a new feature branch and afterwards merge it into release or master branch. You just want to take 1 or both commits from detached head state and afterwards insert them into master or release branch. You can do this also using cherry pick operation. Can be used to get and copy only one commit if that commit contains a bug fix and the other commits only contains debug and console.log or print to track down the bug. It is best when you know which commits you want and you know their hashes, if you don't know which commits you want, use interactive rebasing. It is the best way to review a series of commits you're about to rebase. If main is current branch, `git cherry-pick <hash> <hash>` can copy a commit from a branch and copy another commit from another branch to main branch. Copy a series of commits below your current location (HEAD) or current branch. Commits can be picked from another branch and those commits don't need to be connected one after another in the commit history.
+
+### Amend
+`git commit --amend -m "<description>"` - Modify last commit and create a brand new commit while old one is removed. Amend option for git commit command is useful when you have occasionally made some typo or mistake in the very last commit. With amend option you can adjust information in the last commit. Git will create a brand new commit and previous one will be garbage collected that is why amend is destructive operation. Destructive operations should be done with caution only on private branches, not in public branches like dev, release or master. Use amend option to adjust last commit. Author can be changed with `git commit --amend --author="Ray Ferringson <rayferringson@gmail.com>"`and then there will be a prompt to modify commit message in the new commit and message is taken from the previous commit. If you are happy with the message, enter :wq. Amend command can't be used in older commits, it can only be used on the last commit.
+
+### Run Garbage Collection
+`git gc`
+Garbage collection runs automatically from time to time to clean the repository. It can be manually started.
+
