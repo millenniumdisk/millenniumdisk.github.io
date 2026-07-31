@@ -505,26 +505,6 @@ exit
 ### Hidden Files
 Hidden files start with a `.` in Unix-like systems. In Windows, files and folders are hidden depending on the file / folder attribute.
 
-### Activity - Initialize a Git Repository and Create a New Commit
-1. Check the current location in the terminal.
-2. Go to a place where a project can be created like a different drive.
-3. Check the folders and files in the current directory.
-4. Clear the screen.
-5. Create a new empty directory.
-6. Check the contents of the current directory again.
-7. Go to the new folder.
-8. Initialize it as a new Git repository.
-```bash
-pwd
-cd E:
-ls -la
-clear
-mkdir git-basics
-ls -la
-cd git-basics
-git init
-```
-
 ## Setup
 
 ### Display Git Version Number
@@ -574,6 +554,26 @@ Change branch into main to change the default name of branch in initialization t
 git init
 ```
 Initialize current directory as Git repository. It will create a `.git` folder that can only be managed by Git.
+
+#### Activity - Initialize a Git Repository
+1. Check the current location in the terminal.
+2. Go to a place where a project can be created like a different drive.
+3. Check the folders and files in the current directory.
+4. Clear the screen.
+5. Create a new empty directory.
+6. Check the contents of the current directory again.
+7. Go to the new folder.
+8. Initialize it as a new Git repository.
+```bash
+pwd
+cd E:
+ls -la
+clear
+mkdir git-basics
+ls -la
+cd git-basics
+git init
+```
 
 ## Inspect
 
@@ -1002,14 +1002,19 @@ Show the entire history of all operations made in repository. Use `git reflog sh
 Garbage collection runs automatically from time to time to clean the repository. It can be manually started.
 
 ## Git Concepts
+
 ### Git Objects
 Git stores blobs, trees, commits and annotated text in the Git repository.
+
 #### Blob
 Git stores any files with any extensions, either video files, pictures, text files - are stored as blobs. A blob represents a single file in a Git file system.
+
 #### Tree
 With the help of tree object type, Git actually stores information about directories. In other file systems, directories may contain files or be empty or be mixed with files and directories. Tree in Git may be a set of blobs or set of blobs and other trees. Tree is representation of folder in Git. Tree represents a directory.
+
 #### Commit
 With commit object type, we are able to actually store different versions of our project.
+
 #### Annotated Tag
 Annotated tag is persistent text pointer to a specific commit.
 
@@ -1017,10 +1022,13 @@ Annotated tag is persistent text pointer to a specific commit.
 - Working Directory - contains untracked, modified and unmodified files
 - Staging Area - contains staged and unmodified files
 - Git Repository - contains unmodified files
+
 #### Working Directory
 Untracked files are in working directory.
+
 #### Staging Area
 Sits between working directory and Git repository. It is usually called index and it is actually responsible for preparing files to be inserted into the Git repository and also in the opposite way, It prepares file taken from Git repository to be put into working directory. Putting files into staging area is a mandatory step in all operations either when you want to place files from working directory into Git repository or when you want to read files from Git repository and checkout them into your working directory.
+
 #### Git Repository
 Unmodified files are in Git repository.
 
@@ -1042,8 +1050,10 @@ When a directory is initialized, a hidden .git folder will be created in the dir
 - Changes in ignored files and folders are ignored.
 - Rules are defined in the separate file .gitignore.
 - .gitignore file itself must be committed.
+
 #### .gitignore File
 The first file that should be created after initializing a Git repository is the .gitignore file. Rules can be created inside that will help Git to know which files to ignore.
+
 #### Ignore Previously Committed File
 Option 1
 - Add ignore rule in .gitignore.
