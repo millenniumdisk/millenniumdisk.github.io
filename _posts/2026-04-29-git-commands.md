@@ -22,6 +22,9 @@ Git Bash terminal or the terminal (bash) in VS Code can be used.
 ### Escaped Characters
 `!` is used for history expansion in bash so it should be escaped with `\` as in `\!` or single quotes.
 
+### Case Sensitivity
+In Windows OS, using an uppercase or lowercase letter in the path both works like in `cd E:` and `cd e:` but creating a folder with uppercase letter like in `mkdir folder1` will clash with another command containing an uppercase letter like in `mkdir Folder1` since the folder already exists.
+
 ### Go to Root Directory
 ```bash
 cd
@@ -172,7 +175,7 @@ ls -la
 ```bash
 touch <name>
 ```
-Create a file like in `touch file.txt`.
+Create a file like in `touch file.txt`. Create two or more files by separating filenames with a space like in `touch file1.txt file2.txt`.
 
 #### Activity - Create a File
 1. Display current directory.
@@ -188,6 +191,27 @@ cd E:
 ls -la
 clear
 touch wishlist.txt
+ls -la
+```
+
+#### Activity - Create Multiple Files
+1. Go to another drive.
+2. Show files.
+3. Clear.
+4. Create two files.
+5. Show files.
+6. Clear.
+7. Create three files.
+8. Show files.
+
+```bash
+cd E:
+ls -la
+clear
+touch file1.txt file2.txt
+ls -la
+clear
+touch file3.txt file4.txt file5.txt
 ls -la
 ```
 
@@ -494,9 +518,9 @@ Hidden files start with a `.` in Unix-like systems. In Windows, files and folder
 Git stores blobs, trees, commits and annotated text in the Git repository.
 
 ### Three Main Areas in a Project
-- Working Directory - contains untracked, modified and unmodified files
-- Staging Area - contains staged and unmodified files
-- Git Repository - contains unmodified files
+- Working Directory - Contains untracked, modified and unmodified files.
+- Staging Area - Contains staged and unmodified files.
+- Git Repository - Contains unmodified files.
 
 #### Working Directory
 Untracked files are in working directory.
@@ -531,6 +555,18 @@ git config --list
 ```
 Display the current Git configuration.
 
+#### Display Global / Local Username
+```bash
+git config user.name
+```
+Show the global username when not inside a Git repository. It will show the local username when inside a Git repository.
+
+#### Display Global / Local User Email
+```bash
+git config user.email
+```
+Show the global user email when not inside a Git repository. It will show the local user email when inside a Git repository.
+
 #### Change Global Username
 ```bash
 git config --global user.name "<name>"
@@ -547,28 +583,25 @@ Changes the email displayed in commits.
 ```bash
 git config user.name "<name>"
 ```
-Override global username per project.
+Override local username per project. Should be done inside a Git repository.
 
 #### Change Local Email
 ```bash
 git config user.email "<email>"
 ```
-Override global email per project.
+Override local email per project. Should be done inside a Git repository.
 
 #### Change Default Branch Name
 ```bash
 git config --global init.defaultBranch <branch>
 ```
-Change branch into main to change the default name of branch in initialization to main (used when default name of branch isn't main).
+Change branch into main to change the default name of branch in initialization to main (used when default name of branch isn't main). The branch name will change when using `git init` command. The changes in settings can be seen with `git config --list`.
 
 #### Initialization
 ```bash
 git init
 ```
 Initialize current directory as Git repository. It will create a hidden `.git` folder that can only be managed by Git. This is about local repositories. Not related to remotes (remote repository).
-
-#### Local Repository
-A copy of remote repository that a team member or collaborator can work on in their own computer.
 
 ##### Activity - Initialize a Git Repository
 1. Check the current location in the terminal.
@@ -589,6 +622,9 @@ ls -la
 cd git-basics
 git init
 ```
+
+#### Local Repository
+A copy of remote repository that a team member or collaborator can work on in their own computer.
 
 ### Inspect
 
@@ -612,7 +648,7 @@ Strings can also be added as in `git log --pretty=format:"Author of commit: %cn 
 `git log --merges` - The option --oneline can be used as in `git log --merges --oneline`. Only show merge commits. There is a reason why there can be few merge commits in a repository and why in some cases people do not merge branches in traditional and they use rebasing with squashing instead. `git log --no-merges` can be used to see non merge commits (commits made by humans or merges using other techniques). Option --oneline can also be used as in `git log --no-merges --oneline`.
 
 #### Filter
-`git log --author="<name>"` - The filter is actually regular expression and you can enter a part of the author name and it will find results the same as before. Show commits made by an author. The --oneline can be added as in `git log --author"AchillesJ" --oneline`. Find specific string with `git log --grep="<query>"` as in `git log --grep="3.12.1"` to find commits with the string. The --oneline can also be added.
+`git log --author="<name>"` - The filter is actually regular expression and you can enter a part of the author name and it will find results the same as before. Show commits made by an author. The `--oneline` can be added as in `git log --author"AchillesJ" --oneline`. Find specific string with `git log --grep="<query>"` as in `git log --grep="3.12.1"` to find commits with the string. The `--oneline` can also be added.
 
 #### Compare
 ```bash
@@ -632,21 +668,20 @@ git shortlog
 ```
 Display a summary of all commits.
 
-`git shortlog` - Show summary of all commits. You can see which authors made more commits and you can sort the output in descending order starting from authors that made more commits. By default, this will be sorted by author name. You will see commits made by author. Use -n to sort by number of commits as in `git shortlog -n`. Suppress showing of commits with -s (show summary) to only show author and number of commits as in `git shortlog -n -s` while -e is to show email as in `git shortlog -n -s -e`.
+`git shortlog` - Show summary of all commits. You can see which authors made more commits and you can sort the output in descending order starting from authors that made more commits. By default, this will be sorted by author name. You will see commits made by author. Use -n to sort by number of commits as in `git shortlog -n`. Suppress showing of commits with -s (show summary) to only show author and number of commits as in `git shortlog -n -s` while -e is to show email as in `git shortlog -n -s -e`. `git shortlog -nse` also works similarly.
 
 #### Alias
-`git lg` - Show history of commits with author and when were commits made but not much detail (no date).
-If `git lg` is not available, create an alias for it.
 ```bash
-git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit"
+git lg
 ```
+Show history of commits with author and when were commits made but not much detail (no date).
+If `git lg` is not available, create an alias for it with `git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit"`.
 
 #### Show References
 ```bash
 git show-ref
 ```
 Check remote refs and local refs.
-Show summary of all commits sorted by author name. Use `-n` to sort by number of commits (`git shortlog -n`). Suppress showing of commits with `-s` (`git shortlog -s`). The `-e` option is to show email (`git shortlog -e`). Options can be combined (`git shortlog -n -s -e`).
 
 #### Compare References for a specific Branch
 `git show-ref <branch>` - When branch is master, you will only see references for master branch in local master master and remote master branch. Branch can be other branch. The references can be different or exactly the same. When a commit is made but not yet pushed, references will be different. When pushed, the references will become the same and it means local and remote branch are in sync.
@@ -656,7 +691,7 @@ Show summary of all commits sorted by author name. Use `-n` to sort by number of
 ```bash
 git add <filename>
 ```
-Add a file from working directory to staging area.
+Add a file from working directory to staging area. Staging multiple files can be done by separating two files or more with a space as in `git add file1.txt file2.txt`.
 
 #### Stage All Files
 ```bash
@@ -668,7 +703,7 @@ Add all files to staging area. When the project folder is new, there are only a 
 ```bash
 git add -u
 ```
-Stages only the files that were previously tracked. Might be better than `git add .`.
+Stages only the files that were previously tracked. Might be better than `git add .` since at first the project is small and we can add all files to staging area but as the project grows, there will be cases where we don't want to add all files to staging if we end up with a lot of new untracked files in our project folder.
 
 #### Unstage a File
 ```bash
