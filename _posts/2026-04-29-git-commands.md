@@ -7,6 +7,9 @@ title: Git Commands
 
 ## Introduction
 
+## `git push` - Push to Remote
+## git push - Push to Remote
+
 ### Git Website
 More information in [Git Website](https://git-scm.com/docs).
 
@@ -549,11 +552,29 @@ git --version
 ```
 Get the version of Git. Also helps in checking if Git is installed (`git -v` and `git version` works similarly).
 
+##### Activity - Display the Version of Git
+1. Check current directory.
+2. See the Git version.
+
+```bash
+pwd
+git --version
+```
+
 #### Display Configuration
 ```bash
 git config --list
 ```
 Display the current Git configuration.
+
+##### Activity - Display the Current Git Configuration
+1. Check current directory.
+2. See current Git configuration.
+
+```bash
+pwd
+git config --list
+```
 
 #### Display Global / Local Username
 ```bash
@@ -561,11 +582,53 @@ git config user.name
 ```
 Show the global username when not inside a Git repository. It will show the local username when inside a Git repository.
 
+##### Activity - Display the Local and Global Git Username
+1. Check current directory.
+2. Go to another drive.
+3. Create a folder.
+4. Go to the created folder.
+5. Initialize it.
+6. See the local username in Git repository.
+7. Go back one level.
+8. See the global username in Git when not in a Git repository.
+
+```bash
+pwd
+cd E:
+mkdir git-setup
+cd git-setup
+git init
+git config user.name
+cd ..
+git config user.name
+```
+
 #### Display Global / Local User Email
 ```bash
 git config user.email
 ```
 Show the global user email when not inside a Git repository. It will show the local user email when inside a Git repository.
+
+##### Activity - Display the Local and Global Git User Email
+1. Check current directory.
+2. Go to another drive.
+3. Create a folder.
+4. Go to the created folder.
+5. Initialize it.
+6. See the local user email in Git repository.
+7. Go back one level.
+8. See the global user email in Git when not in a Git repository.
+
+```bash
+pwd
+cd E:
+mkdir git-setup
+cd git-setup
+git init
+git config user.email
+cd ..
+git config user.email
+```
 
 #### Change Global Username
 ```bash
@@ -573,29 +636,112 @@ git config --global user.name "<name>"
 ```
 Changes the name that will be displayed in the commits.
 
+##### Activity - Change Global Username
+1. Check current directory.
+2. Change global username.
+3. See changes.
+
+```bash
+pwd
+git config --global user.name "millenniumdisk"
+git config --list
+```
+
 #### Change Global Email
 ```bash
 git config --global user.email "<email>"
 ```
 Changes the email displayed in commits.
 
+##### Activity - Change Global User Email
+1. Check current directory.
+2. Change global user email.
+3. See changes.
+
+```bash
+pwd
+git config --global user.email "millenniumdiskette@gmail.com"
+git config --list
+```
+
 #### Change Local Username
 ```bash
 git config user.name "<name>"
 ```
-Override local username per project. Should be done inside a Git repository.
+Set local username per project. Should be done inside a Git repository. Overrides global username.
+
+##### Activity - Change Local Username
+1. Check current directory.
+2. Go to another drive.
+3. Create a folder.
+4. Go to the created folder.
+5. Initialize it.
+6. Change local user name.
+7. Create a file.
+8. Stage it.
+9. Commit.
+10. See details of commit history.
+
+```bash
+pwd
+cd E:
+mkdir learn-git
+cd learn-git
+git init
+git config user.name "Baker Doug"
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git log
+```
 
 #### Change Local Email
 ```bash
 git config user.email "<email>"
 ```
-Override local email per project. Should be done inside a Git repository.
+Set local email per project. Should be done inside a Git repository. Overrides global email.
+
+##### Activity - Change Local User Email
+1. Check current directory.
+2. Go to another drive.
+3. Create a folder.
+4. Go to the created folder.
+5. Initialize it.
+6. Change local user email.
+7. Create a file.
+8. Stage it.
+9. Commit.
+10. See details of commit history.
+
+```bash
+pwd
+cd E:
+mkdir learn-git
+cd learn-git
+git init
+git config user.email "bakerdoug@gmail.com"
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git log
+```
 
 #### Change Default Branch Name
 ```bash
 git config --global init.defaultBranch <branch>
 ```
 Change branch into main to change the default name of branch in initialization to main (used when default name of branch isn't main). The branch name will change when using `git init` command. The changes in settings can be seen with `git config --list`.
+
+##### Activity - Change Default Branch Name
+1. Check current directory.
+2. Change default branch name.
+3. See current configuration.
+
+```bash
+pwd
+git config --global init.defaultBranch superbranch
+git config --list
+```
 
 #### Initialization
 ```bash
@@ -634,21 +780,136 @@ git status
 ```
 Display status of Git repository (but doesn't show files in staging). Can be used with verbose option (`git status -v`). Depending on the terminal, yellow cross signs means uncommitted changes and those changes to be committed are located in staging area. Yellow cross signs will disappear and it means there are no changes to be committed.
 
+##### Activity - See Status of Git Repository
+1. Check current directory.
+2. Change drive.
+3. Create a new folder.
+4. Go to the new folder.
+5. Initialize it.
+6. See Git status.
+
+```bash
+pwd
+cd E:
+mkdir git-inspect
+cd git-inspect
+git init
+git status
+```
+
+##### Activity - See Different States of Git Repository
+1. Check current directory.
+2. Change drive.
+3. Create a new folder.
+4. Initialize it.
+5. Check status.
+6. Create a file.
+7. Check status.
+8. Stage the file.
+9. Check status.
+10. Commit changes.
+11. Check status.
+
+```bash
+pwd
+cd E:
+mkdir git-inspect
+cd git-inspect
+git init
+git status
+touch file1.txt
+git status
+git add .
+git status
+git commit -m "initial commit"
+git status
+```
+
 #### Display Commit History
 ```bash
 git log
 ```
 Display all commits in the current branch. Ctrl + z to exit. Show history of changes (commits). See all commits that were created in history. Press Q to exit. Use `git log --oneline` to see one line in the output. Use --stat to see additional information as in `git log --stat`. The -p option shows changes in every file or every commit as in `git log -p` but it is not convenient to see changes in terminal (use gui programs like vscode or sourcetree instead). Using `git log -<number>` will only show a specific number of commits as in `git log -4` and --oneline can be added to it as in `git log -4 --oneline`. `git log --graph` will show commits history with branch connections. We can see how many parents and can be combined with --oneline as in `git log --graph --oneline`.
 
+##### Activity - See Different States of Git Repository
+1. Check current directory.
+2. Go to drive.
+3. Create a new folder.
+4. Go to the new folder.
+5. Initialize it.
+6. Create a new file.
+7. Stage it.
+8. Commit changes.
+9. See commit history.
+
+```bash
+pwd
+cd E:
+mkdir git-inspect
+cd git-inspect
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git log
+```
+
 #### Format Output of Git Log
 `git log --pretty=format:"%H"` - Shows log of commits but formatted. %H is variable for complete hash of commits. Add cn to see committer names as in `git log --pretty=format:"%cn %H"`. More pretty formatting variables in https://devhints.io/git-log-format. Short hash is h as in `git log --pretty=format:"%cn %h"`.
 Strings can also be added as in `git log --pretty=format:"Author of commit: %cn Commit SHA1 hash: %h"`. Date can be added with cd as in `git log --pretty=format:"Author of commit: %cn; Commit SHA1 hash: %h; Date: %cd"`
 
+##### Activity - Format Output of Git Log
+```bash
+pwd
+cd E;
+mkdir git-inspect
+cd git-inspect
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git log --pretty=format:"%H"
+git log --pretty=format:"%cn %H"
+git log --pretty=format:"%cn %h"
+git log --pretty=format:"Author of commit: %cn Commit hash: %h"
+git log --pretty=format:"Author of commit: %cn; Commit hash: %h; Date: %cd"
+```
+
 #### Show Merge Commits and Non Merge Commits
 `git log --merges` - The option --oneline can be used as in `git log --merges --oneline`. Only show merge commits. There is a reason why there can be few merge commits in a repository and why in some cases people do not merge branches in traditional and they use rebasing with squashing instead. `git log --no-merges` can be used to see non merge commits (commits made by humans or merges using other techniques). Option --oneline can also be used as in `git log --no-merges --oneline`.
 
+##### Activity - Format Output of Git Log
+Output will only be a bunch of small letters and numbers. These are the hashes of commits.
+```bash
+pwd
+cd E;
+mkdir git-inspect
+cd git-inspect
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git log --merges
+git log --merges --oneline
+git log --no-merges
+git log --no-merges --oneline
+```
+
 #### Filter
 `git log --author="<name>"` - The filter is actually regular expression and you can enter a part of the author name and it will find results the same as before. Show commits made by an author. The `--oneline` can be added as in `git log --author"AchillesJ" --oneline`. Find specific string with `git log --grep="<query>"` as in `git log --grep="3.12.1"` to find commits with the string. The `--oneline` can also be added.
+
+##### Activity - Filter
+```bash
+pwd
+cd E:
+mkdir git-inspect
+cd git-inspect
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git log --author="millenniumdisk"
+```
 
 #### Compare
 ```bash
@@ -656,11 +917,38 @@ git diff
 ```
 When changes are made and they are saved but not yet staged then committed, you can use this command to see the modifications made. With `git diff`, if a file is modififed and that file is saved, `git status` will show one file is modififed. Without staging and committing, use `git diff`. A will mean the previous file and B represents modified file. Click in VS Code to see those two side by side. You will also see hashes of the two when `git diff` is used. Modififed version got a hash even if it isn't staged yet. If a number like -3, 6 +3, 8 shows, it means old file with - is displayed with line 3 as the one we see and there are 6 lines total. The modified file is + and the displayed code start at line 3 and there are a total of 8 lines. Only a portion of the whole code is shown. We also see a text that is part of the code beside the numbers. We can copy those text and find it to see portion of the code that was changed. Scroll down in command line with down arrow key. You can stage and commit after using `git diff`.
 
+##### Activity - Compare
+```bash
+pwd
+cd E:
+mkdir git-inspect
+cd git-inspect
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git diff
+```
+
 #### Show Changes in Commit
 ```bash
 git show <hash>
 ```
 See the changes made in the specified commit.
+
+##### Activity - Show Changes in Commit
+Use the hash that will appear in `git log`. There is no need to write the complete hash. Just write the first few characters of the hash.
+```bash
+pwd
+cd E:
+mkdir git-inspect
+cd git-inspect
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git show cba3b01
+```
 
 #### Show Summary of All Commits
 ```bash
@@ -669,6 +957,20 @@ git shortlog
 Display a summary of all commits.
 
 `git shortlog` - Show summary of all commits. You can see which authors made more commits and you can sort the output in descending order starting from authors that made more commits. By default, this will be sorted by author name. You will see commits made by author. Use -n to sort by number of commits as in `git shortlog -n`. Suppress showing of commits with -s (show summary) to only show author and number of commits as in `git shortlog -n -s` while -e is to show email as in `git shortlog -n -s -e`. `git shortlog -nse` also works similarly.
+
+##### Activity - Show Summary of All Commits
+Use the hash that will appear in `git log`. There is no need to write the complete hash. Just write the first few characters of the hash.
+```bash
+pwd
+cd E:
+mkdir git-inspect
+cd git-inspect
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git shortlog
+```
 
 #### Alias
 ```bash
@@ -681,7 +983,7 @@ If `git lg` is not available, create an alias for it with `git config --global a
 ```bash
 git show-ref
 ```
-Check remote refs and local refs.
+Check remote refs and local refs. Add a remote first before using `git show-ref`.
 
 #### Compare References for a specific Branch
 `git show-ref <branch>` - When branch is master, you will only see references for master branch in local master master and remote master branch. Branch can be other branch. The references can be different or exactly the same. When a commit is made but not yet pushed, references will be different. When pushed, the references will become the same and it means local and remote branch are in sync.
@@ -693,11 +995,31 @@ git add <filename>
 ```
 Add a file from working directory to staging area. Staging multiple files can be done by separating two files or more with a space as in `git add file1.txt file2.txt`.
 
+##### Activity - Stage a File
+```bash
+cd E:
+mkdir git-staging
+cd git-staging
+git init
+touch file1.txt
+git add file1.txt
+```
+
 #### Stage All Files
 ```bash
 git add .
 ```
 Add all files to staging area. When the project folder is new, there are only a few files so using this is ok but later on, you don't want to add all files and then realize only few files need to be added to staging.
+
+##### Activity - Stage All Files
+```bash
+cd E:
+mkdir git-staging
+cd git-staging
+git init
+touch file1.txt file2.txt
+git add .
+```
 
 #### Stage Previously Tracked Files
 ```bash
@@ -705,17 +1027,54 @@ git add -u
 ```
 Stages only the files that were previously tracked. Might be better than `git add .` since at first the project is small and we can add all files to staging area but as the project grows, there will be cases where we don't want to add all files to staging if we end up with a lot of new untracked files in our project folder.
 
+##### Activity - Stage Previously Tracked Files
+Use `nano` to edit the file and add content to it. Press ctrl + x to exit and then when asked to save it, type `y` and then press enter.
+```bash
+cd E:
+mkdir git-staging
+cd git-staging
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+nano file1.txt
+git add -u
+git commit -m "edited a file"
+```
+
 #### Unstage a File
 ```bash
 git rm --cached <filename>
 ```
 Remove a file from the staging area if changes haven't been committed yet. Changes file to untracked or modified state from staged. Doesn't remove file from working directory.
 
+##### Activity - Unstage a File
+```bash
+cd E:
+mkdir git-staging
+cd git-staging
+git init
+touch file1.txt
+git add .
+git rm --cached file1.txt
+```
+
 #### Unstage All Files
 ```bash
 git reset .
 ```
 Unstages all files but working directory won't be changed.
+
+##### Activity - Unstage All Files
+```bash
+cd E:
+mkdir git-staging
+cd git-staging
+git init
+touch file1.txt file2.txt
+git add .
+git reset .
+```
 
 ### Blob
 Git stores any files with any extensions: either video files, pictures, text files. They are stored as blobs. A blob represents a single file in a Git file system.
@@ -743,6 +1102,17 @@ String of numbers and letters. It is like an ID. Generated based on input. We st
 git commit
 ```
 Create a commit in the current branch. An editor will open to enter commit description. 
+
+##### Activity - Stage All Files
+```bash
+cd E:
+mkdir git-staging
+cd git-staging
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+```
 
 #### Commit and Write Description in Terminal
 ```bash
@@ -889,11 +1259,21 @@ After testing of changes in local repository, push them to remote repository tha
 #### List Remote Repositories
 `git remote` - Show the remote servers that were already set up. Show the remote servers for your local repositories. Using `git remote -v` will show two URLS for fetch and push commands. A local repository that is not connected to a remote repository will have an empty output when using `git remote`. It doesn't matter what the branch is for `git remote`. Use `git remote show origin` to show local stale branches and entire information about the connection between local repository and remote repository. See additional information and not just the URLS used for fetch and push (origin can be changed to other remote server name). Head branch is default remote branch in remote repository. You will see list of remote branches and if they are tracked (with tracking branches for push and pull). If we see up-to-date, it means branches are in sync.
 
+#### Fetch Changes From Remote Repository
+```bash
+git fetch
+```
+Get changes and metadata about remote branches references from remote repository but won't merge those changes. If a remote branch is deleted then this command is used, the references of remote branches in the local repository won't be updated. The `-v` or verbose option can be used (`git fetch -v`) to see more details.
 
-#### Stale Branch
-When a tracking branch loses its corresponding upstream remote branch.
+`git fetch` - Can be used as `git fetch -v` (verbose option) to see detailed operation and helps in seeing how many branches are in remote. It will not create local tracking branch. Can be used in any branch. When a new remote branch is created in remote repository, the new change can't be seen with `git branch -r` or `git branch -a` so `git fetch` should be used first to get remote changes and put them in local repository and it is not destructive since it won't change working directory and staging area and it will not merge any remote changes to your local changes. Get changes from remote git repository and updates the local git repository. Local working directory and staging area are not touched. If a branch is created in remote git repository, that branch can be seen in local git repository after using `git fetch`.
 
-A tracking branch in local repository will become stale if the remote branch is deleted in remote repository. Use `git remote prune origin` to remove the stale branch configured for `git pull`. The local branch will still exist and is still tracking the removed remote branch. You can create the removed remote branch by using `git push` after making changes to the local branch. Local branch can also be deleted if you won't push changes and create removed remote branch.
+#### Pull Changes From Remote Repository
+```bash
+git pull
+```
+Fetches changes from remote repository and merges those changes behind the scenes. The `-v` or verbose option can also be added to observe fetch and merge operations (`git pull -v`).
+
+`git pull` - The option -v can be used as in `git pull -v` for detailed pull. We need a local tracking branch to use `git pull`. Operation is performed partially, only locally in your git repository and it is a two step process of fetching remote changes and then merging them into local changes. A destructive operation that also updates the working directory and staging area because the changes from remote git repository is merged to the local git repository. Is the command to use to make your local branch up-to-date when somebody made changes to remote branch either directly or by merging other changes into it. This command fetches changes from the remote repository and merges them into your local repository for that branch.
 
 #### Tracking Branch
 A local branch becomes a tracking branch when it is paired with its corresponding remote branch.
@@ -904,6 +1284,27 @@ Tracking branch is local branch that is connected to a specific remote branch in
 
 #### Even With Master
 It means the branch is up-to-date or in sync with master branch.
+
+#### Stale Branch
+When a tracking branch loses its corresponding upstream remote branch.
+
+A tracking branch in local repository will become stale if the remote branch is deleted in remote repository. Use `git remote prune origin` to remove the stale branch configured for `git pull`. The local branch will still exist and is still tracking the removed remote branch. You can create the removed remote branch by using `git push` after making changes to the local branch. Local branch can also be deleted if you won't push changes and create removed remote branch.
+
+#### Delete Remote Branch
+`git push origin -d temp` - Delete remote branch. We can create a local branch and then create and track remote branch by using `git push -u origin temp` then use `git push origin -d temp` to delete remote branch. Check with `git branch -a`. Delete local branch with `git branch -D <branch`>
+
+#### Update Tracking Statuses
+`git remote update origin --prune` - Removes a remote branch from being tracked by a local branch if remote branch is deleted. Use the command so that git will know there is no remote branch. When a remote branch is created and then a branch for it is created locally with `git checkout <branch>` where branch is the new remote branch and remote branch will be deleted and then fetch and use `git branch -vv` to see local branch is still tracking the deleted remote branch so use `git remote update origin --prune` to update status of tracking branch and tracking status will change for local branch. The local branch can be deleted with `git branch -D <branch>` or force deletion because there will be an error with `git branch -d <branch>` because local branch is not merged.
+
+#### Update All Branches Set to Track Remotes
+`git remote update`
+Only updates all branches set to track remotes. No changes will be merged. `git remote update origin` is another command.
+
+#### Remove Stale Branch
+```bash
+git fetch --prune
+```
+Cleans local repository by removing references of remote branches that were deleted. `git remote prune origin` will remove stale branch.
 
 #### Merge Conflict
 An error that appears when there are files that are in conflict with one another when trying to merge branches. The conflicts should be resolved first to proceed with merging.
@@ -924,30 +1325,6 @@ An error that appears when there are files that are in conflict with one another
 - Merge pull request to main branch will happen next.
 - A new commit will appear.
 
-
-
-#### Fetch Changes From Remote Repository
-```bash
-git fetch
-```
-Get changes and metadata about remote branches references from remote repository but won't merge those changes. If a remote branch is deleted then this command is used, the references of remote branches in the local repository won't be updated. The `-v` or verbose option can be used (`git fetch -v`) to see more details.
-
-`git fetch` - Can be used as `git fetch -v` (verbose option) to see detailed operation and helps in seeing how many branches are in remote. It will not create local tracking branch. Can be used in any branch. When a new remote branch is created in remote repository, the new change can't be seen with `git branch -r` or `git branch -a` so `git fetch` should be used first to get remote changes and put them in local repository and it is not destructive since it won't change working directory and staging area and it will not merge any remote changes to your local changes. Get changes from remote git repository and updates the local git repository. Local working directory and staging area are not touched. If a branch is created in remote git repository, that branch can be seen in local git repository after using `git fetch`.
-
-#### Pull Changes From Remote Repository
-```bash
-git pull
-```
-Fetches changes from remote repository and merges those changes behind the scenes. The `-v` or verbose option can also be added to observe fetch and merge operations (`git pull -v`).
-
-`git pull` - The option -v can be used as in `git pull -v` for detailed pull. We need a local tracking branch to use `git pull`. Operation is performed partially, only locally in your git repository and it is a two step process of fetching remote changes and then merging them into local changes. A destructive operation that also updates the working directory and staging area because the changes from remote git repository is merged to the local git repository. Is the command to use to make your local branch up-to-date when somebody made changes to remote branch either directly or by merging other changes into it. This command fetches changes from the remote repository and merges them into your local repository for that branch.
-
-#### Remove Stale Branch
-```bash
-git fetch --prune
-```
-Cleans local repository by removing references of remote branches that were deleted. `git remote prune origin` will remove stale branch.
-
 #### Clone a Remote Repository
 ```bash
 git clone <url>
@@ -955,16 +1332,6 @@ git clone <url>
 Create a local repository based on the remote repository by using its URL. The branch created in local repository will be automatically be a tracking branch that is connected to the remote branch. A default branch defined in the remote repository will be the branch created in local repository.
 
 Only default remote branch is created as local branch (not all remote branches in remote repository is created in local branch with this). Git automatically creates binding between remote repository and local repository default remote repository is created for local repository and the name of the default remote repository is origin. Local repository can be connected to multiple remote repositories and every remote repositories will have different names and when you use push, pull or fetch, you choose which remote repository you want to interact with. To clone a repository, use `git clone <url>` to download a project with its Git repository where the url is from a git hosting service like GitHub. When you clone a repository, Git automatically names the remote repository as origin (origin is url of remote repository).
-
-#### Update Tracking Statuses
-`git remote update origin --prune` - Removes a remote branch from being tracked by a local branch if remote branch is deleted. Use the command so that git will know there is no remote branch. When a remote branch is created and then a branch for it is created locally with `git checkout <branch>` where branch is the new remote branch and remote branch will be deleted and then fetch and use `git branch -vv` to see local branch is still tracking the deleted remote branch so use `git remote update origin --prune` to update status of tracking branch and tracking status will change for local branch. The local branch can be deleted with `git branch -D <branch>` or force deletion because there will be an error with `git branch -d <branch>` because local branch is not merged.
-
-#### Update All Branches Set to Track Remotes
-`git remote update`
-Only updates all branches set to track remotes. No changes will be merged. `git remote update origin` is another command.
-
-#### Delete Remote Branch
-`git push origin -d temp` - Delete remote branch. We can create a local branch and then create and track remote branch by using `git push -u origin temp` then use `git push origin -d temp` to delete remote branch. Check with `git branch -a`. Delete local branch with `git branch -D <branch`>
 
 ### Mktree
 `git mktree` - Low level git command. Create new tree object.
