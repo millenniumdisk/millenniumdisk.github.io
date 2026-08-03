@@ -718,7 +718,7 @@ git reset .
 Unstages all files but working directory won't be changed.
 
 ### Blob
-Git stores any files with any extensions, either video files, pictures, text files - are stored as blobs. A blob represents a single file in a Git file system.
+Git stores any files with any extensions: either video files, pictures, text files. They are stored as blobs. A blob represents a single file in a Git file system.
 
 ### Tree
 With the help of tree object type, Git actually stores information about directories. In other file systems, directories may contain files or be empty or be mixed with files and directories. Tree in Git may be a set of blobs or set of blobs and other trees. Tree is representation of folder in Git. Tree represents a directory.
@@ -726,8 +726,9 @@ With the help of tree object type, Git actually stores information about directo
 ### Commits
 With a commit object type, we are able to actually store different versions of our project. A commit is like saving the state of a project in a specific moment of time. But saving (or just creating a commit) is not enough to make sure the we won't have to worry about the project. Pushing the commit or commits to remote (remote repository) will later on allow us to get all versions of our project even if our local Git repository or project folder is gone from our computer. Pushing to remote also allows collaboration with other people.
 
-#### Hash Functions
+#### Hash Function
 There is an online tool for generating hash. Git utilizes SHA1 function and uses hexadecimal format.
+Hash Functions:
 - MD5 (128 bit)
 - SHA1 (160 bit)
 - SHA256 (256 bit)
@@ -735,7 +736,7 @@ There is an online tool for generating hash. Git utilizes SHA1 function and uses
 - SHA512 (512 bit)
 
 #### Hash
-String of numbers and letters. It is like an ID. Generated based on input. We store files in Git based on their hash. Hash function is a function that takes any variable length input and creates a fixed length hash independent of the input. The length of hash is fixed. Hash can be created with a very small file or big sized file. Hash depends on the content. If you know the hash but don't know the input, you can't create the input based on hash. Hash functions are one-way functions. We are not able to find out input based on specific hash. Passwords are stored as hash. A server creates hash of the password and compares it to hash stored in database on log in. Same input will produce the same hash.
+String of numbers and letters. It is like an ID. Generated based on input. We store files in Git based on their hash. Hash function is a function that takes any variable length input and creates a fixed length hash. Hash can be created with a very small file or big sized file. Hash depends on the content. If you know the hash but don't know the input, you can't create the input based on hash. Hash functions are one-way functions. We are not able to find out input based on specific hash. Passwords are stored as hash. A server creates hash of the password and compares it to hash stored in database on log in. Same input will produce the same hash.
 
 #### Create a Commit
 ```bash
@@ -861,11 +862,22 @@ git branch --force <branch> [<new-tip-commit>]
 ### Remotes (Remote Repository)
 Remote is the remote server where the remote repository is. Usually named origin. We need to be connected to the internet.
 
-`git remote add <server> <url>` - Set up a remote server. Server is the name of the remote server and url is the url of the remote server.
-`git remote add origin <url>` - Set the url of origin. Set up the remote origin server in order to Bind local repository to remote repository. To link local repository to remote origin. You can have multiple remote repositories. Just change the name like in `git remote add <name> <url>`.
+#### Add a Remote
+```bash
+git remote add <remote> <url>
+```
+Add a remote by putting its name and URL like in `git remote add origin https://github.com/millenniumdisk/learn-programming.git`(create a reposiroty first in a repository hosting service like GitHub). More than one remote can be added by changing the name of the other remote from origin to something else.
 
 #### Origin
-An alias for remote repository URL. When using `git pull`, you will pull from origin which is default remote repository. Origin can be thought of as default name of remote repository. 
+An alias for remote repository URL. When using `git pull`, you will pull from origin which is the default remote repository. Origin can be thought of as a default name of remote repository. 
+
+#### Make Git Remember Upstream Branch
+```bash
+git push -u <remote> <branch>
+```
+Make Git remember an upstream branch (`git push -u origin temp`) in remote repository and remote is the remote server which turns the local branch into a tracking branch. This is a shorter version of `git push --set-upstream <remote> <branch>`.
+
+`git push` - The -u in `git push -u origin <branch>` makes git to remember the upstream branch. In `git push -u <server> <branch>` or `git push -u origin <branch>`, branch can be master branch and remote branch will be created in remote server. Set upstream branch for local branch with `git push -u origin <branch>` where git will get branch from origin remote server and origin can be changed to other remote server. `git push -u origin <branch>` is used to track remote branch after set up of remote server. When local branch has a corresponding remote branch the local branch becomes a tracking branch, the command `git push` instead can be used when making a new commit and push changes to remote branch. To create a remote branch when a new local branch is created then local branch will track the new remote branch, use `git push --set-upstream origin <branch>` (branch is going to be the name of remote branch) where branch is the same name of local branch since it is what will be suggested in the terminal and origin is the name of server and origin is default name and instead of the longer command, `git push -u origin <branch>` can be used and -v option can also be added as `git push -v -u origin <branch>`. If we push a local branch with `git push -v` and there is no corresponding remote branch that is tracked by the local branch, there will be a prompt that says there's no upstream branch. After testing and you are happy with the changes, you can push the changes from your local git repository to the remote git repository. Put your changes to remote repository. Publish local branch with `git push --set-upstream origin <branch>` where upstream branch is a remote branch that your local branch tracks. When you set an upstream branch, you link your local branch to a branch on the remote repository. You push a local branch to the origin remote repository. The command `git push -u origin <branch>` can be used instead. The `-u` says the branch is an upstream branch and origin is the name of the remote repository. Both `--set-upstream` and `-u` establish a tracking relationship between your local branch and the remote branch so in the future, pushing from local branch to remote branch only needs `git push`. git push -u origin main` To put the changes in main branch to remote repository. Another version can be used with -v option as `git push -v` and there will be a prompt asking for GitHub account username and password then remote branch will point to the commit in local branch and git updates local tracking reference for refs/remotes/origin/branch where branch is the remote branch name and local branch and remote branch will point to the same commit. Changes in local repository will be incorporated into remote repository.
 
 #### Stale Branch
 When a tracking branch loses its corresponding upstream remote branch.
@@ -903,20 +915,6 @@ An error that appears when there are files that are in conflict with one another
 
 #### List Remote Repositories
 `git remote` - Show the remote servers that were already set up. Show the remote servers for your local repositories. Using `git remote -v` will show two URLS for fetch and push commands. A local repository that is not connected to a remote repository will have an empty output when using `git remote`. It doesn't matter what the branch is for `git remote`. Use `git remote show origin` to show local stale branches and entire information about the connection between local repository and remote repository. See additional information and not just the URLS used for fetch and push (origin can be changed to other remote server name). Head branch is default remote branch in remote repository. You will see list of remote branches and if they are tracked (with tracking branches for push and pull). If we see up-to-date, it means branches are in sync.
-
-#### Make Git Remember Upstream Branch
-```bash
-git push -u <remote> <branch>
-```
-Make Git remember an upstream branch (`git push -u origin temp`) in remote repository and remote is the remote server which turns the local branch into a tracking branch. This is a shorter version of `git push --set-upstream <remote> <branch>`.
-
-`git push` - The -u in `git push -u origin <branch>` makes git to remember the upstream branch. In `git push -u <server> <branch>` or `git push -u origin <branch>`, branch can be master branch and remote branch will be created in remote server. Set upstream branch for local branch with `git push -u origin <branch>` where git will get branch from origin remote server and origin can be changed to other remote server. `git push -u origin <branch>` is used to track remote branch after set up of remote server. When local branch has a corresponding remote branch the local branch becomes a tracking branch, the command `git push` instead can be used when making a new commit and push changes to remote branch. To create a remote branch when a new local branch is created then local branch will track the new remote branch, use `git push --set-upstream origin <branch>` (branch is going to be the name of remote branch) where branch is the same name of local branch since it is what will be suggested in the terminal and origin is the name of server and origin is default name and instead of the longer command, `git push -u origin <branch>` can be used and -v option can also be added as `git push -v -u origin <branch>`. If we push a local branch with `git push -v` and there is no corresponding remote branch that is tracked by the local branch, there will be a prompt that says there's no upstream branch. After testing and you are happy with the changes, you can push the changes from your local git repository to the remote git repository. Put your changes to remote repository. Publish local branch with `git push --set-upstream origin <branch>` where upstream branch is a remote branch that your local branch tracks. When you set an upstream branch, you link your local branch to a branch on the remote repository. You push a local branch to the origin remote repository. The command `git push -u origin <branch>` can be used instead. The `-u` says the branch is an upstream branch and origin is the name of the remote repository. Both `--set-upstream` and `-u` establish a tracking relationship between your local branch and the remote branch so in the future, pushing from local branch to remote branch only needs `git push`. git push -u origin main` To put the changes in main branch to remote repository. Another version can be used with -v option as `git push -v` and there will be a prompt asking for GitHub account username and password then remote branch will point to the commit in local branch and git updates local tracking reference for refs/remotes/origin/branch where branch is the remote branch name and local branch and remote branch will point to the same commit. Changes in local repository will be incorporated into remote repository.
-
-#### Add a Remote Server
-```bash
-git remote add <remote> <url>
-```
-Remote is the server name and URL is the URL of the remote repository (`git remote add origin <url>`). More than one remote server can be added.
 
 #### Push Changes to Remote Repository
 ```bash
