@@ -7,9 +7,6 @@ title: Git Commands
 
 ## Introduction
 
-## `git push` - Push to Remote
-## git push - Push to Remote
-
 ### Git Website
 More information in [Git Website](https://git-scm.com/docs).
 
@@ -370,7 +367,7 @@ ls -la
 ```bash
 nano <filename>
 ```
-Use a text editor to edit a file like in `nano new-file.txt`. `ctrl + o` to write changes and `ctrl + x` to exit in nano.
+Use a text editor to edit a file like in `nano new-file.txt`. `ctrl + o` to write changes and `ctrl + x` to exit in nano. Exiting right away also works and then the editor will ask if file should be saved. Enter `y` and then press enter.
 
 #### Activity - Edit a File with Nano
 Write `<!DOCTYPE html>` in the html file and then save it with `ctrl + o` then `ctrl + x` to exit nano. Open the file again and see its contents.
@@ -977,16 +974,58 @@ git shortlog
 git lg
 ```
 Show history of commits with author and when were commits made but not much detail (no date).
-If `git lg` is not available, create an alias for it with `git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit"`.
+If `git lg` is not available, create an alias for it with `git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit"`. The `git lg` command can be used which is similar to `git log`.
+
+##### Activity - Alias
+```bash
+git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit"
+cd E:
+mkdir git-alias
+cd git-alias
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git lg
+```
 
 #### Show References
 ```bash
 git show-ref
 ```
-Check remote refs and local refs. Add a remote first before using `git show-ref`.
+Check remote refs and local refs.
 
-#### Compare References for a specific Branch
+##### Activity - Show References
+Create a repository with the same name of `git-experiments` and then add the remote before using `git show-ref`.
+```bash
+cd E:
+mkdir git-experiments
+cd git-experiments
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git add remote origin https://github.com/millenniumdisk/git-experiments.git
+git push -u origin main
+git show-ref
+```
+
+#### Compare References for a Specific Branch
 `git show-ref <branch>` - When branch is master, you will only see references for master branch in local master master and remote master branch. Branch can be other branch. The references can be different or exactly the same. When a commit is made but not yet pushed, references will be different. When pushed, the references will become the same and it means local and remote branch are in sync.
+
+##### Activity - Compare References for a Specific Branch
+```bash
+cd E:
+mkdir git-experiments
+cd git-experiments
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git add remote origin https://github.com/millenniumdisk/git-experiments.git
+git push -u origin main
+git show-ref main
+```
 
 ### Staging
 #### Stage a File
@@ -1101,9 +1140,9 @@ String of numbers and letters. It is like an ID. Generated based on input. We st
 ```bash
 git commit
 ```
-Create a commit in the current branch. An editor will open to enter commit description. 
+Create a commit in the current branch. An editor will open to enter commit description. Save the file that is opened in the editor after putting a description of the commit.
 
-##### Activity - Stage All Files
+##### Activity - Create a Commit
 ```bash
 cd E:
 mkdir git-staging
@@ -1111,7 +1150,7 @@ cd git-staging
 git init
 touch file1.txt
 git add .
-git commit -m "initial commit"
+git commit
 ```
 
 #### Commit and Write Description in Terminal
@@ -1120,17 +1159,55 @@ git commit -m "initial commit"
 ```
 Use `git commit -m "<description>"` to enter description in terminal without opening an editor. 
 
+##### Activity - Commit and Write Description in Terminal
+```bash
+cd E:
+mkdir git-commits
+cd git-commits
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+```
+
 #### Stage and Open Editor to Create Description then Commit
 ```bash
 git commit -a
 ```
 The `-a` option (`git commit -a` can also be used after resolving a merge conflict where you will see commit message and if you are happy with it type :wq then press enter and then merge will be successful) can be used to add changes to staging area (previously tracked files) and commit them then an editor will open to enter commit description but this only applies to previously tracked files.
 
+##### Activity - Stage and Open Editor to Create Description then Commit
+Edit file with nano then stage the file then commit.
+```bash
+cd E:
+mkdir git-commits
+cd git-commits
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+nano file1.txt
+git commit -a
+```
+
 #### Stage Previously Tracked Files and Commit
 ```bash
 git commit -am "<description>"
 ```
 Stage and commit files (only for previously tracked files) with `git commit -a -m "<description>"` or `git commit -am "<description>"`.
+
+##### Activity - Stage Previously Tracked Files and Commit
+```bash
+cd E:
+mkdir git-commits
+cd git-commits
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+nano file1.txt
+git commit -am "edited a file"
+```
 
 ### Branch
 A branch contains its own commit history that are different from other branches. Allows team members to work on different features simultaneously (by making a branch for each feature). Branches can be merged to other branches. A branch is like a bookmark which is easy to remember instead of memorizing the hash of a commit so checking out a branch is fast and easy than checking out a commit that will have different hash whenever the branch is updated with a new commit that is why branch is useful since it will automatically bookmark the newest commit added to the branch.
@@ -1147,23 +1224,78 @@ git branch
 ```
 Shows a list of all branches in local repository. The branch with `*` is the current branch. This won't show branches created in remote repository. Use the `-r` option to show remote branches at remote Git repository only (`git branch -r`). The `-a` option (`git branch -a`) is used to show all branches in local and remote repository. If it is remote, there will be a remote name and then followed by name of the remote git server which can be origin and then followed by name of branch. Head pointer will point to remote's default branch which can be remote's master or main branch and that default branch is the one that is default branch created for local after cloning.The `-vv` option (`git branch -vv`) shows local branches and their remote branches (tracking branches). If there is origin/master, it means local branch is tracking branch and it tracks origin/master branch. We can see if a remote branch is gone with this command after using git `remote update origin --prune`.
 
+##### Activity - Show Local Branches
+```bash
+cd E:
+mkdir git-branches
+cd git-branches
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git branch
+```
+
 #### Create a Branch
 ```bash
 git branch <branch>
 ```
 Create a new branch by copying all commits in the current branch. The name shouldn't conflict with currently existing branches. Use `git branch <branch> <source>` to create a branch with a specified source branch without checking it out. Use `git branch -f <hash>` to move a branch forcefully to a commit or use relative refs instead of hash. `git branch -f` is not allowed for current branch in a real Git environment.
 
-#### Delete Branch
+##### Activity - Create a Branch
+```bash
+cd E:
+mkdir git-branches
+cd git-branches
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git branch br1
+```
+
+#### Delete a Branch
 ```bash
 git branch -d <branch>
 ```
 Delete merged branch. This doesn't work on a branch that wasn't merged.
 
-#### Force Delete Branch
+##### Activity - Delete a Branch
+```bash
+cd E:
+mkdir git-branches
+cd git-branches
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git branch br1
+git branch -d br1
+```
+
+#### Forced Branch Deletion
 ```bash
 git branch -D <branch>
 ```
 Forcefully delete a branch that was not merged.
+
+##### Activity - Forced Branch Deletion
+```bash
+cd E:
+mkdir git-branches
+cd git-branches
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git branch br1
+git checkout br1
+touch file2.txt
+git add .
+git commit -m "added file2.txt"
+git checkout main
+git branch -D br1
+```
 
 #### Change Branch Name
 ```bash
@@ -1171,11 +1303,35 @@ git branch -M <branch>
 ```
 Change name of branch to the specified name.
 
+##### Activity - Change Branch Name
+```bash
+cd E:
+mkdir git-branches
+cd git-branches
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git branch -M superbranch
+```
+
 #### Change a Specific Branch Name
 ```bash
 git branch -m <branch> <branch>
 ```
 First argument is the chosen branch that will be renamed and the second argument is the new name it will have.
+
+##### Activity - Change a Specific Branch Name
+```bash
+cd E:
+mkdir git-branches
+cd git-branches
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git branch -m main superbranch
+```
 
 #### Go to a Commit or Branch
 ```bash
@@ -1183,11 +1339,36 @@ git checkout <hash or branch>
 ```
 You can use a commit's hash or a branch to change where HEAD points to which will become the currently checked out commit or branch. Checkout a remote branch in remote repository to create a local tracking branch with `git checkout <branch>` and then the new local branch will track remote branch. After checking out specific version of the project, you can easily move on and make any changes, add new files to your project, commit those changes and so on. It also replaces files in staging area. This command will completely override contents of your working directory. To return to Head State, use `git checkout main`. Discard changes done while in detached head state by using `git checkout -f main` where `-f` means force.
 
+##### Activity - Go to a Commit or Branch
+```bash
+cd E:
+mkdir git-branches
+cd git-branches
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git branch br1
+git checkout br1
+```
+
 #### Create and Checkout a Branch
 ```bash
 git checkout -b <branch>
 ```
 Create a branch and check it out.
+
+##### Activity - Create and Checkout a Branch
+```bash
+cd E:
+mkdir git-branches
+cd git-branches
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git checkout -b br1
+```
 
 #### Detached HEAD State
 Detached HEAD state happens when HEAD is pointing to a commit.
@@ -1195,17 +1376,28 @@ Detached HEAD state happens when HEAD is pointing to a commit.
 `git branch <branch> <hash>` - After going back to another branch from detached head state, create branch for experimental commits.
 When in last experimental commit while in detached head state, `git checkout -b <branch>` can be used to save experimental commits. If you are just experimenting and will throw away changes, just go to another branch while in detached head state. By default, unreachable git objects are garbage collected after 30 days. New commits created while in detached head state will not be included in master branch and while creating new commits in detached head state, creating a branch is ok to make sure those changes are not lost. Sometimes when you want to retain experimental commits, you can create a branch while in detached head state. While in detached head state, you can create experimental commits and if you go to a branch and out of detached head state, those experimental commits will be garbage collected by git. When head points to a currently checked out branch, creating new commits will automatically make head point to the new commits. Checking a specific commit with its hash will make head go into detached head state. Checking out a specific commit. If you make a commit while located in detached HEAD state, those commits that were made in detached HEAD state will be lost and deleted automatically by Git and you will not be able to return to those commits. That is why in most cases, HEAD is referenced to specific branch, not commit.
 
+##### Activity - Detached HEAD State
+Use the first few letters of the first commit's hash. Checking out the first commit will make us be in detached HEAD state since checking out branches is easy to remember and they are like bookmarks on top of commits, being directly on a commit means we are checking the state of the repository before other changes were applied.
+
+```bash
+cd E:
+mkdir git-branches
+cd git-branches
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+touch file2.txt
+git add .
+git commit -m "added file2.txt"
+git checkout fff2a4
+```
+
 #### Merging
 Combine the changes from a feature branch into a receiving branch (which can be main branch).
 
 ##### Receiving Branch
 If we want to merge a branch to main, main is the receiving branch.
-
-##### Fast Forward Merge
-When a branch is created from master branch and the new branch got a commit and there are no new commits in master branch, checking out master branch and merging the new branch to main with `git merge <new-branch>` will just move master branch pointer to point to the new commit where new branch points to. The new branch can be deleted with `git branch -d <new-branch>`. Git simply moves HEAD pointer. Git won't create a new commit. If there are no new commits in main branch and another branch based on main got new commits, we can merge that branch to main and Git will use fast forward merge. Main branch will simply move to the last commit of the other branch that was merged. You can delete the other branch if you're not going to make any other changes in it. If we want to merge a branch like `bugFix` to main, we need to checkout main first and then use `git merge bugFix`. main pointer will point to the commit to where bugFix points.
-
-##### Three Way Merge
-Git will create new merge commit that will contain all changes.
 
 ##### Merge a Branch
 ```bash
@@ -1213,23 +1405,149 @@ git merge <branch>
 ```
 Merge a branch into the current branch (get changes from a branch and put them into the receiving branch). `git merge` is then performed locally in local repository. `git commit` is needed to complete merge if there is merge conflict and conflicts are resolved. In a 3-way merge, vim will open to edit the reason of why merging is needed. press i to use insert mode then edit the message. press escape to exit insert mode. type `:wq` then enter to exit. To merge a branch named br1 to main, we must checkout main branch first and then use `git merge br1`. br1 branch can then be deleted. We use merging if we want to incorporate changes made in one branch to another branch. Combines the work from two different branches. If main is the current branch and we want to merge bugFix branch to main branch, we use `git merge bugFix` then a new commit with two parents based on the branches merged will be created and main will point to the new commit. We can then checkout bugFix and merge main with `git merge main` so bugFix will just point to the new commit and update bugFix branch. When git performs 3-way merge, it will create automatic commits (automatically created by git) and these commits are not made by humans.
 
-#### Move Branch
+###### Activity - Merge a Branch
+Get the changes of `br1` branch by merging it into `main` branch. `main` is receiving branch. Whatever is in `br1`, `main` will get them. `br1` won't get whatever is in `main`. After merging, it is ok to delete `br1`.
+
+```bash
+cd E:
+mkdir git-branches
+cd git-branches
+git init
+git branch br1
+git checkout br1
+touch file1.txt
+git add .
+git commit -m "added file1.txt"
+git checkout main
+git merge br1
+```
+
+##### Fast Forward Merge
+When a branch is created from master branch and the new branch got a commit and there are no new commits in master branch, checking out master branch and merging the new branch to main with `git merge <new-branch>` will just move master branch pointer to point to the new commit where new branch points to. The new branch can be deleted with `git branch -d <new-branch>`. Git simply moves HEAD pointer. Git won't create a new commit. If there are no new commits in main branch and another branch based on main got new commits, we can merge that branch to main and Git will use fast forward merge. Main branch will simply move to the last commit of the other branch that was merged. You can delete the other branch if you're not going to make any other changes in it. If we want to merge a branch like `bugFix` to main, we need to checkout main first and then use `git merge bugFix`. main pointer will point to the commit to where bugFix points.
+
+###### Activity - Fast Forward Merge
+`main` will not have anything new so `main` and `br1` will both have the same first commit but `br1` will have something new in it. We will merge whatever is in `br1` to `main`. `main` branch will just move from first commit to the second commit of `br1` after merging which is a fast forward merge since `main` is just a name or pointer that points to a commit and it doesn't have anything new in it.
+
+```bash
+cd E:
+mkdir git-branches
+cd git-branches
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git branch br1
+git checkout br1
+touch file2.txt
+git add .
+git commit -m "added file2.txt"
+git checkout main
+git merge br1
+```
+
+##### Three Way Merge
+Git will create new merge commit that will contain all changes.
+
+###### Activity - Three Way Merge
+`main` and `br1` will have the same first commit but `main` will have a new file and `br1` will have its own new file. A new merge commit will be created which will have two parents because it is a three way merge.
+
+```bash
+cd E:
+mkdir git-branches
+cd git-branches
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git branch br1
+git checkout br1
+touch file2.txt
+git add .
+git commit -m "added file2.txt"
+git checkout main
+touch file3.txt
+git add .
+git commit -m "added file3.txt"
+git merge br1
+```
+
+##### Move Branch to Current Commit
 ```bash
 git branch --force <branch>
 ```
 Move branch to current commit.
 
+###### Activity - Move Branch to Current Commit
+
 ```bash
-git branch --force <branch> [<new-tip-commit>]
+cd E:
+mkdir git-branches
+cd git-branches
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git checkout -b br1
+touch file2.txt
+git add .
+git commit -m "added file2.txt"
+git log
+git checkout a8c8f8
+git branch --force br1
 ```
-`new-tip-commit` can be a branch name (ex. master, origin/master) and branch will be moved there.
+
+##### Move Branch to a Specific Commit
+```bash
+git branch --force <branch> <value>
+```
+`value` can be a branch name (ex. master, origin/master) and branch will be moved there or the hash of a commit.
+
+###### Activity - Move Branch to a Specific Commit
+Move `br1` to its first commit.
+
+```bash
+cd E:
+mkdir git-branches
+cd git-branches
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git checkout -b br1
+touch file2.txt
+git add .
+git commit -m "added file2.txt"
+git log
+git checkout main
+git branch --force br1 375bd0
+```
 
 ### Relative Refs
 - `git checkout <branch>^` - Caret Operator - If main is the current branch, find the parent of the specified commit so `git checkout main^` means we checkout the parent of main and `git checkout main^^` means the grandparent of main. Using `git checkout HEAD^` can be useful too to get the parent of HEAD.
 - `git checkout HEAD~<number>` - Tilde Operator - Move up the commit history four times from where HEAD is. Use `git branch -f main HEAD~3` to move main branch three parents behind HEAD forcefully (in a real Git environment `git branch -f` is not allowed for your current branch).
 
+###### Activity - Relative Refs
+1. Go to drive.
+2. Create a folder.
+3. Go to the created folder.
+4. Initialize it.
+5. Create a file.
+6. Stage it.
+7. Create a commit.
+8. Go to the parent commit of `main`.
 
-### Remotes (Remote Repository)
+```bash
+cd E:
+mkdir git-branches
+cd git-branches
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git checkout main^
+```
+
+### Remotes
 Remote is the remote server where the remote repository is. Usually named origin. We need to be connected to the internet.
 
 #### Add a Remote
@@ -1237,6 +1555,14 @@ Remote is the remote server where the remote repository is. Usually named origin
 git remote add <remote> <url>
 ```
 Add a remote by putting its name and URL like in `git remote add origin https://github.com/millenniumdisk/learn-programming.git`(create a repository first in a repository hosting service like GitHub). More than one remote can be added by changing the name of the other remote from origin to something else.
+
+###### Activity - Add a Remote
+1. Go to drive.
+
+
+```bash
+cd E:
+```
 
 #### Origin
 An alias for remote repository URL. When using `git pull`, you will pull from origin which is the default remote repository. Origin can be thought of as a default name of remote repository. 
