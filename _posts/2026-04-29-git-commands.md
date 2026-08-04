@@ -5,21 +5,6 @@ title: Git Commands
 
 # Git
 
-## Git Basics
-```bash
-cd E:
-mkdir git-basics
-cd git-basics
-```
-
-## Git Basics
-
-```bash
-cd E:
-mkdir git-basics
-cd git-basics
-```
-
 ## Introduction
 
 ### Git Website
@@ -1547,7 +1532,7 @@ git branch --force br1 375bd0
 - `git checkout <branch>^` - Caret Operator - If main is the current branch, find the parent of the specified commit so `git checkout main^` means we checkout the parent of main and `git checkout main^^` means the grandparent of main. Using `git checkout HEAD^` can be useful too to get the parent of HEAD.
 - `git checkout HEAD~<number>` - Tilde Operator - Move up the commit history four times from where HEAD is. Use `git branch -f main HEAD~3` to move main branch three parents behind HEAD forcefully (in a real Git environment `git branch -f` is not allowed for your current branch).
 
-###### Activity - Relative Refs
+#### Activity - Relative Refs
 1. Go to drive.
 2. Create a folder.
 3. Go to the created folder.
@@ -1577,7 +1562,7 @@ git remote add <remote> <url>
 ```
 Add a remote by putting its name and URL like in `git remote add origin https://github.com/millenniumdisk/learn-programming.git`(create a repository first in a repository hosting service like GitHub). More than one remote can be added by changing the name of the other remote from origin to something else.
 
-###### Activity - Add a Remote
+##### Activity - Add a Remote
 1. Go to drive.
 
 ```bash
