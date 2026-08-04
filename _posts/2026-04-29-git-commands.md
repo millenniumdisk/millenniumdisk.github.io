@@ -1563,10 +1563,17 @@ git remote add <remote> <url>
 Add a remote by putting its name and URL like in `git remote add origin https://github.com/millenniumdisk/learn-programming.git`(create a repository first in a repository hosting service like GitHub). More than one remote can be added by changing the name of the other remote from origin to something else.
 
 ##### Activity - Add a Remote
-1. Go to drive.
+A repository in a Git hosting service should be created first.
 
 ```bash
 cd E:
+mkdir git-remotes
+cd git-remotes
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git remote add origin https://github.com/millenniumdisk/git-remotes.git
 ```
 
 #### Origin
@@ -1576,7 +1583,20 @@ An alias for remote repository URL. When using `git pull`, you will pull from or
 ```bash
 git push -u <remote> <branch>
 ```
-Make Git remember an upstream branch (`git push -u origin temp`) in remote repository and remote is the remote server which turns the local branch into a tracking branch. This is a shorter version of `git push --set-upstream <remote> <branch>`.
+Make Git remember an upstream branch (`git push -u origin temp`) in remote repository and remote is the remote server which turns the local branch into a tracking branch. This is a shorter version of `git push --set-upstream <remote> <branch>`. When Git remembers upstream branch, pushing to remote will only need `git push`.
+
+##### Activity - Make Git Remember Upstream Branch
+```bash
+cd E:
+mkdir git-remotes
+cd git-remotes
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git remote add origin https://github.com/millenniumdisk/git-remotes.git
+git push -u origin main
+```
 
 #### Push Changes to Remote Repository
 ```bash
@@ -1586,9 +1606,38 @@ After testing of changes in local repository, push them to remote repository tha
 
 `git push` - The -u in `git push -u origin <branch>` makes git to remember the upstream branch. In `git push -u <server> <branch>` or `git push -u origin <branch>`, branch can be master branch and remote branch will be created in remote server. Set upstream branch for local branch with `git push -u origin <branch>` where git will get branch from origin remote server and origin can be changed to other remote server. `git push -u origin <branch>` is used to track remote branch after set up of remote server. When local branch has a corresponding remote branch the local branch becomes a tracking branch, the command `git push` instead can be used when making a new commit and push changes to remote branch. To create a remote branch when a new local branch is created then local branch will track the new remote branch, use `git push --set-upstream origin <branch>` (branch is going to be the name of remote branch) where branch is the same name of local branch since it is what will be suggested in the terminal and origin is the name of server and origin is default name and instead of the longer command, `git push -u origin <branch>` can be used and -v option can also be added as `git push -v -u origin <branch>`. If we push a local branch with `git push -v` and there is no corresponding remote branch that is tracked by the local branch, there will be a prompt that says there's no upstream branch. After testing and you are happy with the changes, you can push the changes from your local git repository to the remote git repository. Put your changes to remote repository. Publish local branch with `git push --set-upstream origin <branch>` where upstream branch is a remote branch that your local branch tracks. When you set an upstream branch, you link your local branch to a branch on the remote repository. You push a local branch to the origin remote repository. The command `git push -u origin <branch>` can be used instead. The `-u` says the branch is an upstream branch and origin is the name of the remote repository. Both `--set-upstream` and `-u` establish a tracking relationship between your local branch and the remote branch so in the future, pushing from local branch to remote branch only needs `git push`. `git push -u origin main` to put the changes in main branch to remote repository. Another version can be used with -v option as `git push -v` and there will be a prompt asking for GitHub account username and password then remote branch will point to the commit in local branch and git updates local tracking reference for refs/remotes/origin/branch where branch is the remote branch name and local branch and remote branch will point to the same commit. Changes in local repository will be incorporated into remote repository.
 
+##### Activity - Push Changes to Remote Repository
+```bash
+cd E:
+mkdir git-remotes
+cd git-remotes
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git remote add origin https://github.com/millenniumdisk/git-remotes.git
+git push -u origin main
+touch file2.txt
+git add .
+git commit -m "added file2.txt"
+git push
+```
 
 #### List Remote Repositories
 `git remote` - Show the remote servers that were already set up. Show the remote servers for your local repositories. Using `git remote -v` will show two URLS for fetch and push commands. A local repository that is not connected to a remote repository will have an empty output when using `git remote`. It doesn't matter what the branch is for `git remote`. Use `git remote show origin` to show local stale branches and entire information about the connection between local repository and remote repository. See additional information and not just the URLS used for fetch and push (origin can be changed to other remote server name). Head branch is default remote branch in remote repository. You will see list of remote branches and if they are tracked (with tracking branches for push and pull). If we see up-to-date, it means branches are in sync.
+
+##### Activity - Push Changes to Remote Repository
+```bash
+cd E:
+mkdir git-remotes
+cd git-remotes
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git remote add origin https://github.com/millenniumdisk/git-remotes.git
+git remote
+```
 
 #### Fetch Changes From Remote Repository
 ```bash
@@ -1598,6 +1647,26 @@ Get changes and metadata about remote branches references from remote repository
 
 `git fetch` - Can be used as `git fetch -v` (verbose option) to see detailed operation and helps in seeing how many branches are in remote. It will not create local tracking branch. Can be used in any branch. When a new remote branch is created in remote repository, the new change can't be seen with `git branch -r` or `git branch -a` so `git fetch` should be used first to get remote changes and put them in local repository and it is not destructive since it won't change working directory and staging area and it will not merge any remote changes to your local changes. Get changes from remote git repository and updates the local git repository. Local working directory and staging area are not touched. If a branch is created in remote git repository, that branch can be seen in local git repository after using `git fetch`.
 
+##### Activity - Fetch Changes From Remote Repository
+The local Git repository in the first computer must push its changes to remote first.
+```bash
+cd E:
+mkdir git-remotes
+cd git-remotes
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git remote add origin https://github.com/millenniumdisk/git-remotes.git
+git push -u origin main
+```
+
+Make changes in remote repository by using the browser and modify a file or create a file. Modifying a file or creating a file can be done in a second computer with the same Git repository hosting account. Even if the global name / email used in both computers are same or different, it will still work. After the second computer pushed its changes to remote, the first computer can fetch the changes from remote. Fetching changes won't do any merging unlike in `git pull` which will do fetching and merging.
+
+```bash
+git fetch
+```
+
 #### Pull Changes From Remote Repository
 ```bash
 git pull
@@ -1605,6 +1674,26 @@ git pull
 Fetches changes from remote repository and merges those changes behind the scenes. The `-v` or verbose option can also be added to observe fetch and merge operations (`git pull -v`).
 
 `git pull` - The option -v can be used as in `git pull -v` for detailed pull. We need a local tracking branch to use `git pull`. Operation is performed partially, only locally in your git repository and it is a two step process of fetching remote changes and then merging them into local changes. A destructive operation that also updates the working directory and staging area because the changes from remote git repository is merged to the local git repository. Is the command to use to make your local branch up-to-date when somebody made changes to remote branch either directly or by merging other changes into it. This command fetches changes from the remote repository and merges them into your local repository for that branch.
+
+##### Activity - Pull Changes From Remote Repository
+First computer with modified local Git repository will push to remote.
+```bash
+cd E:
+mkdir git-remotes
+cd git-remotes
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git remote add origin https://github.com/millenniumdisk/git-remotes.git
+git push -u origin main
+```
+
+Modify or create a file in the Git repository hosting service website with your account or use a second computer to modify or create a file and then push to remote. The first computer will get the updates and then merge those changes with `git pull` since it fetches updates and merges the received changes.
+
+```bash
+git pull
+```
 
 #### Tracking Branch
 A local branch becomes a tracking branch when it is paired with its corresponding remote branch.
@@ -1624,8 +1713,37 @@ A tracking branch in local repository will become stale if the remote branch is 
 #### Delete Remote Branch
 `git push origin -d temp` - Delete remote branch. We can create a local branch and then create and track remote branch by using `git push -u origin temp` then use `git push origin -d temp` to delete remote branch. Check with `git branch -a`. Delete local branch with `git branch -D <branch`>
 
+##### Activity - Delete Remote Branch
+```bash
+cd E:
+mkdir git-remotes
+cd git-remotes
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git remote add origin https://github.com/millenniumdisk/git-remotes.git
+git push -u origin main
+git push origin -d main
+```
+
 #### Update Tracking Statuses
 `git remote update origin --prune` - Removes a remote branch from being tracked by a local branch if remote branch is deleted. Use the command so that git will know there is no remote branch. When a remote branch is created and then a branch for it is created locally with `git checkout <branch>` where branch is the new remote branch and remote branch will be deleted and then fetch and use `git branch -vv` to see local branch is still tracking the deleted remote branch so use `git remote update origin --prune` to update status of tracking branch and tracking status will change for local branch. The local branch can be deleted with `git branch -D <branch>` or force deletion because there will be an error with `git branch -d <branch>` because local branch is not merged.
+
+##### Activity - Update Tracking Statuses
+```bash
+cd E:
+mkdir git-remotes
+cd git-remotes
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git remote add origin https://github.com/millenniumdisk/git-remotes.git
+git push -u origin main
+git push origin -d main
+git remote update origin --prune
+```
 
 #### Update All Branches Set to Track Remotes
 `git remote update`
