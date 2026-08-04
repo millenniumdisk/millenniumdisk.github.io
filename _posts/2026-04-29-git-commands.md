@@ -5,6 +5,21 @@ title: Git Commands
 
 # Git
 
+## Git Basics
+```bash
+cd E:
+mkdir git-basics
+cd git-basics
+```
+
+## Git Basics
+
+```bash
+cd E:
+mkdir git-basics
+cd git-basics
+```
+
 ## Introduction
 
 ### Git Website
@@ -17,7 +32,7 @@ Git is used to track your project and its old versions. When combined with an on
 A repository hosting service like GitHub or GitLab is where Git repositories can be stored and be used as a centralized point of getting and giving project updates for collaboration.
 
 ## Terminal Basics (Git Bash)
-Git Bash terminal or the terminal (bash) in VS Code can be used.
+Git Bash terminal is used.
 
 ### Escaped Characters
 `!` is used for history expansion in bash so it should be escaped with `\` as in `\!` or single quotes.
@@ -236,6 +251,7 @@ Lists files and folders in the current directory. `l` option can be used (`ls -l
 12. Use list command with the relative address of the new folder.
 13. Go to a different drive.
 14. Use list command with an absolute address of the new folder.
+
 ```bash
 pwd
 cd E:
@@ -755,6 +771,7 @@ Initialize current directory as Git repository. It will create a hidden `.git` f
 6. Check the contents of the current directory again.
 7. Go to the new folder.
 8. Initialize it as a new Git repository.
+
 ```bash
 pwd
 cd E:
@@ -877,6 +894,7 @@ git log --pretty=format:"Author of commit: %cn; Commit hash: %h; Date: %cd"
 
 ##### Activity - Format Output of Git Log
 Output will only be a bunch of small letters and numbers. These are the hashes of commits.
+
 ```bash
 pwd
 cd E;
@@ -935,6 +953,7 @@ See the changes made in the specified commit.
 
 ##### Activity - Show Changes in Commit
 Use the hash that will appear in `git log`. There is no need to write the complete hash. Just write the first few characters of the hash.
+
 ```bash
 pwd
 cd E:
@@ -957,6 +976,7 @@ Display a summary of all commits.
 
 ##### Activity - Show Summary of All Commits
 Use the hash that will appear in `git log`. There is no need to write the complete hash. Just write the first few characters of the hash.
+
 ```bash
 pwd
 cd E:
@@ -1068,6 +1088,7 @@ Stages only the files that were previously tracked. Might be better than `git ad
 
 ##### Activity - Stage Previously Tracked Files
 Use `nano` to edit the file and add content to it. Press ctrl + x to exit and then when asked to save it, type `y` and then press enter.
+
 ```bash
 cd E:
 mkdir git-staging
@@ -1178,6 +1199,7 @@ The `-a` option (`git commit -a` can also be used after resolving a merge confli
 
 ##### Activity - Stage and Open Editor to Create Description then Commit
 Edit file with nano then stage the file then commit.
+
 ```bash
 cd E:
 mkdir git-commits
@@ -1478,7 +1500,6 @@ git branch --force <branch>
 Move branch to current commit.
 
 ###### Activity - Move Branch to Current Commit
-
 ```bash
 cd E:
 mkdir git-branches
@@ -1558,7 +1579,6 @@ Add a remote by putting its name and URL like in `git remote add origin https://
 
 ###### Activity - Add a Remote
 1. Go to drive.
-
 
 ```bash
 cd E:
