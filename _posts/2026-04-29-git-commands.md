@@ -25,6 +25,18 @@ Git Bash terminal is used.
 ### Case Sensitivity
 In Windows OS, using an uppercase or lowercase letter in the path both works like in `cd E:` and `cd e:` but creating a folder with uppercase letter like in `mkdir folder1` will clash with another command containing an uppercase letter like in `mkdir Folder1` since the folder already exists.
 
+### Find
+`find .git/objects -type f` - Output should be of type file in `.git/objects` relative address.
+
+#### Activity - Go to Root Directory
+1. Check current directory.
+2. Use find.
+
+```bash
+pwd
+find Documents/ -type f
+```
+
 ### Go to Root Directory
 ```bash
 cd
@@ -175,7 +187,7 @@ ls -la
 ```bash
 touch <name>
 ```
-Create a file like in `touch file.txt`. Create two or more files by separating filenames with a space like in `touch file1.txt file2.txt`.
+Create a file like in `touch file.txt`. Create two or more files by separating filenames with a space like in `touch file1.txt file2.txt`. `nano <name>` can also create a file like in `nano file1.txt`.
 
 #### Activity - Create a File
 1. Display current directory.
@@ -516,7 +528,7 @@ Hidden files start with a `.` in Unix-like systems. In Windows, files and folder
 ## Git Concepts
 
 ### Git Objects
-Git stores blobs, trees, commits and annotated text in the Git repository.
+Git stores blobs, trees, commits and annotated text in the Git repository. Git objects are made up of content (Hello, Git), type (blob), length (11) and delimiter (\0). Git stores files in compressed binary format. We can use zlib in Python to open that object. `echo -e "blob 11\0Hello, Git" | shasum` to generate the same hash.
 
 ### Three Main Areas in a Project
 - Working Directory - Contains untracked, modified and unmodified files.
@@ -527,7 +539,7 @@ Git stores blobs, trees, commits and annotated text in the Git repository.
 Untracked files are in working directory.
 
 #### Staging Area
-Sits between working directory and Git repository. It is usually called index and it is actually responsible for preparing files to be inserted into the Git repository and also in the opposite way, It prepares file taken from Git repository to be put into working directory. Putting files into staging area is a mandatory step in all operations either when you want to place files from working directory into Git repository or when you want to read files from Git repository and checkout them into your working directory.
+Sits between working directory and Git repository. It is usually called index and it is actually responsible for preparing files to be inserted into the Git repository and also in the opposite way. It prepares file taken from Git repository to be put into working directory. Putting files into staging area is a mandatory step in all operations either when you want to place files from working directory into Git repository or when you want to read files from Git repository and checkout them into your working directory.
 
 #### Git Repository
 Unmodified files are in Git repository.
@@ -1091,7 +1103,7 @@ git commit -m "edited a file"
 ```bash
 git rm --cached <filename>
 ```
-Remove a file from the staging area if changes haven't been committed yet. Changes file to untracked or modified state from staged. Doesn't remove file from working directory.
+`cached` is used to unstaged a file. Can't unstage when commit is already created. Use a different command for that. Remove a file from the staging area if changes haven't been committed yet. Changes file to untracked or modified state from staged. Doesn't remove file from working directory. `git restore --staged <filename>` can also unstage a file.
 
 ##### Activity - Unstage a File
 ```bash
@@ -1782,27 +1794,6 @@ Create a local repository based on the remote repository by using its URL. The b
 
 Only default remote branch is created as local branch (not all remote branches in remote repository is created in local branch with this). Git automatically creates binding between remote repository and local repository default remote repository is created for local repository and the name of the default remote repository is origin. Local repository can be connected to multiple remote repositories and every remote repositories will have different names and when you use push, pull or fetch, you choose which remote repository you want to interact with. To clone a repository, use `git clone <url>` to download a project with its Git repository where the url is from a git hosting service like GitHub. When you clone a repository, Git automatically names the remote repository as origin (origin is url of remote repository).
 
-### Mktree
-`git mktree` - Low level git command. Create new tree object.
-
-### Hash-object
-`git hash-object` - Low level git command. Create new object in Git structure. `echo "Hello, Git" | git hash-object --stdin -w` creates an object file.
-
-### Cat-file
-Low level git command. Reads Git objects.
-- `git cat-file -p <hash>` - Contents of the object will be printed to terminal.
-- `git cat-file -s <hash>` - Size of the object will be printed to terminal.
-- `git cat-file -t <hash>` - Git type of the object will be printed to terminal.
-
-### Config File
-Config file is a configuration of your Git repository and default settings.
-
-### Management of Blobs and Trees
-For management of blobs and trees, we will use low level git commands like `git hash-object` and `git cat-file`.
-
-### Pipe Symbol
-`echo "Hello, Git" | git hash-object --stdin` - We take the output of another command as input of a different command with pipe symbol.
-
 ## Advanced
 Advanced Git commands are not used very often but in some cases can be really useful. Some of these features are destructive (changes git history).
 Topics:
@@ -2050,3 +2041,36 @@ Public branches are like master, release or dev and are usually set as protected
 
 ### CI/CD
 In the modern world, each software is developed  usually according to CI/CD principles. CI means continuous integration and CD means continuous development. It means software is being developed continuously. There are two environments: staging environment and production environment. There is also staging version and production version of specific software. Set the two branches are protected branches to avoid automatic merging into those branches (good practice). Those branches shouldn't be deleted by anyone in the team.
+
+## Low Level Git Commands
+Don't manually edit files in .git folder. It is managed by Git.
+
+### Management of Blobs and Trees
+For management of blobs and trees, we will use low level git commands like `git hash-object` and `git cat-file`.
+
+### Mktree
+`git mktree` - Low level git command. Create new tree object.
+
+### Hash-object
+`git hash-object` - Low level git command. Create new object in Git structure. `echo "Hello, Git" | git hash-object --stdin -w` creates an object file. Pipe symbol is used to make the output of echo be the input of the next command and stdin is placed to make hash-object take standard input as input. -w is sued to make Git store object in its database. Create a file with content then use `git hash-object <filename> -w` to create Git object. File is in Desktop so use .. to got back one level to parent `git hash-object ../new-file.txt -w`.
+
+### Cat-file
+Low level git command. Reads Git objects.
+- `git cat-file -p <hash>` - Contents of the object will be printed to terminal.
+- `git cat-file -s <hash>` - Size of the object will be printed to terminal.
+- `git cat-file -t <hash>` - Git type of the object will be printed to terminal.
+
+### Pipe Symbol
+`echo "Hello, Git" | git hash-object --stdin` - We take the output of another command as input of a different command with pipe symbol.
+
+### Config File
+Config file is a configuration of your Git repository and default settings.
+
+### Check Files in Staging Area
+`git ls-files` - Lowl level command. List files that are in staging area. `git ls-files -s` is used to show output in a table. The 0 means the files are the same in Git repository.
+
+### Load Files to Staging Area
+`git read-tree <hash>` - Files in Git repository can be loaded to staging area.
+
+### Load Files to Working Directory
+`git checkout-index -a` - Put files from staging area to working directory. `a` option means all files.
