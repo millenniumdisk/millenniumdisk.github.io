@@ -7,6 +7,49 @@ title: Git Commands
 
 ## Introduction
 
+### Use Git Right Away
+There are two ways to use Git right away. A Git hosting service will be used in both ways.
+
+#### Long Process (Local Repository Exists)
+Long process is used when we have a lot of files in the project folder that we want to be uploaded to the remote repository and it means that there is an existing local Git repository.
+
+Create a remote repository. Copy the remote repository URL. Make sure the name of the local Git repository is the same as the remote repository. An example name of repository is `python-project`. Add a remote server. Push with `-u` option and this means that pushing won't need `-u` for the next pushes.
+
+1. Go to a drive.
+2. Create a project directory.
+3. Go to the folder.
+4. Initialize it.
+5. Create a file.
+6. Stage it.
+7. Commit it.
+8. Add a remote server.
+9. Push with `-u`. The name of the remote server is origin and main is the name of the branch (main might be named master or you might want to push to other branch instead).
+
+```bash
+cd E:
+mkdir python-project
+cd python-project
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git remote add origin https://github.com/millenniumdisk/python-project.git
+git push -u origin main
+```
+
+#### Short Process (Cloning a Remote Repository)
+Short process is used when there are a lot of files that are in the remote repository and we want to download them to the local machine. A new project folder will be created with the same name as the remote repository after cloning.
+
+Clone the Git repository by copying the remote repository's URL. After cloning, a tracking branch will be automatically created for the default branch.
+
+1. Go to a drive.
+2. Clone the remote repository.
+
+```bash
+cd E:
+git clone https://github.com/millenniumdisk/python-project.git
+```
+
 ### Git Website
 More information in [Git Website](https://git-scm.com/docs).
 
@@ -24,6 +67,19 @@ Git Bash terminal is used.
 
 ### Case Sensitivity
 In Windows OS, using an uppercase or lowercase letter in the path both works like in `cd E:` and `cd e:` but creating a folder with uppercase letter like in `mkdir folder1` will clash with another command containing an uppercase letter like in `mkdir Folder1` since the folder already exists.
+
+### Copy File
+```bash
+cp <source> <destination>
+```
+Copy a file to a destination like in `cp file1.txt copied.txt`.
+
+### Move File
+```bash
+mv <source> <destination>
+```
+Move or rename files or directories like in `mv file1.txt important/notes`.
+
 
 ### Find
 `find .git/objects -type f` - Output should be of type file in `.git/objects` relative address.
@@ -525,6 +581,42 @@ exit
 ### Hidden Files
 Hidden files start with a `.` in Unix-like systems. In Windows, files and folders are hidden depending on the file / folder attribute.
 
+## Low Level Git Commands
+Don't manually edit files in .git folder. It is managed by Git.
+
+### Management of Blobs and Trees
+For management of blobs and trees, we will use low level git commands like `git hash-object` and `git cat-file`.
+
+### Mktree
+`git mktree` - Low level git command. Create new tree object.
+
+### Hash-object
+`git hash-object` - Low level git command. Create new object in Git structure. `echo "Hello, Git" | git hash-object --stdin -w` creates an object file. Pipe symbol is used to make the output of echo be the input of the next command and stdin is placed to make hash-object take standard input as input. -w is sued to make Git store object in its database. Create a file with content then use `git hash-object <filename> -w` to create Git object. File is in Desktop so use .. to got back one level to parent `git hash-object ../new-file.txt -w`.
+
+### Cat-file
+Low level git command. Reads Git objects.
+- `git cat-file -p <hash>` - Contents of the object will be printed to terminal.
+- `git cat-file -s <hash>` - Size of the object will be printed to terminal.
+- `git cat-file -t <hash>` - Git type of the object will be printed to terminal.
+
+### Pipe Symbol
+`echo "Hello, Git" | git hash-object --stdin` - We take the output of another command as input of a different command with pipe symbol.
+
+### Config File
+Config file is a configuration of your Git repository and default settings.
+
+### Check Files in Staging Area
+`git ls-files` - Lowl level command. List files that are in staging area. `git ls-files -s` is used to show output in a table. The 0 means the files are the same in Git repository.
+
+### Load Files to Staging Area
+`git read-tree <hash>` - Files in Git repository can be loaded to staging area.
+
+### Load Files to Working Directory
+`git checkout-index -a` - Put files from staging area to working directory. `a` option means all files.
+
+### Unpack
+`cat <file> | git unpack-objects` - Unpack the pack file by moving the pack file from its folder and put it in `.git` folder and then use the command like in `cat pack-bf7eaf2ba9af7da56f3a874b2483b00dba0e8a98.pack | git unpack-objects`. After unpacking, delete pack file with `rm -f` command.
+
 ## Git Concepts
 
 ### Git Objects
@@ -785,7 +877,7 @@ A copy of remote repository that a team member or collaborator can work on in th
 
 ### Inspect
 
-#### Repository Status
+#### Status
 ```bash
 git status
 ```
@@ -927,7 +1019,7 @@ git log --author="millenniumdisk"
 ```bash
 git diff
 ```
-When changes are made and they are saved but not yet staged then committed, you can use this command to see the modifications made. With `git diff`, if a file is modififed and that file is saved, `git status` will show one file is modififed. Without staging and committing, use `git diff`. A will mean the previous file and B represents modified file. Click in VS Code to see those two side by side. You will also see hashes of the two when `git diff` is used. Modififed version got a hash even if it isn't staged yet. If a number like -3, 6 +3, 8 shows, it means old file with - is displayed with line 3 as the one we see and there are 6 lines total. The modified file is + and the displayed code start at line 3 and there are a total of 8 lines. Only a portion of the whole code is shown. We also see a text that is part of the code beside the numbers. We can copy those text and find it to see portion of the code that was changed. Scroll down in command line with down arrow key. You can stage and commit after using `git diff`.
+Show two versions of every file that were modified. Show difference between old and new file. When changes are made and they are saved but not yet staged then committed, you can use this command to see the modifications made. With `git diff`, if a file is modififed and that file is saved, `git status` will show one file is modififed. Without staging and committing, use `git diff`. A will mean the previous file and B represents modified file. Click in VS Code to see those two side by side. You will also see hashes of the two when `git diff` is used. Modififed version got a hash even if it isn't staged yet. If a number like -3, 6 +3, 8 shows, it means old file with - is displayed with line 3 as the one we see and there are 6 lines total. The modified file is + and the displayed code start at line 3 and there are a total of 8 lines. Only a portion of the whole code is shown. We also see a text that is part of the code beside the numbers. We can copy those text and find it to see portion of the code that was changed. Scroll down in command line with down arrow key. You can stage and commit after using `git diff`.
 
 ##### Activity - Compare
 ```bash
@@ -1173,9 +1265,9 @@ git commit
 
 #### Commit and Write Description in Terminal
 ```bash
-git commit -m "initial commit"
+git commit -m "<description>"
 ```
-Use `git commit -m "<description>"` to enter description in terminal without opening an editor. 
+Enter description in terminal without opening an editor to create a commit like in `git commit -m "initial commit"`. 
 
 ##### Activity - Commit and Write Description in Terminal
 ```bash
@@ -1254,6 +1346,24 @@ git add .
 git commit -m "initial commit"
 git branch
 ```
+
+#### Show Local and Remote Branches
+```bash
+git branch -a
+```
+Show all local branches in local Git repository and remote branches in remote repository. We will see HEAD in remote is pointing to a remote branch. That branch is default branch. Default branch will be created after cloning.
+
+#### Show Remote Branches
+```bash
+git branch -r
+```
+Show all local branches in local Git repository and remote branches in remote repository. When a new remote branch is created, it won't show it right away. Use `git fetch` first to fetch remote changes and download them to Git repository.
+
+#### Show Tracking Branches
+```bash
+git branch -vv
+```
+Will display list of local and remote branch pairs and if they are paired, it means local branch is a tracking branch.
 
 #### Create a Branch
 ```bash
@@ -1334,9 +1444,9 @@ git commit -m "initial commit"
 git branch -M superbranch
 ```
 
-#### Change a Specific Branch Name
+#### Change a Specific Branch's Name
 ```bash
-git branch -m <branch> <branch>
+git branch -m <old_branch> <new_branch>
 ```
 First argument is the chosen branch that will be renamed and the second argument is the new name it will have.
 
@@ -1490,7 +1600,7 @@ git commit -m "added file3.txt"
 git merge br1
 ```
 
-##### Move Branch to Current Commit
+#### Move Branch to Current Commit
 ```bash
 git branch --force <branch>
 ```
@@ -1540,6 +1650,25 @@ git checkout main
 git branch --force br1 375bd0
 ```
 
+#### Merge Conflict
+An error that appears when there are files that are in conflict with one another when trying to merge branches. The conflicts should be resolved first to proceed with merging.
+
+#### Resolve Merge Conflict
+- Checkout the main branch.
+- Pull the changes from the remote main branch (your local main branch and remote main branch are identical).
+- Checkout to your branch (when creating the pull request, you are trying to merge to main and `git merge main` will merge the main branch into your branch even if the initial goal was the opposite which was to merge your branch to main branch so we must resolve the issue by merging main to our branch to identify the problem).
+- View the merge conflicts list in your code editor (arrows pointing to left are from our branch and arrows pointing to right are changes coming from the main branch).
+- You can manually choose what you want to keep or remove by removing the lines and clearing code you don't want there.
+- Click resolve button if you don't want to manually resolve (you can choose to only accept yours or accept their code or you want something in between but in most cases you want some of their code and some of your code so use third option merge).
+- In the left side of the code editor, we see our changes, the right side is their changes and in the middle is the result (click double arrows you want to keep and x button to remove code you don't want to keep then apply).
+- Stage all files.
+- Commit with description.
+- Push changes.
+- Pull request won't have any merge conflicts error so tag reviewer in the message and tell them to check it.
+- Some will request changes if needed by commenting on the pull request when going to the code base (files changed in GitHub).
+- Merge pull request to main branch will happen next.
+- A new commit will appear.
+
 ### Relative Refs
 - `git checkout <branch>^` - Caret Operator - If main is the current branch, find the parent of the specified commit so `git checkout main^` means we checkout the parent of main and `git checkout main^^` means the grandparent of main. Using `git checkout HEAD^` can be useful too to get the parent of HEAD.
 - `git checkout HEAD~<number>` - Tilde Operator - Move up the commit history four times from where HEAD is. Use `git branch -f main HEAD~3` to move main branch three parents behind HEAD forcefully (in a real Git environment `git branch -f` is not allowed for your current branch).
@@ -1566,17 +1695,28 @@ git checkout main^
 ```
 
 ### Remotes
-Remote is the remote server where the remote repository is. Usually named origin. We need to be connected to the internet.
+Remote is the remote server where the remote repository is. Usually named origin. We need to be connected to the internet. By default, Git won't create local branches for remote branches after cloning. Git will only create default branch.
 
-#### Add a Remote
+#### Clone a Remote Repository
 ```bash
-git remote add <remote> <url>
+git clone <url>
 ```
-Add a remote by putting its name and URL like in `git remote add origin https://github.com/millenniumdisk/learn-programming.git`(create a repository first in a repository hosting service like GitHub). More than one remote can be added by changing the name of the other remote from origin to something else.
+Create a local repository based on the remote repository by using its URL. The branch created in local repository will be automatically be a tracking branch that is connected to the remote branch. A default branch defined in the remote repository will be the branch created in local repository.
 
-##### Activity - Add a Remote
-A repository in a Git hosting service should be created first.
+Only default remote branch is created as local branch (not all remote branches in remote repository is created in local branch with this). Git automatically creates binding between remote repository and local repository default remote repository is created for local repository and the name of the default remote repository is origin. Local repository can be connected to multiple remote repositories and every remote repositories will have different names and when you use push, pull or fetch, you choose which remote repository you want to interact with. To clone a repository, use `git clone <url>` to download a project with its Git repository where the url is from a git hosting service like GitHub. When you clone a repository, Git automatically names the remote repository as origin (origin is url of remote repository).
 
+#### Even With Master
+It means the branch is up-to-date or in sync with master branch.
+
+#### List Remote Repositories
+```bash
+git remote
+```
+List all remote servers.
+
+`git remote` - Show the remote servers that were already set up. Show the remote servers for your local repositories. Using `git remote -v` will show two URLS for fetch and push commands. A local repository that is not connected to a remote repository will have an empty output when using `git remote`. It doesn't matter what the branch is for `git remote`. Use `git remote show origin` to show local stale branches and entire information about the connection between local repository and remote repository. See additional information and not just the URLS used for fetch and push (origin can be changed to other remote server name). Head branch is default remote branch in remote repository. You will see list of remote branches and if they are tracked (with tracking branches for push and pull). If we see up-to-date, it means branches are in sync.
+
+##### Activity - Push Changes to Remote Repository
 ```bash
 cd E:
 mkdir git-remotes
@@ -1586,34 +1726,35 @@ touch file1.txt
 git add .
 git commit -m "initial commit"
 git remote add origin https://github.com/millenniumdisk/git-remotes.git
+git remote
 ```
+
+#### Detailed List Remote Repositories
+```bash
+git remote -v
+```
+Will show URLs used for fetch and push commands while in any local branch.
 
 #### Origin
-An alias for remote repository URL. When using `git pull`, you will pull from origin which is the default remote repository. Origin can be thought of as a default name of remote repository. 
+Default name for remote repository.
 
-#### Make Git Remember Upstream Branch
-```bash
-git push -u <remote> <branch>
-```
-Make Git remember an upstream branch (`git push -u origin temp`) in remote repository and remote is the remote server which turns the local branch into a tracking branch. This is a shorter version of `git push --set-upstream <remote> <branch>`. When Git remembers upstream branch, pushing to remote will only need `git push`.
+#### Tracking Branch
+A local branch that tracks a remote branch. Tracking branch can be deleted by using `git branch -d <name>` on local branch.
 
-##### Activity - Make Git Remember Upstream Branch
-```bash
-cd E:
-mkdir git-remotes
-cd git-remotes
-git init
-touch file1.txt
-git add .
-git commit -m "initial commit"
-git remote add origin https://github.com/millenniumdisk/git-remotes.git
-git push -u origin main
-```
+If we have a local branch br1 but there is no remote br1 branch, we can create a remote br1 branch to create a tracking branch.
 
-#### Push Changes to Remote Repository
+If there is a remote branch br2 but there is no local branch br2, just checkout remote branch br2 in local repository to create a tracking branch.
+
+Tracking branch can be removed by deleting local branch with `git branch -d <branch>`. If there is a branch in remote repository named b1 and there is no local branch that tracks b1 branch, it means there is no local tracking branch for b1 branch. If there is a local branch named b2 and there is no branch in remote repository that is connected to it, it means that b2 branch is not tracking branch.
+You can create remote tracking branch for b2 by creating remote branch in remote repository. The same for b1 branch, just checkout remote branch and you will create local b1 branch in local repository and this will automatically be connected to remote branch and the branch will be tracking branch.
+Tracking branch is local branch that is connected to a specific remote branch in remote repository. There can be a single tracking branch called master and local master branch tracks remote master branch.
+
+#### Push
 ```bash
 git push
 ```
+Push changes in local Git repository to remote repository.
+
 After testing of changes in local repository, push them to remote repository that Git remembers.
 
 `git push` - The -u in `git push -u origin <branch>` makes git to remember the upstream branch. In `git push -u <server> <branch>` or `git push -u origin <branch>`, branch can be master branch and remote branch will be created in remote server. Set upstream branch for local branch with `git push -u origin <branch>` where git will get branch from origin remote server and origin can be changed to other remote server. `git push -u origin <branch>` is used to track remote branch after set up of remote server. When local branch has a corresponding remote branch the local branch becomes a tracking branch, the command `git push` instead can be used when making a new commit and push changes to remote branch. To create a remote branch when a new local branch is created then local branch will track the new remote branch, use `git push --set-upstream origin <branch>` (branch is going to be the name of remote branch) where branch is the same name of local branch since it is what will be suggested in the terminal and origin is the name of server and origin is default name and instead of the longer command, `git push -u origin <branch>` can be used and -v option can also be added as `git push -v -u origin <branch>`. If we push a local branch with `git push -v` and there is no corresponding remote branch that is tracked by the local branch, there will be a prompt that says there's no upstream branch. After testing and you are happy with the changes, you can push the changes from your local git repository to the remote git repository. Put your changes to remote repository. Publish local branch with `git push --set-upstream origin <branch>` where upstream branch is a remote branch that your local branch tracks. When you set an upstream branch, you link your local branch to a branch on the remote repository. You push a local branch to the origin remote repository. The command `git push -u origin <branch>` can be used instead. The `-u` says the branch is an upstream branch and origin is the name of the remote repository. Both `--set-upstream` and `-u` establish a tracking relationship between your local branch and the remote branch so in the future, pushing from local branch to remote branch only needs `git push`. `git push -u origin main` to put the changes in main branch to remote repository. Another version can be used with -v option as `git push -v` and there will be a prompt asking for GitHub account username and password then remote branch will point to the commit in local branch and git updates local tracking reference for refs/remotes/origin/branch where branch is the remote branch name and local branch and remote branch will point to the same commit. Changes in local repository will be incorporated into remote repository.
@@ -1635,26 +1776,12 @@ git commit -m "added file2.txt"
 git push
 ```
 
-#### List Remote Repositories
-`git remote` - Show the remote servers that were already set up. Show the remote servers for your local repositories. Using `git remote -v` will show two URLS for fetch and push commands. A local repository that is not connected to a remote repository will have an empty output when using `git remote`. It doesn't matter what the branch is for `git remote`. Use `git remote show origin` to show local stale branches and entire information about the connection between local repository and remote repository. See additional information and not just the URLS used for fetch and push (origin can be changed to other remote server name). Head branch is default remote branch in remote repository. You will see list of remote branches and if they are tracked (with tracking branches for push and pull). If we see up-to-date, it means branches are in sync.
-
-##### Activity - Push Changes to Remote Repository
-```bash
-cd E:
-mkdir git-remotes
-cd git-remotes
-git init
-touch file1.txt
-git add .
-git commit -m "initial commit"
-git remote add origin https://github.com/millenniumdisk/git-remotes.git
-git remote
-```
-
-#### Fetch Changes From Remote Repository
+#### Fetch
 ```bash
 git fetch
 ```
+Doesn't touch working directory and staging area. Only touches Git repository and updates the branches (you will be able to see branches created in remote repository).
+
 Get changes and metadata about remote branches references from remote repository but won't merge those changes. If a remote branch is deleted then this command is used, the references of remote branches in the local repository won't be updated. The `-v` or verbose option can be used (`git fetch -v`) to see more details.
 
 `git fetch` - Can be used as `git fetch -v` (verbose option) to see detailed operation and helps in seeing how many branches are in remote. It will not create local tracking branch. Can be used in any branch. When a new remote branch is created in remote repository, the new change can't be seen with `git branch -r` or `git branch -a` so `git fetch` should be used first to get remote changes and put them in local repository and it is not destructive since it won't change working directory and staging area and it will not merge any remote changes to your local changes. Get changes from remote git repository and updates the local git repository. Local working directory and staging area are not touched. If a branch is created in remote git repository, that branch can be seen in local git repository after using `git fetch`.
@@ -1679,11 +1806,11 @@ Make changes in remote repository by using the browser and modify a file or crea
 git fetch
 ```
 
-#### Pull Changes From Remote Repository
+#### Pull
 ```bash
 git pull
 ```
-Fetches changes from remote repository and merges those changes behind the scenes. The `-v` or verbose option can also be added to observe fetch and merge operations (`git pull -v`).
+Fetches changes from remote repository and merges those changes into current branch behind the scenes. The `-v` or verbose option can also be added to observe fetch and merge operations (`git pull -v`).
 
 `git pull` - The option -v can be used as in `git pull -v` for detailed pull. We need a local tracking branch to use `git pull`. Operation is performed partially, only locally in your git repository and it is a two step process of fetching remote changes and then merging them into local changes. A destructive operation that also updates the working directory and staging area because the changes from remote git repository is merged to the local git repository. Is the command to use to make your local branch up-to-date when somebody made changes to remote branch either directly or by merging other changes into it. This command fetches changes from the remote repository and merges them into your local repository for that branch.
 
@@ -1707,23 +1834,52 @@ Modify or create a file in the Git repository hosting service website with your 
 git pull
 ```
 
-#### Tracking Branch
-A local branch becomes a tracking branch when it is paired with its corresponding remote branch.
+#### Add a Remote Server
+```bash
+git remote add <remote> <url>
+```
+Add a remote by putting its name and URL like in `git remote add origin https://github.com/millenniumdisk/learn-programming.git`(create a repository first in a repository hosting service like GitHub). More than one remote can be added by changing the name of the other remote from origin to something else.
 
-Tracking branch can be removed by deleting local branch with `git branch -d <branch>`. If there is a branch in remote repository named b1 and there is no local branch that tracks b1 branch, it means there is no local tracking branch for b1 branch. If there is a local branch named b2 and there is no branch in remote repository that is connected to it, it means that b2 branch is not tracking branch.
-You can create remote tracking branch for b2 by creating remote branch in remote repository. The same for b1 branch, just checkout remote branch and you will create local b1 branch in local repository and this will automatically be connected to remote branch and the branch will be tracking branch.
-Tracking branch is local branch that is connected to a specific remote branch in remote repository. There can be a single tracking branch called master and local master branch tracks remote master branch.
+##### Activity - Add a Remote
+A repository in a Git hosting service should be created first.
 
-#### Even With Master
-It means the branch is up-to-date or in sync with master branch.
+```bash
+cd E:
+mkdir git-remotes
+cd git-remotes
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git remote add origin https://github.com/millenniumdisk/git-remotes.git
+```
 
-#### Stale Branch
-When a tracking branch loses its corresponding upstream remote branch.
+#### Create a Tracking Branch (With Remote Branch)
+When a remote branch is created in remote repository, just checkout the remote branch in local Git repository to create a local branch for it. The local branch will become a tracking branch.
 
-A tracking branch in local repository will become stale if the remote branch is deleted in remote repository. Use `git remote prune origin` to remove the stale branch configured for `git pull`. The local branch will still exist and is still tracking the removed remote branch. You can create the removed remote branch by using `git push` after making changes to the local branch. Local branch can also be deleted if you won't push changes and create removed remote branch.
+#### Create a Tracking Branch (No Remote Branch)
+```bash
+git push -u <remote> <branch>
+```
+When a local branch is created in local Git repository, a remote branch can be created with `git push -u <remote> <branch>` like in `git push -u origin temp` and the local branch will become a tracking branch.
+
+Make Git remember an upstream branch (`git push -u origin temp`) in remote repository and remote is the remote server which turns the local branch into a tracking branch. This is a shorter version of `git push --set-upstream <remote> <branch>`. When Git remembers upstream branch, pushing to remote will only need `git push`.
+
+##### Activity - Make Git Remember Upstream Branch
+```bash
+cd E:
+mkdir git-remotes
+cd git-remotes
+git init
+touch file1.txt
+git add .
+git commit -m "initial commit"
+git remote add origin https://github.com/millenniumdisk/git-remotes.git
+git push -u origin main
+```
 
 #### Delete Remote Branch
-`git push origin -d temp` - Delete remote branch. We can create a local branch and then create and track remote branch by using `git push -u origin temp` then use `git push origin -d temp` to delete remote branch. Check with `git branch -a`. Delete local branch with `git branch -D <branch`>
+`git push origin -d temp` - Delete remote branch. We can create a local branch and then create and track remote branch by using `git push -u origin temp` then use `git push origin -d temp` to delete remote branch. Check with `git branch -a`. Delete local branch with `git branch -D <branch`>.
 
 ##### Activity - Delete Remote Branch
 ```bash
@@ -1738,6 +1894,31 @@ git remote add origin https://github.com/millenniumdisk/git-remotes.git
 git push -u origin main
 git push origin -d main
 ```
+
+#### Detailed Remote Repository
+```
+git remote show <name>
+```
+One remote repository will be displayed in detail. Name is name of remote server which can be origin like in `git remote show origin`. Head will point to default branch.
+
+#### Detailed Remote
+```
+git remote show origin
+```
+Will show updates that a branch is gone if a branch is deleted in remote repository. Will show tracking 
+
+#### Remove Stale Branch
+```bash
+git remote prune <name>
+```
+Remove a stale branch like in `git remote prune origin`. Name is the name of remote server which can be origin.
+
+#### Stale Branch
+A tracking branch becomes a stale branch when the remote branch it is paired with is deleted. When a stale branch is removed with prune, the remote branch can be created by pushing changes to the same branch without the remote branch.
+
+When a tracking branch loses its corresponding upstream remote branch.
+
+A tracking branch in local repository will become stale if the remote branch is deleted in remote repository. Use `git remote prune origin` to remove the stale branch configured for `git pull`. The local branch will still exist and is still tracking the removed remote branch. You can create the removed remote branch by using `git push` after making changes to the local branch. Local branch can also be deleted if you won't push changes and create removed remote branch.
 
 #### Update Tracking Statuses
 `git remote update origin --prune` - Removes a remote branch from being tracked by a local branch if remote branch is deleted. Use the command so that git will know there is no remote branch. When a remote branch is created and then a branch for it is created locally with `git checkout <branch>` where branch is the new remote branch and remote branch will be deleted and then fetch and use `git branch -vv` to see local branch is still tracking the deleted remote branch so use `git remote update origin --prune` to update status of tracking branch and tracking status will change for local branch. The local branch can be deleted with `git branch -D <branch>` or force deletion because there will be an error with `git branch -d <branch>` because local branch is not merged.
@@ -1766,33 +1947,6 @@ Only updates all branches set to track remotes. No changes will be merged. `git 
 git fetch --prune
 ```
 Cleans local repository by removing references of remote branches that were deleted. `git remote prune origin` will remove stale branch.
-
-#### Merge Conflict
-An error that appears when there are files that are in conflict with one another when trying to merge branches. The conflicts should be resolved first to proceed with merging.
-
-#### Resolve Merge Conflict
-- Checkout the main branch.
-- Pull the changes from the remote main branch (your local main branch and remote main branch are identical).
-- Checkout to your branch (when creating the pull request, you are trying to merge to main and `git merge main` will merge the main branch into your branch even if the initial goal was the opposite which was to merge your branch to main branch so we must resolve the issue by merging main to our branch to identify the problem).
-- View the merge conflicts list in your code editor (arrows pointing to left are from our branch and arrows pointing to right are changes coming from the main branch).
-- You can manually choose what you want to keep or remove by removing the lines and clearing code you don't want there.
-- Click resolve button if you don't want to manually resolve (you can choose to only accept yours or accept their code or you want something in between but in most cases you want some of their code and some of your code so use third option merge).
-- In the left side of the code editor, we see our changes, the right side is their changes and in the middle is the result (click double arrows you want to keep and x button to remove code you don't want to keep then apply).
-- Stage all files.
-- Commit with description.
-- Push changes.
-- Pull request won't have any merge conflicts error so tag reviewer in the message and tell them to check it.
-- Some will request changes if needed by commenting on the pull request when going to the code base (files changed in GitHub).
-- Merge pull request to main branch will happen next.
-- A new commit will appear.
-
-#### Clone a Remote Repository
-```bash
-git clone <url>
-```
-Create a local repository based on the remote repository by using its URL. The branch created in local repository will be automatically be a tracking branch that is connected to the remote branch. A default branch defined in the remote repository will be the branch created in local repository.
-
-Only default remote branch is created as local branch (not all remote branches in remote repository is created in local branch with this). Git automatically creates binding between remote repository and local repository default remote repository is created for local repository and the name of the default remote repository is origin. Local repository can be connected to multiple remote repositories and every remote repositories will have different names and when you use push, pull or fetch, you choose which remote repository you want to interact with. To clone a repository, use `git clone <url>` to download a project with its Git repository where the url is from a git hosting service like GitHub. When you clone a repository, Git automatically names the remote repository as origin (origin is url of remote repository).
 
 ## Advanced
 Advanced Git commands are not used very often but in some cases can be really useful. Some of these features are destructive (changes git history).
@@ -2042,35 +2196,83 @@ Public branches are like master, release or dev and are usually set as protected
 ### CI/CD
 In the modern world, each software is developed  usually according to CI/CD principles. CI means continuous integration and CD means continuous development. It means software is being developed continuously. There are two environments: staging environment and production environment. There is also staging version and production version of specific software. Set the two branches are protected branches to avoid automatic merging into those branches (good practice). Those branches shouldn't be deleted by anyone in the team.
 
-## Low Level Git Commands
-Don't manually edit files in .git folder. It is managed by Git.
+## List
 
-### Management of Blobs and Trees
-For management of blobs and trees, we will use low level git commands like `git hash-object` and `git cat-file`.
+### Setup
+- `git --version` - Display version.
+- `git config --list` - Display config.
+- `git config user.name` - Display local or global username when inside or not of a Git repo.
+- `git config user.email` - Display local or global email when inside or not of a Git repo.
+- `git config --global user.name "<name>"` - Change global username.
+- `git config --global user.email "<email>"` - Change global email.
+- `git config user.name "<name>"` - Change local username. Use inside Git repo.
+- `git config user.email "<email>"` - Change local email. Use inside Git repo.
+- `git config --global init.defaultBranch <branch>` - Change name of default branch.
+- `git init` - Initialize a Git repo.
 
-### Mktree
-`git mktree` - Low level git command. Create new tree object.
+### Inspect
+- `git status` - Display status of Git repo.
+  - `-v` - Verbose option (ex. `git status -v`).
+- `git log` - Display commits of current branch.
+  - `--oneline` - Condensed commits history (ex. `git log --oneline`).
+  - `--graph` - Detailed commits history (ex. `git log --graph`).
+  - `--stat` - Show more information (ex. `git log --stat`).
+  - `-p` - Show changes in every file or commit (ex. `git log -p`).
+  - `-<number>` - Show a number of commits (ex. `git log -3`).
+  - `--pretty=format:<arg1>` Formatted output. `%H`, `%cn`, `%h` and `%cd` can be added with spaces in between to see long hash, committer name, short hash and date (ex. `git log --pretty=format:"%H"`).
+  - `--merges` - Show merge commits (ex. `git log --merges`).
+  - `--no-merges` - Show non merge commits (ex. `git log --no-merges`).
+  - `--author="<name>"` - Filter output (ex. `git log --author="millenniumdisk"`).
+  - `--grep="<query>"` - Filter with specific string (ex. `git log --grep="3.12.1"`).
+- `git diff` - Display changes before committing.
+- `git show <hash>` - Display changes in a commit.
+- `git shortlog` - Display summary of commits.
+- `git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit"` - Create alias for `git lg`.
+- `git show-ref` - Display remote and local refs.
+- `git show-ref <branch>` - Compare refs (ex. `git show-ref main`)
 
-### Hash-object
-`git hash-object` - Low level git command. Create new object in Git structure. `echo "Hello, Git" | git hash-object --stdin -w` creates an object file. Pipe symbol is used to make the output of echo be the input of the next command and stdin is placed to make hash-object take standard input as input. -w is sued to make Git store object in its database. Create a file with content then use `git hash-object <filename> -w` to create Git object. File is in Desktop so use .. to got back one level to parent `git hash-object ../new-file.txt -w`.
+### Staging
+- `git add <file>` - Stage a file.
+- `git add .` - Stage all files.
+- `git add -u` - Stage previously tracked files.
+- `git rm --cached <filename>` - Unstage a file.
+- `git reset .` - Unstage all files.
 
-### Cat-file
-Low level git command. Reads Git objects.
-- `git cat-file -p <hash>` - Contents of the object will be printed to terminal.
-- `git cat-file -s <hash>` - Size of the object will be printed to terminal.
-- `git cat-file -t <hash>` - Git type of the object will be printed to terminal.
+### Commits
+- `git commit` - Open editor to commit.
+- `git commit -m "<description>"` - Commit in terminal.
+- `git commit -a` - Stage and open editor to commit.
+- `git commit -am "<description>` - Stage previously tracked files and commit in terminal.
 
-### Pipe Symbol
-`echo "Hello, Git" | git hash-object --stdin` - We take the output of another command as input of a different command with pipe symbol.
+### Branches
+- `git branch` - Display local branches.
+- `git branch -a` - Display local and remote branches.
+- `git branch -r` - Display remote branches.
+- `git branch -vv` - Display tracking branches.
+- `git branch <name>` - Create a branch.
+- `git branch -M <branch>` - Change branch name.
+- `git checkout <hash or branch>` - Checkout a commit or branch.
+- `git checkout -b <name>` - Create a branch and switch to it.
+- `git branch -d <name>` - Delete a branch.
+- `git branch -D <name>` - Force delete a branch.
+- `git branch -m <old_branch> <new_branch>` - Change a specific branch's name.
+- `git merge <branch>` - Merge the changes in a branch into the current branch (ex. `git merge br1`).
 
-### Config File
-Config file is a configuration of your Git repository and default settings.
+### Relative Refs
+- `git checkout <branch>^` - Checkout the parent of the branch (ex. `git checkout HEAD^`).
+- `git checkout <branch>^^` - Checkout the grandparent of the branch.
+- `git checkout HEAD~<number>`- Move up the commit history a number of times.
+- `git branch --force <branch>` - Move branch to current commit (ex. `git branch -f main HEAD~3`). Not allowed for current branch.
 
-### Check Files in Staging Area
-`git ls-files` - Lowl level command. List files that are in staging area. `git ls-files -s` is used to show output in a table. The 0 means the files are the same in Git repository.
-
-### Load Files to Staging Area
-`git read-tree <hash>` - Files in Git repository can be loaded to staging area.
-
-### Load Files to Working Directory
-`git checkout-index -a` - Put files from staging area to working directory. `a` option means all files.
+### Remotes
+- `git remote` - List remote servers.
+  - `-v` - List remote servers with their URLs (ex. `git remote -v`).
+- `git push --set-upstream <remote> <branch>` - Create a tracking branch (ex. `git push --set-upstream origin main`).
+- `git push -u <remote> <branch>` - Shorter version of creating a tracking branch (ex. `git push -u origin main`).  
+- `git fetch` - Update Git repository but working directory and staging area won't be touched. Non-destructive operation.
+  - `-v` - Detailed fetch (ex. `git fetch -v`).
+- `git pull` - Update and merge.
+  - `-v` - Detailed pull (ex. `git pull -v`).
+- `git push` - Push changes to remote repository.
+  - `-v` - Detailed push (ex. `git push -v`).
+- `git clone <url>` - Clone a repository. Git will automatically create tracking branch for default branch. Only one tracking branch will be created (ex. `git clone https://github.com/millenniumdisk/python-project.git`).
