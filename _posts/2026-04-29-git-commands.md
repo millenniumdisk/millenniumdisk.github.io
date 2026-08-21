@@ -772,6 +772,8 @@ git config user.name "<name>"
 ```
 Set local username per project. Should be done inside a Git repository. Overrides global username.
 
+`cat .git/config` can be used to check config file.
+
 ##### Activity - Change Local Username
 1. Check current directory.
 2. Go to another drive.
@@ -1697,6 +1699,9 @@ git checkout main^
 ### Remotes
 Remote is the remote server where the remote repository is. Usually named origin. We need to be connected to the internet. By default, Git won't create local branches for remote branches after cloning. Git will only create default branch.
 
+#### FETCH HEAD File
+To check contents of FETCH_HEAD, go to project folder then checkout the branch that will use `git pull` and use `cat .git/FETCH_HEAD` then copy the hash that will be merged to local branch then use the hash in `git cat-file -p <hash>`. This file is used when `git pull` is executed where `git fetch` will happen first then next is `git merge FETCH_HEAD`.
+
 #### Clone a Remote Repository
 ```bash
 git clone <url>
@@ -2207,7 +2212,7 @@ In the modern world, each software is developed  usually according to CI/CD prin
 - `git config --global user.email "<email>"` - Change global email.
 - `git config user.name "<name>"` - Change local username. Use inside Git repo.
 - `git config user.email "<email>"` - Change local email. Use inside Git repo.
-- `git config --global init.defaultBranch <branch>` - Change name of default branch.
+- `git config --global init.defaultBranch <branch>` - Change default branch name (applies to the next initialized Git repo).
 - `git init` - Initialize a Git repo.
 
 ### Inspect
@@ -2228,11 +2233,9 @@ In the modern world, each software is developed  usually according to CI/CD prin
 - `git show <hash>` - Display changes in a commit.
 - `git shortlog` - Display summary of commits.
 - `git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit"` - Create alias for `git lg`.
-- `git show-ref` - Display remote and local refs.
-- `git show-ref <branch>` - Compare refs (ex. `git show-ref main`)
 
 ### Staging
-- `git add <file>` - Stage a file.
+- `git add <filename>` - Stage a file.
 - `git add .` - Stage all files.
 - `git add -u` - Stage previously tracked files.
 - `git rm --cached <filename>` - Unstage a file.
@@ -2246,9 +2249,6 @@ In the modern world, each software is developed  usually according to CI/CD prin
 
 ### Branches
 - `git branch` - Display local branches.
-- `git branch -a` - Display local and remote branches.
-- `git branch -r` - Display remote branches.
-- `git branch -vv` - Display tracking branches.
 - `git branch <name>` - Create a branch.
 - `git branch -M <branch>` - Change branch name.
 - `git checkout <hash or branch>` - Checkout a commit or branch.
@@ -2262,17 +2262,27 @@ In the modern world, each software is developed  usually according to CI/CD prin
 - `git checkout <branch>^` - Checkout the parent of the branch (ex. `git checkout HEAD^`).
 - `git checkout <branch>^^` - Checkout the grandparent of the branch.
 - `git checkout HEAD~<number>`- Move up the commit history a number of times.
-- `git branch --force <branch>` - Move branch to current commit (ex. `git branch -f main HEAD~3`). Not allowed for current branch.
+- `git branch --force <branch>` - Move branch to current commit. Not allowed for current branch.
+- `git branch -f <branch> <destination>`- Move branch to a commit (ex. `git branch -f main HEAD~3`). Not allowed for current branch.
 
 ### Remotes
-- `git remote` - List remote servers.
+- `git remote` - List remote servers. Can be used in any branch.
   - `-v` - List remote servers with their URLs (ex. `git remote -v`).
+- `git remote show <server>` - Display more info about local and remote repo connection (HEAD is default branch in remote repo). When up-to-date is placed, it means both remote branch and local branch are in sync (ex. `git remote show origin`). Can show stale branches (tracking branch with a remote branch that got deleted).
+- `git branch -r` - Display remote branches.
+- `git branch -a` - Display local and remote branches.
+- `git branch -vv` - Display tracking branches. When a tracking branch's local branch is deleted, that tracking branch won't show.
 - `git push --set-upstream <remote> <branch>` - Create a tracking branch (ex. `git push --set-upstream origin main`).
 - `git push -u <remote> <branch>` - Shorter version of creating a tracking branch (ex. `git push -u origin main`).  
-- `git fetch` - Update Git repository but working directory and staging area won't be touched. Non-destructive operation.
+- `git fetch` - Get updates on new branches, new commits and git objects in remote repository. Doesn't touch working directory and staging area. Only modifies Git repository. Non-destructive operation. Can be used regardless of branch. Does not delete pair of local tracking branch in `git branch -vv` when remote branch is deleted. Using only `git remote update origin` won't update tracking branch. Command should be `git remote update origin --prune` to update tracking branch and it will have gone status. Local branch can then be deleted.
   - `-v` - Detailed fetch (ex. `git fetch -v`).
-- `git pull` - Update and merge.
+- `git remote prune <server>` - Doesn't get updates. Removes stale branch that will show in `git remote show <server>` but local branch that is the pair of the deleted remote branch won't be deleted so use a different command to delete the local branch (ex. `git remote prune origin`).
+- `git pull` - Get updates and merge fetched changes if there's any on current branch. Will write changes into working directory. Changes are also applied to staging area. Only updates one local branch. Destructive operation. Will update `.git/FETCH_HEAD` then `git merge FETCH_HEAD` will happen.
   - `-v` - Detailed pull (ex. `git pull -v`).
 - `git push` - Push changes to remote repository.
   - `-v` - Detailed push (ex. `git push -v`).
 - `git clone <url>` - Clone a repository. Git will automatically create tracking branch for default branch. Only one tracking branch will be created (ex. `git clone https://github.com/millenniumdisk/python-project.git`).
+- `git remote update <server> --prune` - Gets updates. Removes stale branch (ex. `git remote update origin --prune`).
+- `git push <server> -d <branch>` - Delete a remote branch from terminal (ex. `git push origin -d temp`).
+- `git show-ref` - Display all remote refs and local refs.
+- `git show-ref <branch>` - Compare refs (ex. `git show-ref main`).
