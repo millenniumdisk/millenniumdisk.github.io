@@ -2280,22 +2280,6 @@ In the modern world, each software is developed  usually according to CI/CD prin
 - `git checkout <branch>^` - Checkout the parent of the branch (ex. `git checkout HEAD^`).
 - `git checkout <branch>^^` - Checkout the grandparent of the branch.
 - `git checkout HEAD~<number>`- Move up the commit history a number of times.
-<<<<<<< HEAD
-- `git branch --force <branch>` - Move branch to current commit (ex. `git branch -f main HEAD~3`). Not allowed for current branch.
-
-### Remotes
-- `git remote` - List remote servers.
-  - `-v` - List remote servers with their URLs (ex. `git remote -v`).
-- `git push --set-upstream <remote> <branch>` - Create a tracking branch (ex. `git push --set-upstream origin main`).
-- `git push -u <remote> <branch>` - Shorter version of creating a tracking branch (ex. `git push -u origin main`).  
-- `git fetch` - Update Git repository but working directory and staging area won't be touched. Non-destructive operation.
-  - `-v` - Detailed fetch (ex. `git fetch -v`).
-- `git pull` - Update and merge.
-  - `-v` - Detailed pull (ex. `git pull -v`).
-- `git push` - Push changes to remote repository.
-  - `-v` - Detailed push (ex. `git push -v`).
-- `git clone <url>` - Clone a repository. Git will automatically create tracking branch for default branch. Only one tracking branch will be created (ex. `git clone https://github.com/millenniumdisk/python-project.git`).
-=======
 - `git branch --force <branch>` - Move branch to current commit. Not allowed for current branch.
 - `git branch -f <branch> <destination>`- Move branch to a commit (ex. `git branch -f main HEAD~3`). Not allowed for current branch.
 
@@ -2320,4 +2304,3 @@ In the modern world, each software is developed  usually according to CI/CD prin
 - `git push <server> -d <branch>` - Delete a remote branch from terminal (ex. `git push origin -d temp`).
 - `git show-ref` - Display all remote refs and local refs.
 - `git show-ref <branch>` - Compare refs (ex. `git show-ref main`).
->>>>>>> br1
