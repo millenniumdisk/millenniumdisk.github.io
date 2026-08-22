@@ -2212,11 +2212,7 @@ In the modern world, each software is developed  usually according to CI/CD prin
 - `git config --global user.email "<email>"` - Change global email.
 - `git config user.name "<name>"` - Change local username. Use inside Git repo.
 - `git config user.email "<email>"` - Change local email. Use inside Git repo.
-<<<<<<< HEAD
-- `git config --global init.defaultBranch <branch>` - Change name of default branch.
-=======
 - `git config --global init.defaultBranch <branch>` - Change default branch name (applies to the next initialized Git repo).
->>>>>>> br1
 - `git init` - Initialize a Git repo.
 
 ### Inspect
@@ -2237,17 +2233,9 @@ In the modern world, each software is developed  usually according to CI/CD prin
 - `git show <hash>` - Display changes in a commit.
 - `git shortlog` - Display summary of commits.
 - `git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit"` - Create alias for `git lg`.
-<<<<<<< HEAD
-- `git show-ref` - Display remote and local refs.
-- `git show-ref <branch>` - Compare refs (ex. `git show-ref main`)
-
-### Staging
-- `git add <file>` - Stage a file.
-=======
 
 ### Staging
 - `git add <filename>` - Stage a file.
->>>>>>> br1
 - `git add .` - Stage all files.
 - `git add -u` - Stage previously tracked files.
 - `git rm --cached <filename>` - Unstage a file.
@@ -2261,12 +2249,6 @@ In the modern world, each software is developed  usually according to CI/CD prin
 
 ### Branches
 - `git branch` - Display local branches.
-<<<<<<< HEAD
-- `git branch -a` - Display local and remote branches.
-- `git branch -r` - Display remote branches.
-- `git branch -vv` - Display tracking branches.
-=======
->>>>>>> br1
 - `git branch <name>` - Create a branch.
 - `git branch -M <branch>` - Change branch name.
 - `git checkout <hash or branch>` - Checkout a commit or branch.
@@ -2284,6 +2266,7 @@ In the modern world, each software is developed  usually according to CI/CD prin
 - `git branch -f <branch> <destination>`- Move branch to a commit (ex. `git branch -f main HEAD~3`). Not allowed for current branch.
 
 ### Remotes
+- `git remote add <remote> <url>` - Add a remote server (ex. `git remote add origin https://github.com/millenniumdisk/learn-programming.git`). When forking a repo, add another remote server and name the original repo as upstream like in `git remote add upstream https://github.com/millenniumdisk/learn-programming.git` to get updates from original repo.
 - `git remote` - List remote servers. Can be used in any branch.
   - `-v` - List remote servers with their URLs (ex. `git remote -v`).
 - `git remote show <server>` - Display more info about local and remote repo connection (HEAD is default branch in remote repo). When up-to-date is placed, it means both remote branch and local branch are in sync (ex. `git remote show origin`). Can show stale branches (tracking branch with a remote branch that got deleted).
@@ -2291,11 +2274,11 @@ In the modern world, each software is developed  usually according to CI/CD prin
 - `git branch -a` - Display local and remote branches.
 - `git branch -vv` - Display tracking branches. When a tracking branch's local branch is deleted, that tracking branch won't show.
 - `git push --set-upstream <remote> <branch>` - Create a tracking branch (ex. `git push --set-upstream origin main`).
-- `git push -u <remote> <branch>` - Shorter version of creating a tracking branch (ex. `git push -u origin main`).  
-- `git fetch` - Get updates on new branches, new commits and git objects in remote repository. Doesn't touch working directory and staging area. Only modifies Git repository. Non-destructive operation. Can be used regardless of branch. Does not delete pair of local tracking branch in `git branch -vv` when remote branch is deleted. Using only `git remote update origin` won't update tracking branch. Command should be `git remote update origin --prune` to update tracking branch and it will have gone status. Local branch can then be deleted.
+- `git push -u <remote> <branch>` - Shorter version of creating a tracking branch (ex. `git push -u origin main`).
+- `git fetch <server>` - Can be used to get updates from a parent repo if you forked a repo (ex. `git fetch upstream`) then `git branch -a` will show all branches and branches from parent repo can be checkout or merged. When fetching from origin remote server, there is no need to put the name of the remote server like in `git fetch`. Get updates on new branches, new commits and git objects in remote repository. Doesn't touch working directory and staging area. Only modifies Git repository. Non-destructive operation. Can be used regardless of branch. Does not delete pair of local tracking branch in `git branch -vv` when remote branch is deleted. Using only `git remote update origin` won't update tracking branch. Command should be `git remote update origin --prune` to update tracking branch and it will have gone status. Local branch can then be deleted.
   - `-v` - Detailed fetch (ex. `git fetch -v`).
 - `git remote prune <server>` - Doesn't get updates. Removes stale branch that will show in `git remote show <server>` but local branch that is the pair of the deleted remote branch won't be deleted so use a different command to delete the local branch (ex. `git remote prune origin`).
-- `git pull` - Get updates and merge fetched changes if there's any on current branch. Will write changes into working directory. Changes are also applied to staging area. Only updates one local branch. Destructive operation. Will update `.git/FETCH_HEAD` then `git merge FETCH_HEAD` will happen.
+- `git pull <server> <branch>` - When pulling from parent to local repo involving a forked repo, specify upstream like in `git pull upstream main` (merge is done like in `git merge upstream/main`). When pulling from origin remote server, there is no need to put the name of the remote server like in `git pull`. Get updates and merge fetched changes if there's any on current branch. Will write changes into working directory. Changes are also applied to staging area. Only updates one local branch. Destructive operation. Will update `.git/FETCH_HEAD` then `git merge FETCH_HEAD` will happen.
   - `-v` - Detailed pull (ex. `git pull -v`).
 - `git push` - Push changes to remote repository.
   - `-v` - Detailed push (ex. `git push -v`).
