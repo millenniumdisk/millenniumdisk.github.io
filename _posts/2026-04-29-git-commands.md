@@ -63,7 +63,7 @@ A repository hosting service like GitHub or GitLab is where Git repositories can
 Git Bash terminal is used.
 
 ### Escaped Characters
-`!` is used for history expansion in bash so it should be escaped with `\` as in `\!` or single quotes.
+`!` is used for history expansion in bash so it should be escaped with `\` as in `\!` or single quotes. So single quotes is used in `git commit -m 'Fixed the bug!'`.
 
 ### Case Sensitivity
 In Windows OS, using an uppercase or lowercase letter in the path both works like in `cd E:` and `cd e:` but creating a folder with uppercase letter like in `mkdir folder1` will clash with another command containing an uppercase letter like in `mkdir Folder1` since the folder already exists.
@@ -1325,6 +1325,8 @@ git commit -am "edited a file"
 ### Branch
 A branch contains its own commit history that are different from other branches. Allows team members to work on different features simultaneously (by making a branch for each feature). Branches can be merged to other branches. A branch is like a bookmark which is easy to remember instead of memorizing the hash of a commit so checking out a branch is fast and easy than checking out a commit that will have different hash whenever the branch is updated with a new commit that is why branch is useful since it will automatically bookmark the newest commit added to the branch.
 
+#### Private Branch
+
 #### HEAD
 The current commit or branch. There can only be one HEAD. HEAD is current commit or branch. By default HEAD points to current branch and it moves of course along with branch. You can also checkout specific commit by using its hash, where you will move into detached HEAD state. It is the name of the currently checked out commit. HEAD normally points to a branch name.
 
@@ -1466,7 +1468,7 @@ git branch -m main superbranch
 
 #### Go to a Commit or Branch
 ```bash
-git checkout <hash or branch>
+git checkout <hash or branch or tag>
 ```
 You can use a commit's hash or a branch to change where HEAD points to which will become the currently checked out commit or branch. Checkout a remote branch in remote repository to create a local tracking branch with `git checkout <branch>` and then the new local branch will track remote branch. After checking out specific version of the project, you can easily move on and make any changes, add new files to your project, commit those changes and so on. It also replaces files in staging area. This command will completely override contents of your working directory. To return to Head State, use `git checkout main`. Discard changes done while in detached head state by using `git checkout -f main` where `-f` means force.
 
@@ -1970,10 +1972,50 @@ Each pull request is connected to a specific branch. Start review process. A dev
 When a dev has finished working on a specific branch and commits of changes were created and branch was published to remote, it is not good in most cases to merge those changes into main / release branch directly so a dev that has finished its work on a specific feature proposes changes that should be applied to main branch that may or may not be applied into master / release. After review of other devs, changes may be rejected and then pull request will be closed and corresponding branch will be deleted. Proposal of potential changes. Lets you share your changes with your team for review and feedback. Once approved and merged, your changes becomes a part of the main branch. Compare is the branch you want to merge from and Base is the branch you want to merge to in GitHub. If everything looks good and there are no merge conflicts, others can merge it. Your branch will be merged to main branch. Old branch will be one commit behind and zero commits ahead so it is ok to delete it. GitHub executes a Git operation in the background which is `git merge <branch>` and then the branch you want to merge. Using GitHub's PRs is preferable. Merge happens only in the remote repository so update local repository with `git pull` (this command is shorthand for `git pull origin main` but by default GitHub pulls from the remote origin from the same branch you're currently in).
 
 ### Annotated Tags
+Lightweight tags are not pushed to remote repository with `git push` by default.
+
 Annotated tag is one of the four Git objects and it is a persistent text pointer to a specific commit. There are two types of tag: lightweight tag and annotated tag. Annotated tag is better because it contains more information.
 
 #### Semantic Versioning
 Major version number is the first followed by minor and last is patch number like in ver. 3.7.2 and if big changes were applied to the software and it makes it not backwards compatible and the major number should be incremented and the rest will become 0 like in 4.0.0. Minor is small feature that adds some functionality but doesn't break anything in the previous version and other packages that are dependent on the software will continue to work the update like from 3.7.2 to 3.8.0 and the last number will become 0. Patch is a small bug fix or small feature adjustment like from 3.7.2 to 3.7.3. It is not recommended to automatically install any major updates since they may contain some incompatible changes that will break functionality of your software package. NPM contains packages and npm can automatically update if you are happy with minor updates like in node-sass. Pre-release versions are 5.2.4-alpha or 5.2.4-beta or 5.2.4-1.3 in staging environment where you test new features. 5.2.4-1.3 can be incremented to 5.2.4-1.4 and when pre-release features were properly tested, you can move to release version and release next version of software and release 5.2.4. It means 5.2.4 is greater than 5.2.4-1.4 and 5.2.3 may be the stable version. The rc in 2.0.0-rc.2 is release candidate and use rc when you are pretty close to release next software version and 2.0.0 is greater than 2.0.0-rc.2 and 2.0.0-rc.2 is greater than 2.0.0-rc.1.
+
+#### Delete a Tag
+When deleting a tag, a branch can be deleted so specify the tag to avoid deleting the branch.
+
+```
+You can push an 'empty' reference to the remote tag name:
+
+git push origin :tagname
+Or, more expressively, use the --delete option (or -d if your git version is older than 1.8.0):
+
+git push --delete origin tagname
+Note that git has tag namespace and branch namespace so you may use the same name for a branch and for a tag. If you want to make sure that you cannot accidentally remove the branch instead of the tag, you can specify full ref which will never delete a branch:
+
+git push origin :refs/tags/tagname
+If you also need to delete the local tag, use:
+
+git tag --delete tagname
+or
+
+git tag -d tagname
+Background
+Pushing a branch, tag, or other ref to a remote repository involves specifying "which repo, what source, what destination?"
+
+git push remote-repo source-ref:destination-ref
+A real world example where you push your master branch to the origin's master branch is:
+
+git push origin refs/heads/master:refs/heads/master
+Which because of default paths, can be shortened to:
+
+git push origin master:master
+Tags work the same way:
+
+git push origin refs/tags/release-1.0:refs/tags/release-1.0
+Which can also be shortened to:
+
+git push origin release-1.0:release-1.0
+By omitting the source ref (the part before the colon), you push 'nothing' to the destination, deleting the ref on the remote end.
+```
 
 #### Show Tag List
 ```bash
@@ -2120,6 +2162,17 @@ Use :wq to accept default commit message. `git revert --continue` is used after 
 ```bash
 git rebase <branch>
 ```
+
+When working on local feature branch, you need to merge release or main branch into your current feature branch to update local feature branch. You can use rebasing.
+
+Never use rebasing on public branches like main or release branch. Rebasing is destructive operation and it changes history.
+
+Locally, on private branches, you can use it.
+
+Rebasing is a two-step process. First step is rebasing of the feature branch on top of the main or release branch and then next is merging of the feature branch into main or release branch and Git will use fast forward merge and no merge commits will be created. Rebasing is destructive operation - it creates brancd new commits and commits that were created in a branch that was rebased will be automatically deleted by Git. Use rebasing with care.
+
+With merging, we know when a branch is made and what commits were made in that branch and when it was merged. With rebasing, that information is lost because history becomes linear.
+
 Rebasing Steps:
 1. `git checkout <branch>` - Go to feature branch to be rebased on top of base or main branch (`git checkout feature1`).
 2. `git rebase <branch>` - Rebase feature branch on top of base or main branch (`git rebase main`). Git creates brand new commits that are copies of the old commits.
@@ -2177,7 +2230,7 @@ Garbage collection runs automatically from time to time to clean the repository.
 
 ## Misc
 
-### Staging Environment
+### Staging Environment (Release Branch)
 - Multiple people may have merging rights.
 - Different feature branches are merged into release branch.
 - Merging is performed frequently.
@@ -2186,7 +2239,7 @@ Garbage collection runs automatically from time to time to clean the repository.
 Staging environment can be any name but release branch is common.
 Before going to production, each feature goes first to staging. When any dev has finished work on a specific branch, he may request a review from other devs if they are happy with that, devs who have rights may merge into staging and after that dedicated people may test the feature. This happens in a closed staging environment and customers don't see those new features before they are applied to production. Used internally and is not facing any customers. Some companies open this staging environment for selected customers and they ask them to review some changes to get feedback and improve corresponding feature. Merging is need to start testing process on staging. The same devs that may have rights to merge into staging will not be able to merge corresponding changes to production. When any of the features is ready, corresponding dev opens pull request and target branch in this case will be release branch.
 
-### Production Environment
+### Production Environment (Main Branch)
 - Can have any name but master branch is common.
 - For stable production service.
 - For customers.
@@ -2196,12 +2249,14 @@ Before going to production, each feature goes first to staging. When any dev has
 Specific tests are set up for every merge and before merge into release or master, you may run different tests and you can set them up in github. Production service must always be up and running so it is critical to merge only features that were properly tested. Only release branch can be merged into production but hotfixes may go directly into production (create a separate branch and merge directly to master branch but it is not recommended to merge anything without proper testing on staging). Features in production may only be implemented after careful proper testing (test before release is merged into production). That is why merging can be once a month or less. Small or mid-sized projects may be relased more often like each week or every several days but it is common practice to plan releases to production and move according to plan like merge once a month or every 2 weeks.
 
 ### Git Development Workflow
-Public branches are like master, release or dev and are usually set as protected branches and only owners can merge pull requests or other branches into those branches. There are times where you are still developing your own feature while other features are being merged into public branch and you then want to be up to date with other changes or features. So you need to merge public branches into your current feature branch you are currently working on. We have commits that can't be pushed to remote becuase of having no permissions. So we need to reset those new commits to go back to the previous state to be the same as remote repository. Github desktop don't have the feature to reset to specific commit. Only revert is possible. So reset with `git lg` then get the commit to where remote is pointing to then use `git reset --hard <hash>`. We merge public branch to feature branch since public branch may have new changes applied to it. Merging public branch to feature branch will create new merge commit so to avoid that, rebasing can be used. We just want to update feature branch.
+Public branches are like master, release or dev and are usually set as protected branches and only owners can merge pull requests or other branches into those branches. There are times where you are still developing your own feature while other features are being merged into public branch and you then want to be up to date with other changes or features. So you need to merge public branches into your current feature branch you are currently working on. We have commits that can't be pushed to remote becuase of having no permissions. So we need to reset those new commits to go back to the previous state to be the same as remote repository. Github desktop don't have the feature to reset to specific commit. Only revert is possible. So reset with `git lg` then get the commit to where remote is pointing to then use `git reset --hard <hash>`. We merge public branch to feature branch since public branch may have new changes applied to it. Merging public branch to feature branch will create new merge commit so to avoid that, rebasing can be used. Rebase feature branch on top of main or dev branch. We just want to update feature branch. Merging public branch like dev to feature branch are all locally done. We didn't merge remote dev branch to local feature branch. Sometimes there will be merge conflicts if you don't update feature branch. Merge main or dev branch into feature branch often to avoid many merge conflicts.
 
 ### CI/CD
 In the modern world, each software is developed  usually according to CI/CD principles. CI means continuous integration and CD means continuous development. It means software is being developed continuously. There are two environments: staging environment and production environment. There is also staging version and production version of specific software. Set the two branches are protected branches to avoid automatic merging into those branches (good practice). Those branches shouldn't be deleted by anyone in the team.
 
 ## List
+
+`code .` - Open VS Code in terminal.
 
 ### Setup
 - `git --version` - Display version.
@@ -2217,7 +2272,7 @@ In the modern world, each software is developed  usually according to CI/CD prin
 
 ### Inspect
 - `git status` - Display status of Git repo.
-  - `-v` - Verbose option (ex. `git status -v`).
+  - `-v` - Verbose option. Display changes in a commit (ex. `git status -v`).
 - `git log` - Display commits of current branch.
   - `--oneline` - Condensed commits history (ex. `git log --oneline`).
   - `--graph` - Detailed commits history (ex. `git log --graph`).
@@ -2232,20 +2287,25 @@ In the modern world, each software is developed  usually according to CI/CD prin
 - `git diff` - Display changes before committing.
 - `git show <hash>` - Display changes in a commit.
 - `git shortlog` - Display summary of commits.
+  - `-n` - Sort author by quantity of commits (ex. `git shortlog -n`).
+  - `-s` - Display summary only (ex. `git shortlog -s`).
+  - `-e` - Add email info (ex. `git shortlog -e`).
 - `git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit"` - Create alias for `git lg`.
 
 ### Staging
 - `git add <filename>` - Stage a file.
 - `git add .` - Stage all files.
-- `git add -u` - Stage previously tracked files.
 - `git rm --cached <filename>` - Unstage a file.
 - `git reset .` - Unstage all files.
+- `git add -u` - Stage previously tracked files.
 
 ### Commits
 - `git commit` - Open editor to commit.
 - `git commit -m "<description>"` - Commit in terminal.
 - `git commit -a` - Stage and open editor to commit.
 - `git commit -am "<description>` - Stage previously tracked files and commit in terminal.
+- `git commit --amend -m "<description>"` - Only works on last commit. Removes last commit and creates a new commit based on the removed commit. Destructive operation. Allows you to change the last commit's description.
+- `git commit --amend --author="[author] <[email]>"` - Only works on last commit. Removes last commit and creates a new commit based on the removed commit. Destructive operation. Allows you to change the author and email in last commit (ex.`git commit --amend --author="Gilbert Aurelius <gilbertaurelius@gmail.com>"`).
 
 ### Branches
 - `git branch` - Display local branches.
@@ -2257,6 +2317,7 @@ In the modern world, each software is developed  usually according to CI/CD prin
 - `git branch -D <name>` - Force delete a branch.
 - `git branch -m <old_branch> <new_branch>` - Change a specific branch's name.
 - `git merge <branch>` - Merge the changes in a branch into the current branch (ex. `git merge br1`).
+- `git branch <name> <hash>` - Create a branch on a commit.
 
 ### Relative Refs
 - `git checkout <branch>^` - Checkout the parent of the branch (ex. `git checkout HEAD^`).
@@ -2282,8 +2343,51 @@ In the modern world, each software is developed  usually according to CI/CD prin
   - `-v` - Detailed pull (ex. `git pull -v`).
 - `git push` - Push changes to remote repository.
   - `-v` - Detailed push (ex. `git push -v`).
+  - `--tags` - Push tags. Doesn't push changes to remote repo (ex. `git push --tags`).
+- `git push <server> <tag>` - Push one tag. Doesn't push changes to remote repo (ex. `git push origin v1.0.1`).
 - `git clone <url>` - Clone a repository. Git will automatically create tracking branch for default branch. Only one tracking branch will be created (ex. `git clone https://github.com/millenniumdisk/python-project.git`).
 - `git remote update <server> --prune` - Gets updates. Removes stale branch (ex. `git remote update origin --prune`).
 - `git push <server> -d <branch>` - Delete a remote branch from terminal (ex. `git push origin -d temp`).
 - `git show-ref` - Display all remote refs and local refs.
 - `git show-ref <branch>` - Compare refs (ex. `git show-ref main`).
+
+### Advanced
+
+#### Tags
+- `git tag <name>` - Create a lightweight tag on current commit (ex. `git tag v1.0.0`). It is like a static bookmark on a commit.
+- `git tag -a <name>` - Create an annotated tag and open editor to add description.
+- `git tag -a <name> -m "<description>"` - Create an annotated tag on current commit (ex. `git tag -a v1.0.0 -m "First stable version"`). Author and date is automatically added. Only use annotated tag. Tag should be unique.
+- `git tag` - List tags (won't show if tag type is lightweight or annotated).
+- `git tag -v <name>` - Show details of each tag (ex. `git tag -v v1.0.0`). Doesn't work on lightweight tags.
+- `git show <arg1>` - Show commit with the specified tag or hash (ex. `git show v1.0.0`).
+- `git tag -d <tag>` - Delete a tag in local repository.
+- `git push --delete <remote> <tag>` - Delete a tag in remote repository.
+
+#### Reset
+- `git reset <hash>` - Safe operation. Modifies local repo. Mixed mode operation. Discard one commit (remove it from Git repository) and unstage files only but working directory is not touched when second to the last commit's hash is used.
+- `git reset --soft <hash>` - Discard commit only (remove it from Git repository). Staging area and working directory are not touched when second to the last commit's hash is used.
+- `git reset --mixed <hash>` - Same as `git reset <hash>`. Default operation.
+- `git reset --hard <hash>` - Discard commit (remove it from Git repository). Unstage files and remove files in working directory (changes state to older version). Destructive operation.
+- `git reset HEAD~<num>` - Reset n number of commits from the lsat commit in mixed mode (ex. `git reset HEAD~3`).
+
+#### Revert
+- `git revert <arg1>` - Revert a commit so if HEAD is used in `arg1` like in `git revert HEAD`, a new commit will be created that removes the changes done in the last commit. Same result will happen if hash of last commit is used instead. Revert is not a destructive operation (doesn't modify Git history). Revert can only be used on one commit.
+  - `--continue` - When merge conflicts appear, fix them first then stage them and then use the command `git revert --continue`.
+
+#### Cherry Pick
+- `git cherry-pick <hash>` - Get one commit from a different branch or commit may be created while in detaached HEAD state and then put the commit in the current branch (ex. `git cherry-pick 0bda`). Not a destructive operation.
+  - `--no-commit` - Stages cherry picked commit but no commit will be created (ex. `git cherry-pick --no-commit c29f`).
+
+#### Reflog
+- `git reflog` - Displays all local operations and hashes. Allows going back to a previous state when an operation was done like a git reset on 3 commits and you want to get those 3 commits back by using another git reset by the hash will be pointing to the hash that was supposed to be the previously last commit. Operations on ref HEAD will appear. `HEAD@{num}` is a pointer that can be used instead of hash like in `git checkout HEAD@{3}` where we go 3 operations back. Logs operations in 90 days (default).
+- `git reflog show <branch>` - Show operations done in a branch.
+
+#### Stashing
+- `git stash` - Saves unfisished uncommitted changes by Saving working directory and staging area state and returns to the prvious repository state. Creates a temporary commit in Git repository. Temporary commit hash is in `.git/refs/stash`
+- `git stash pop` - Load saved stash.
+
+#### Garbage Collection
+- `git gc` - Clean unreachable objects or ref log records.
+
+#### Rebase With Squashing
+- `git rebase -i <arg1>` - While current branch is the feature branch that will be rebased and merged to main, arg1 is the hash of the last commit before creation of the feature branch. If we have 3 commits we want to rebase and squash, we can choose commits between the last commit in feature branch up to the next commit after arg1 commit. A text editor will open. Change the word `pick` to `squash` or just put `s` to the first part of a commit's line for the second and third commit where `pick` will remain on the first commit in the opened editor to squash the 3 commits into one commit.
