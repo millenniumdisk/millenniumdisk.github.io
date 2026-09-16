@@ -6,7 +6,7 @@ title: CSS Properties
 # CSS Properties
 
 ## Background Shorthand Property
-Change the background color of the element.
+Change the background color of the element. Using `url("")` and adding an image path will need width and height with px values and not percent values when `position: fixed` is not placed. Use `position: fixed` to make the image be out of the document flow and be able to use percent values in height and width.
 ```css
 h1 {
 	background: violet;
@@ -344,9 +344,11 @@ Subproperties:
 `border-style: solid;`
 `border-color: black;`
 `border-bottom: 5px solid white;`
+`border-left-color: #ff5454;`
 
 ### Margin
-The space surrounding the border of an element.
+The space surrounding the border of an element. `auto` as value will make the element fill the left and right space equally which will make it centered but it won't work vertically but `margin: 0 auto;` and `margin: auto;` are both ok to use. `auto` is ok to use even if width is not 100%.
+`margin: auto;`
 
 Shorthand:
 Set margin to all sides.
@@ -366,6 +368,14 @@ Values are placed to set top and bottom then left and right margin.
 
 ### Shorthand
 Short way of writing CSS code. If a value is omitted, the default value will be used so the style might not apply like in `border: 3px black;`. Order of values doesn't matter as long as values aren't the same.
+
+Use shorthand and then use specific subproperty to override a part of the shorthand.
+
+Add a border but left border is removed.
+```css
+border: 4px solid black;
+border-left: none;
+```
 
 ## Margin Collapsing
 It is when margins of two elements overlap into one combined space. Bigger margin will be applied. Use `margin-top` only or `margin-bottom` most of the time as a good practice.
@@ -405,7 +415,7 @@ h1 {
 A way to name elements.
 
 ## Inline Level Element
-Inline elements don't take the full width. It only takes the needed space for its content so elements can be in one line. Margin top and bottom and padding and width and height (width and height are auto to take space needed by content) can't be set since they won't have an effect. A line break will be placed if the content of the element take a lot of space. Uses box model. Will push elements with border.
+Inline elements don't take the full width. It only takes the needed space for its content so elements can be in one line. Margin top and bottom and padding and width and height (width and height are auto to take space needed by content) can't be set since they won't have an effect. A line break will be placed if the content of the element take a lot of space. Uses box model. Will push elements with border. Width has no effect on inline elements.
 - `a`
 - `span`
 - `img`
@@ -421,6 +431,8 @@ Takes the full available width minus margin and padding. Takes a new line.
 
 ## Display Property
 Changes the behavior of the element. Values: `inline`, `block`, `inline-block` and `none`. `none` makes the element disappear and its position be taken by other elements (taken out of document flow but still part of DOM). Changing inline to block is not that useful. `inline-block` is a mixed behavior and we can set margin top and bottom and padding but only takes the needed space for content so they can be side by side. Flexbox is another tool to position elements instead of using `ineline-block` and setting padding or margin.
+
+Using inline or block as value is useful if you want the behavior to be specific like it should only take space as its content needs or the element should take the full available width.
 ```css
 h1 {
 	display: inline-block;
@@ -444,7 +456,7 @@ Move text and inline elements to left, right or center.
 `width: calc(100% - 49px);`
 
 ## Text Decoration Property
-For anchors, `underline` is default value. Setting `text-decoration: none;` to container with anchors won't remove underline because of default browsers so `none` can't be inherited.
+For anchors, `underline` is default value. Setting `text-decoration: none;` to container with anchors won't remove underline because of browser defaults so `none` can't be inherited.
 
 Remove underline of anchor.
 `text-decoration: none;`
@@ -459,7 +471,7 @@ Change size of text.
 `font-size: 22px;`
 
 ## Vertical Align Property
-Moves the position of text to the middle vertically.
+Moves the position of text to the middle vertically. `top` and `middle` are values.
 `vertical-align: middle;`
 
 ## Pseudo Classes
@@ -525,7 +537,12 @@ Combine selectors with the same declaration set using `,` into one rule.
 ```
 
 ## Border Radius
-Round the corners.
+Round the corners. Setting a value of 50% will make a circle.
+
+`border-radius: <top_left> <top_right> <bottom_right> <bottom_left>;`
+
+`border-radius: 4px 4px 4px 4px;`
+
 `border-radius: 8px;`
 
 ## URL Helper Method
@@ -600,3 +617,94 @@ a {
 
 ## Browser Support
 It is important to know if a feature you will be using is working on your target audiences' browsers. `caniuse.com` is useful for checking browser support.
+
+## Box Shadow Property
+Blurriness can be ommitted. Spread can also be ommitted. Spread is how big of an area the shadow will cover.
+`box-shadow: <x_axis> <y_axis> <blurriness> <spread> <color>;`
+
+`box-shadow: 2px 2px 2px 2px rgba(0, 0 , 0, 0.5);`
+
+Spread is not added.
+`box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);`
+
+## Color Function
+`rgb(255, 255, 255)`
+
+Fourth arg is alpha channel (transparency).
+1 = not transparent
+0.5 = 50% transparent
+0 = fully transparent
+`rgba(255, 255, 255, 0.5)`
+
+## List Style Property
+Can be set to `none` so bullet points won't appear on list items when property is placed in the `ul` or `ol` element.
+`list-style: none;`
+
+## Font Shorthand Property
+`font: inherit;`
+
+## Inherit
+Applies what would have been inherited and sets those as the style.
+`font: inherit;`
+
+## Cursor
+Default value is default. Set this in a button to see a pointing hand when on a button.
+`cursor: pointer;`
+
+## Outline
+It is a browser default that can be seen in dev tools. Go to :hov. It is the focus pseudo selector. Outline is not part of box model.
+`outline: none;`
+
+## Float
+Not that much used anymore since flex box is better. Floating elements can be useful to position some elements differently in the document flow. Overwrite default positioning and tell the browser to push the element to left or right. Take out element from document flow and elements below the floated element will take its previous place but the elements below the floated element will float around the floated element. Float is great for positioning an image in text and the text will float around the image. Float is not great for positioning block level elements because the text will respond but block elements won't. We need to make its space be reserved and tell other block level elements after it that they shoudn't respect any previous floatings. We can float text too. Don't use float to position elements.
+`float: right;`
+
+`clear: both;` is used to clear both left and right floats.
+```html
+<div class="clearfix"></div>
+```
+
+```css
+.clearfix {
+    clear: both;
+}
+#highlighted {
+    float: right;
+}
+```
+
+## Position Property
+Changes the position of the element. Can be applied to block and inline element. Position changes will only apply if we use a value that is not `static` so `top: 100px` won't do anything.
+
+Values:
+1. `static` - Default value.
+2.  `fixed` - Element will be positioned depending on the viewport (viewport is the positioning context). Takes element out of document flow.
+3.   `absolute` - Takes element out of document flow.
+  - Positioning context will be html element if no ancestors or parent got a position property applied.
+  - When there is an ancestor with the position property applied, the closest ancestor that got the position property applied will be the positioning context for the element (element will be positioned in relation with the ancestor).
+4.  `relative` - Doesn't take the element out of document flow.
+5.   `sticky` - A new value so there are limitations to it. Browser support is not the best.
+
+Takes the element out of the document flow making the next element take the previous position of the element with `fixed` but even thought it is changed, it is still visible. Other elements will think the element with `fixed` doesn't exist. `fixed` makes the element behave like an inline block element where its width can be changed. `top: 100px` will have an effect moving the element down. `top: 0` and `margin: 0` will make the element stick to the top edge. The element has the viewport as the position in context so it will stick to the top of viewport. Element's position depends on the viewport.
+```css
+position: fixed;
+```
+
+Change position of elements in document flow.
+`top: 100px;`
+`bottom`
+`left: 0;`
+`right`
+
+`top: 20px;` might mean add 20px to top of current element's position and change its position. It could also mean 20px from the top of our viewport or of our HTML element or of body element or other element. These options are positioning context.
+
+If html or body element got a margin and we want the navigation bar to be on the top, we need to add `top: 0` and `left: 0` but if there is no margin, then there is no need to add them.
+
+## Viewport
+The visible part of the website.
+
+## Z Index Property
+Default value is `auto`. `auto` is equal to `0` value. Putting an element above an element with a z index of 0, a higher value is needed which can be 1, 10 or 100. Use a lower value like -1, -10 or -100 to put the element below. To make z index have an impact on the element, the position property should have a value that is not `static`. If z index value is both the same or both are 0, then the order of the elements in the HTML file matters. The element on the bottom most part of the HTML file will be on top of other elements that are at the top of the HTML file.
+
+## BEM Notation
+A convention which is good practice to follow when naming HTML element's classes.
