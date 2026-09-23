@@ -5,13 +5,191 @@ title: CSS Properties
 
 # CSS Properties
 
-## Background Shorthand Property
+## Background Property (Shorthand)
 Change the background color of the element. Using `url("")` and adding an image path will need width and height with px values and not percent values when `position: fixed` is not placed. Use `position: fixed` to make the image be out of the document flow and be able to use percent values in height and width.
 ```css
 h1 {
 	background: violet;
 }
 ```
+
+Image value comes first then position values and then size values. 
+
+Setting only one `border-box` will put it as value for both origin and clip.
+`background: url("freedom.jpg") left 10% bottom 20%/cover no-repeat border-box`
+
+Order matters so `border-box` is set for origin and `padding-box` is set for clip.
+`background: url("freedom.jpg") left 10% bottom 20%/cover no-repeat border-box padding-box;`
+
+Local can be placed as last value.
+
+### Background Image Property
+Multiple background images can be defined.
+`background-image: url("freedom.jpg");`
+
+### Linear Gradient
+Linear and radial gradients are treated as images.
+
+First argument is the direction which can be ommitted which will make first argument to be color. Default direction is vertically. It is from top to bottom.
+`background-image: linear-gradient(red, blue);`
+
+From top to bottom.
+`background-image: linear-gradient(to bottom, red, blue);`
+
+From top right to bottom left.
+`background-image: linear-gradient(to left bottom, red, blue);`
+
+`background-image: linear-gradient(to left top, red, blue);`
+
+`background-image: linear-gradient(to right top, red, blue);`
+
+Start from bottom left to top right.
+`background-image: linear-gradient(30deg, red, blue);`
+
+Start from bottom to top.
+`background-image: linear-gradient(0deg, red, blue);`
+
+From top to bottom.
+`background-image: linear-gradient(180deg, red, blue);`
+
+We can add as many colors and even hex.
+`background-image: linear-gradient(180deg, red, blue, green, yellow, #fa923f);`
+
+We can transition to transparent.
+`background-image: linear-gradient(180deg, red, transparent);`
+
+We can use RGBA.
+`background-image: linear-gradient(180deg, red, rgba(0, 0, 0, 0.5));`
+
+30% is red. Blue also takes the same space. RGBA also follows the same space taken.
+`background-image: linear-gradient(180deg, red, blue, rgba(0, 0, 0, 0.5));`
+
+Red will take 70% of the space.
+`background-image: linear-gradient(180deg, red 70%, blue, rgba(0, 0, 0, 0.5));`
+
+At 80%, blue will be finished in occupying space.
+`background-image: linear-gradient(180deg, red 70%, blue 80%, rgba(0, 0, 0, 0.5));`
+
+When blue got a lower percent value than red, it will make a hard edge because there is no space for blue to transition. So when blue enters, it is already to late.
+`background-image: linear-gradient(180deg, red 70%, blue 60%, rgba(0, 0, 0, 0.5));`
+
+### Background Color Property
+`background-color: red;`
+Only one background color can be defined. If defined with background image, the color won't show because the image is in front.
+
+### Background Size Property
+Change size of background image.
+
+Set width of image to 100 pixels. Height adjusts to keep the aspect ratio when not specified.
+`background-size: 100px;`
+
+Image can be distorted when height is also specified.
+`background-size: 300px 100px;`
+
+Percent value can be used.
+
+Take 50% of available space.
+`background-size: 50%;`
+
+50% width and 100% height.
+`background-size: 50% 100%;`
+
+If you don't want to distort it (keep aspect ratio), auto can be used for width.
+`background-size: auto 100%;`
+
+When height is undefined like in `background-size: 100%;`, it is the same as `background: 100% auto;`. Image will take full width of container and will not overlap in all sides even if if image height doesn't match container height. The image is automatically cropped. We can control how the image is cropped.
+
+Predefined value is cover. Cover is the same as `background-size: 100%;`. It may look like cover is making the image be 100% in width but it is not. Cover finds what is the important value to be aligned to background image. Image is landscape so cover will set width to 100% because height is lesser than width. Portrait mode container is opposite. Cover always set image to fill the entire container.
+`background-size: cover;`
+
+Makes sure the whole image is seen in the container but will make whitespace appear on the container. Might not fill the entire container.
+`background-size: contain;`
+
+Using a small px value will make multiple small images be the background.
+
+### Background Repeat
+Image is set to repeat as default value.
+
+`background-repeat: no-repeat;`
+
+Repeat in x axis.
+`background-repeat: repeat-x;`
+
+Repeat in y axis.
+`background-repeat: repeat-y;`
+
+### Background Position Property
+First value defines x axis which is for how the left edge of the image should be positioned relative to left edge of the container. 
+
+Move the background image to the right by 20 pixels.
+`background-position: 20px;`
+
+Second value is for y axis which is top.
+`background-position: 20px 50px;`
+
+Percent can be used but to define how much can be excess. Width is not affected since it is all being displayed.
+Only 10% will be cropped at the top.
+`background-position: 10%;`
+
+Left part of excess space which we have none is at the edge.
+`background-position: 0%;`
+
+Excess space should go to top when there is second value.
+`background-position: 0% 10%;`
+
+50% means excess that don't fit in the container, 50% at the top will be cropped and 50% at the bottom will be cropped.
+`background-position: 0% 50%;`
+
+100% means excess that should be cropped will be cropped at the top 100% and nothing will be cropped at the bottom.
+`background-position: 0% 100%;`
+
+Center is a predefined value. It is the same as setting `background-position: 50% 50%;`
+`background-position: center;`
+
+left and top are predefined values. It is the same as setting `background-position: 0% 0%;`. It means left side and top side will both be not cropped.
+`background-position: left top;`
+
+Bottom will not be cropped.
+`background-position: left bottom;`
+
+Percent can be combined with predefined values.
+
+Crop left side by 10% and crop bottom side by 20%.
+`background-position: left 10% bottom 20%;`
+
+### Background Origin Property
+Background origin is like box sizing. Default got space in left and right border but not in top and bottom if image is cropped.
+`background-origin: border-box;`
+
+Content box is not the default.
+
+There will be padding that will appear because we are setting height and width of image but only content and not including padding and border.
+`background-origin: content-box;`
+
+Default value. Content and padding will be included but not border.
+`background-origin: padding-box;`
+
+### Background Clip Property
+It is where we want to clip or crop the image. Affects the width.
+
+We can use border box value.
+`background-clip: border-box;`
+
+Padding box value will mean we are cropping the image after the padding.
+`background-clip: padding-box;`
+
+Clip or crop the image before the padding.
+`background-clip: content-box;`
+
+### Background Attachment Property
+Defines scrolling behavior on image that is not fixed. Rarely used.
+
+`fixed` - Image would not be fixed to the container but the viewport.
+`inherit`
+`initial`
+`local` - Image scrolls with the other content of the container.
+`scroll` - Image would stay in place and content would scroll over it above it.
+`unset`
 
 ## Color Property
 Change the text color of the element.
@@ -677,20 +855,33 @@ Not that much used anymore since flex box is better. Floating elements can be us
 Changes the position of the element. Can be applied to block and inline element. Position changes will only apply if we use a value that is not `static` so `top: 100px` won't do anything.
 
 Values:
-1. `static` - Default value.
-2.  `fixed` - Element will be positioned depending on the viewport (viewport is the positioning context). Takes element out of document flow.
-3.   `absolute` - Takes element out of document flow.
+- `static` - Default value.
+- `fixed`
+  - Takes element out of document flow.
+  - Will create a stacking context even if no z index is applied manually.
+  - Element will be positioned depending on the viewport (viewport is the positioning context).
+- `absolute`
+  - Takes element out of document flow.
+  - Will only create a new stacking context when you apply a z index manually.
   - Positioning context will be html element if no ancestors or parent got a position property applied.
   - When there is an ancestor with the position property applied, the closest ancestor that got the position property applied will be the positioning context for the element (element will be positioned in relation with the ancestor).
-4.  `relative` - Doesn't take the element out of document flow.
-5.   `sticky` - A new value so there are limitations to it. Browser support is not the best.
+- `relative`
+  - Doesn't take the element out of document flow.
+  - Will only create a new stacking context when you apply a z index manually.
+  - The positioning context is the element itself. We can move an element down and to right from its previous or initial position with `top: 50px` and `left: 50px`. We can push the element out of its parent with a higher value like `top: 300px`.
+- `sticky`
+  - A new value so there are limitations to it.
+  - Browser support is not the best.
+  - A combination of relative and fixed.
+  - Adding `position: sticky` only won't do anything so also add `top: 20px` and when border space is reached, element will become fixed. If `top: 0` is used then the border around the element will be on edge of viewport when it is turned to fixed.
+  - The element won't be fixed anymore when it is the end of the parent's content.
 
 Takes the element out of the document flow making the next element take the previous position of the element with `fixed` but even thought it is changed, it is still visible. Other elements will think the element with `fixed` doesn't exist. `fixed` makes the element behave like an inline block element where its width can be changed. `top: 100px` will have an effect moving the element down. `top: 0` and `margin: 0` will make the element stick to the top edge. The element has the viewport as the position in context so it will stick to the top of viewport. Element's position depends on the viewport.
 ```css
 position: fixed;
 ```
 
-Change position of elements in document flow.
+Change position of elements in document flow. Percent and px values can be used.
 `top: 100px;`
 `bottom`
 `left: 0;`
@@ -700,11 +891,30 @@ Change position of elements in document flow.
 
 If html or body element got a margin and we want the navigation bar to be on the top, we need to add `top: 0` and `left: 0` but if there is no margin, then there is no need to add them.
 
+## Positioning Context
+Defines the anchor point when an element's position change.
+
 ## Viewport
 The visible part of the website.
 
 ## Z Index Property
 Default value is `auto`. `auto` is equal to `0` value. Putting an element above an element with a z index of 0, a higher value is needed which can be 1, 10 or 100. Use a lower value like -1, -10 or -100 to put the element below. To make z index have an impact on the element, the position property should have a value that is not `static`. If z index value is both the same or both are 0, then the order of the elements in the HTML file matters. The element on the bottom most part of the HTML file will be on top of other elements that are at the top of the HTML file.
 
+An element with a low z index can't be behind its parent with a high z index.
+
 ## BEM Notation
 A convention which is good practice to follow when naming HTML element's classes.
+
+## Overflow
+By putting `overflow: hidden` in the parent container, an element with `position` disappear when it is outside its parent container.
+
+When `overflow: hidden` is added to body, it will be passed to html. So it means that body won't have `overflow: hidden` and html got it instead. Just add `overflow: hidden` to both body and html. The same thing will happen if `overflow: hidden` is added to body and `overflow: auto` is added to html.
+
+## Stacking Context
+Stacking context is the system on how elements are layered on the webpage in the z dimension. Child elements are considered one unit with the parent container so they don't interfere with the z index of other parent containers that are siblings.
+
+## Images
+Images will display their original size by default even if the container's height and width are changed. Select the image and change its height but using 100% won't make it be the size of the container because the image will use its original size. It is because the image is inside an anchor which is an inline element. Set anchor to inline-block to use 100%. The problem is that the anchor isn't an inline-block or block element. This is all we can do in normal images. All the other styling we did in background images can't be done to normal images. Hacky solutions like a -5px margin top sometimes work to move the image to the top a little bit. If you want to do complex styling on an image, use background image but it won't be part of the document flow. It doesn't have its own HTML element that signals that it is an image.
+
+Add a `vertical-align: top` or bottom or set image to block with display to an image element that is inside a container when using it because of a bug that makes box shadow get a whitespace at the bottom part. This bug happens because image is an inline element.
+
