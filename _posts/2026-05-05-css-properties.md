@@ -5,6 +5,18 @@ title: CSS Properties
 
 # CSS Properties
 
+## Shorthand
+When using shorthand, other properties are also overwrites other properties because it will initialize other properties as default even if only one value is added.
+Short way of writing CSS code. If a value is omitted, the default value will be used so the style might not apply like in `border: 3px black;`. Order of values doesn't matter as long as values aren't the same.
+
+Use shorthand and then use specific subproperty to override a part of the shorthand.
+
+Add a border but left border is removed.
+```css
+border: 4px solid black;
+border-left: none;
+```
+
 ## Background Property (Shorthand)
 Change the background color of the element. Using `url("")` and adding an image path will need width and height with px values and not percent values when `position: fixed` is not placed. Use `position: fixed` to make the image be out of the document flow and be able to use percent values in height and width.
 ```css
@@ -72,6 +84,52 @@ At 80%, blue will be finished in occupying space.
 
 When blue got a lower percent value than red, it will make a hard edge because there is no space for blue to transition. So when blue enters, it is already to late.
 `background-image: linear-gradient(180deg, red 70%, blue 60%, rgba(0, 0, 0, 0.5));`
+
+### Radial Gradient
+Create a radial gradient.
+
+Default position is in the middle and default shape is ellipse. Start with red color and then use blue.
+`background-image: radial-gradient(red, blue);`
+
+Multiple colors can be used.
+`background-image: radial-gradient(red, blue, green);`
+
+The only alternative is circle.
+`background-image: radial-gradient(circle, red, blue, green);`
+
+Circle will start at the top with at attribute.
+`background-image: radial-gradient(circle at top, red, blue, green);`
+
+Start at top left.
+`background-image: radial-gradient(circle at top left, red, blue, green);`
+
+Custom values can be used. Move 20% from the left and 50% from top. First is x axis, second is y axis. px values can be used instead of percent values.
+`background-image: radial-gradient(circle at 20% 50%, red, blue, green);`
+
+We can add the size after circle. 20px is diameter of the shape except the other part. Size won't have an effect on ellipse because we need to values for size.
+`background-image: radial-gradient(circle 20px at 20% 50%, red, blue, green);`
+
+Ellipse with size. First is width and next is height.
+`background-image: radial-gradient(ellipse 20px 20px at 20% 50%, red, blue, green);`
+
+`background-image: radial-gradient(ellipse 20px 30px at 20% 50%, red, blue, green);`
+
+`background-image: radial-gradient(ellipse 80px 30px at 20% 50%, red, blue, green);`
+
+The point where blue and green changes is barely touching the edge horizontally.
+`background-image: radial-gradient(ellipse farthest-side at 20% 50%, red, blue, green);`
+
+The point where blue and green changes is barely touching the edge vertically so it is top and bottom.
+`background-image: radial-gradient(ellipse closest-side at 20% 50%, red, blue, green);`
+
+Closest corner ensures the outermost ring touches the closest corner.
+`background-image: radial-gradient(ellipse closest-corner at 20% 50%, red, blue, green);`
+
+Touch the farthest corner.
+`background-image: radial-gradient(ellipse farthest-corner at 20% 50%, red, blue, green);`
+
+Color stops can be defined also.
+`background-image: radial-gradient(ellipse farthest-corner at 20% 50%, red, blue 70%, green);`
 
 ### Background Color Property
 `background-color: red;`
@@ -190,6 +248,23 @@ Defines scrolling behavior on image that is not fixed. Rarely used.
 `local` - Image scrolls with the other content of the container.
 `scroll` - Image would stay in place and content would scroll over it above it.
 `unset`
+
+### Multiple Backgrounds
+It is ok to have multiple backgrounds (image / gradient) and some can be transparent. Only one solid color can be used and it should be at the most bottom layer.
+
+#ff1b68 is used as a fallback background when the image won't load.
+
+The image that will only be modified is #ff1b68 because it is followed by the background properties.
+`background: url("images/freedom.jpg") #ff1b68 left 10% bottom 20%/cover no-repeat border-box;`
+
+Use , to add multiple image / gradient. Linear gradient will be on top of image because it comes first.
+`background: linear-gradient(), url("images/freedom.jpg") left 10% bottom 20%/cover no-repeat border-box, #ff1b68;`
+
+Add a light brown linear gradient that will go transparent and it starts from bottom to top with 0.6 transparency and 10% color stop.
+`background: linear-gradient(to top, rgba(80, 68, 18, 0.6) 10%, transparent), url("images/freedom.jpg") left 10% bottom 20%/cover no-repeat border-box, #ff1b68;`
+
+Each background image can have their own background properties and they are separated by commas.
+`background: <image> <properties>, <image> <properties>;`
 
 ## Color Property
 Change the text color of the element.
@@ -543,17 +618,6 @@ Values are placed to set top, bottom, right and left margin.
 
 Values are placed to set top and bottom then left and right margin.
 `margin: 5px 10px;`
-
-### Shorthand
-Short way of writing CSS code. If a value is omitted, the default value will be used so the style might not apply like in `border: 3px black;`. Order of values doesn't matter as long as values aren't the same.
-
-Use shorthand and then use specific subproperty to override a part of the shorthand.
-
-Add a border but left border is removed.
-```css
-border: 4px solid black;
-border-left: none;
-```
 
 ## Margin Collapsing
 It is when margins of two elements overlap into one combined space. Bigger margin will be applied. Use `margin-top` only or `margin-bottom` most of the time as a good practice.
@@ -918,3 +982,103 @@ Images will display their original size by default even if the container's heigh
 
 Add a `vertical-align: top` or bottom or set image to block with display to an image element that is inside a container when using it because of a bug that makes box shadow get a whitespace at the bottom part. This bug happens because image is an inline element.
 
+## Filter Property
+Applies blurring, grayscale or changing the contrast of an element.
+
+Element without any content but got a background of brown and height and width. Applying filter will turn it into a blurry box.
+```css
+div {
+	background: brown;
+	filter: blur(10px);
+}
+```
+
+MDN contains a list of filters.
+We can apply more than one filter.
+
+Grayscale accepts a percent value. 100% means black and white image.
+`filter: grayscale(100%);`
+
+A little grey added.
+`filter: grayscale(40%);`
+
+Basic support for filters may be not present for IE. Polyfill can be used instead or implement some other fallback or just use filter to enhance the look only and not something that is depended on heavily.
+
+Affects all content.
+
+## SVG
+Browser support is decent.
+Styling the color of the lines in an SVG can be done by overwriting fill color but it is more related to SVG than CSS and is advanced.
+
+Adding a padding to the container of an SVG can make the SVG small. The SVG got inline styles and they can be overwritten with !important.
+
+Fill property is how SVG is filled.
+
+Stroke property can be added.
+`stroke: black;`
+
+Thickness of stroke.
+`stroke-width: 10px;`
+
+## Units
+px - pixels
+% = precentages
+rem - root em refers to the font size
+em - em also refers to the font size
+vh - viewport height
+vw - viewport width
+
+Properties where applying units makes sense.
+
+font-size
+padding
+border
+margin
+width
+height
+top
+bottom
+left
+right
+
+Absolute Lengths - Mostly ignore user settings (px ignore browser settings).
+- px - Used mostly.
+- cm - Don't use in web development.
+- mm - Don't use in web development.
+
+Viewport Lengths - Adjusts the size of element we apply to according to the viewport. Lengths that allow us to to adjust our size more dynamically to the viewport.
+- vh - Apply viewport lengths with vh. Viewport Height.
+- vw
+- vmin
+- vmax
+
+Font-Relative Lengths - Font-relative lengths adjust to the default font size.
+- rem - Apply font-relative lengths with rem.
+- em - Apply font-relative lengths with em.
+
+Percent Value Lengths - Special case.
+
+Percent Values
+
+Three Rules to Remember
+
+1. If there is an element with percentage value unit applied like 10% width and got position fixed, containing block will refer to viewport so 10% of viewport or container's width will be the width of the element.
+2. Element with a percentage value and got position absolute will have a containing block which is the ancestor's content + padding. The ancestor should have a position that is not static (absolute, relative, fixed or sticky).
+
+When position fixed is applied and there is a width property to an element and percent value is used instead of px.
+
+The position fixed changes how the percentage unit behaves.
+
+Containing Block - Reference point for an element with a percentage unit. It can be an element or a parent with a width like 100px.
+
+The child will have 10px if the child got 10% width.
+
+If position is fixed, instead of element, the viewport becomes the containing block.
+
+top: 0% means the element's top margin will be placed on top of its parent's top.
+
+top: 50% means the element's top margin will be placed on the center of the parent.
+
+bottom: 0% means the element's bottom margin will be placed on the parent's bottom.
+
+bottom: 50% means the element's bottom margin will be placed on the center of the parent.
