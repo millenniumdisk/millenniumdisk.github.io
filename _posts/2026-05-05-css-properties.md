@@ -1064,6 +1064,7 @@ Three Rules to Remember
 
 1. If there is an element with percentage value unit applied like 10% width and got position fixed, containing block will refer to viewport so 10% of viewport or container's width will be the width of the element.
 2. Element with a percentage value and got position absolute will have a containing block which is the ancestor's content + padding. The ancestor should have a position that is not static (absolute, relative, fixed or sticky).
+3. We have an element and we apply a percetage value to it and it got position static or position relative applied. The containing block is the ancestor's content. The closest ancestor that is a block level element is the containing block. An image which can be 50% or 100% inside a div will only have the 50% or 100% width of the content. Not content + padding. If it's closest parent becomes an inline, element will find the next closest parent that is a block level element as containing block.
 
 When position fixed is applied and there is a width property to an element and percent value is used instead of px.
 
@@ -1082,3 +1083,146 @@ top: 50% means the element's top margin will be placed on the center of the pare
 bottom: 0% means the element's bottom margin will be placed on the parent's bottom.
 
 bottom: 50% means the element's bottom margin will be placed on the center of the parent.
+
+When the element got a position static or relative and height property is set with a percent value, the containing block will be the closest ancestor that is a block level element. The ancestor is also an element with position static or relative. height 100% won't work because height depends on the content but width 100% works because the value can be found in the containing block. To solve this with percent values, add html element selector and add height 100% and add height 100% to body also. Use position absolute to backdrop to make it go out of document flow and be above the webpage but height 100% is not needed for html and body but backdrop won't cover the whole viewport because testimonial got two margins added to it and margin collapsing happens but there is also no ancestor with position that is not static applied so it will act like position fixed and viewport is the containing block since we used percent value. The backdrop doesn't stick to the viewport though. So change position to fixed. Add top 0 and left 0 to fix margin collapsing.
+
+Fonts without specified font size in a css file will change in size when browser settings font size is changed. If you want to change the font size for all elements in the beginning depending on the browser settings by using html tag selector and using font size 100% but it will overtake browser settings which is a behavior we already have. 75% can be used to make the browser settings default smaller.
+
+## Combining Pixels and Percent Values
+We can combine pixels and percent values.
+
+Element will take 65% of the containing block but won't be very big and its max width is 580px.
+```css
+width: 65%;
+max-width: 580px;
+```
+
+## Max Width Property
+Element won't become more bigger than the limit specified.
+
+Limit is 580px so image will stay 580px if it can become more than 580px.
+`max-width: 580px;`
+
+## Min Width Property
+Element won't become more smaller than the limit specified.
+
+The limit is 350px so image won't go smaller below 350px.
+`min-width: 350px;`
+
+## Other Font Size Units
+An h1 element may have a font size assined by browser like 2em. We can go to dev tools and in computed tab. Untick show all. Font size applied to h1 will be listed as 40px. It is based on 20px that wasn't applied but 2em is used to multiply 2 to 20px so we get 40px. 1.5em can make 20px into 30px. Em is calculated based on the actual size of our element which is inherited from the parent and then multiplied by the factor in em. 1 em is equal to 16px. When browser settings is set to font size of very large, font size will become 24 and 16 * 1.2 will become 24 * 1.2 so a bigger font size if 1.2em is used. When there is a browser default that applies em to font size, it is ok to apply font size with em manually in the CSS file. 1.1em will make 16px to 18px. Em got a problem though since it inherits the previous size and increases its size.
+
+### Rem (Root Em)
+Can be used on other things aside from font size. Unit calculated based on font size. Takes the font size set by browser settings and multiplies with the specified value. Goes to root element which is html element. New. Browser support is now decent.
+
+Browser default font size times 1.1.
+`font-size: 1.1rem;`
+
+### Em
+Can be used on other things aside from font size. Unit calculated based on font size. Em inherits the previous size and multiplies the em with the previous em. Be careful when using em. There are some cases where em can be used.
+
+1.2em is 19.2px. We got 19.2 from 16 * 1.2.
+`font-size: 1.2em;`
+
+## Viewport Units
+Support is generally good but only partial support (vmax only) for Internet Explorer 11. Using position fixed and using percent values for width and height is a good alternative.
+
+## Viewport Width
+Unit always refers to viewport regardless of position value.
+
+Same as width at 100%.
+`width: 100vw;`
+
+80% of viewport.
+`width: 80vw;`
+
+In Windows machines, 100vw is 100% of the viewport width + scrollbars.
+
+If you don't want to display scrollbars, use width 100% instead of 100vw.
+
+Second way is to use `overflow-x: hidden;` to body selector to hide horizontal scrollbar. `overflow-y: hidden;` hides vertical scrollbar.
+
+Third way is using a pseudo element.
+body::-webkit-scrollbar {
+    width: 0
+}
+
+## Viewport Height
+Unit always refers to viewport regardless of position value.
+
+Same as height at 100%.
+`height: 100vh;`
+
+50% of viewport.
+`height: 50vh;`
+
+## Vieport Min
+Looks at the width and height values. Takes the smaller from the two and adjusts its size based on the specified value.
+
+Width becomes 80% of the smaller value.
+`width: 80vmin;`
+
+You can create overlaying elements and make them stick to the viewport.
+
+## Viewport Max
+Looks at the width and height values. Takes the bigger from the two and adjusts its size based on the specified value.
+
+Width becomes 80% of the bigger value.
+`width: 80vmax;`
+
+You can create overlaying elements and make them stick to the viewport.
+
+## Choosing Units
+- Font Size (Root Element) - Percent value.
+- Font Size - Rem (use em on child only and avoid em chains).
+- Padding - Rem.
+- Border - Pixel value.
+- Margin - Rem.
+- Width - Percent value or vw (use pixel value when using vmin or vmax).
+- Height - Percent value or vh (use pixel value when using vmin or vmax).
+- Top - Percent value.
+- Bottom - Percent value.
+- Left - Percent value.
+- Right - Percent value.
+
+## Center Elements
+The auto value can be used to center elements. It only works on block level elements with width value.
+`margin: auto;`
+
+## Modal
+A pop-up or overlay that appears on top or over the content of the webpage.
+
+## JavaScript
+Add `<script>` tag inside the bottom most part of the body tag of the HTML file.
+`<script src="shared.js"><script>
+
+The JavaScript file can have a short code.
+`alert("This works!");`
+
+We need to access the DOM element (what the browser makes of our HTML code).
+
+We can access elements in the DOM.
+
+Create a variable with `var` or `const`.
+
+The `document` object is provided by the browser.
+
+Use `querySelector` method to get an element. Argument is a normal CSS selector. Tag, ID, attribute or class selector or combinators can be used. `querySelector` always selects only one element (the first element the selector finds).
+
+Get an element with anotherclass which has some parent with someclass.
+`const backdrop = document.querySelector(".someclass .anotherclass");`
+
+`const backdrop = document.querySelector(".backdrop");`
+
+Use `console.log()` to see the element.
+`console.log(backdrop);`
+
+Object notation.
+`console.dir(backdrop);`
+
+`querySelectorAll` will get all elements with the class specified and put them in an array (node list). Index 0 is the first element.
+
+We can see properties of the element selected with object notation `console.dir()`. `style` is one property of the element. We can see all style properties we can set for the element and their respective values. These style properties are added as inline styles.
+
+Access style of element.
+`backdrop.style.display = "block";`
