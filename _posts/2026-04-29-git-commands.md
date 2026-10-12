@@ -80,7 +80,6 @@ mv <source> <destination>
 ```
 Move or rename files or directories like in `mv file1.txt important/notes`.
 
-
 ### Find
 `find .git/objects -type f` - Output should be of type file in `.git/objects` relative address.
 

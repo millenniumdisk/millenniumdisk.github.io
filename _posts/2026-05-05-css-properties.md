@@ -1226,3 +1226,532 @@ We can see properties of the element selected with object notation `console.dir(
 
 Access style of element.
 `backdrop.style.display = "block";`
+
+## Event Listener
+Add an event listener to the element we want to listen to.
+```js
+backdrop.addEventListener("click", function() {
+    modal.style.display = "none";
+    backdrop.style.display = "none";
+});
+```
+
+## Query Selector Method
+`const backdrop = document.querySelector(".backdrop");`
+
+## Query Selector All Method
+A combinator that selects button elements that are inside plan class element.
+`const selectPlanButtons = document.querySelectorAll(".plan button");`
+
+## Style Property
+```js
+const backdrop = document.querySelector(".backdrop");
+const modal = document.querySelector(".modal");
+const selectPlanButtons = document.querySelectorAll(".plan button");
+const modalNoButton = document.querySelector("modal__action--negative");
+
+// console.dir(backdrop);
+for(let i = 0; i < selectPlanButtons.length; i++) {
+    selectPlanButtons[i].addEventListener("click", function() {
+        modal.style.display = "block";
+        backdrop.style.display = "block";
+    });
+}
+
+modalNoButton.addEventListener("click", function() {
+    modal.style.display = "none";
+    backdrop.style.display = "none";
+});
+
+backdrop.addEventListener("click", function() {
+    modal.style.display = "none";
+    backdrop.style.display = "none";
+});
+```
+
+We just change the display property to block to show the element and none to hide the element.
+```js
+const backdrop = document.querySelector(".backdrop");
+const modal = document.querySelector(".modal");
+const selectPlanButtons = document.querySelectorAll(".plan button");
+const modalNoButton = document.querySelector(".modal__action--negative");
+const toggleButton = document.querySelector(".toggle-button");
+const mobileNav = document.querySelector(".mobile-nav");
+
+function closeModal() {
+    modal.style.display = "none";
+    backdrop.style.display = "none";
+}
+
+// console.dir(backdrop);
+for(let i = 0; i < selectPlanButtons.length; i++) {
+    selectPlanButtons[i].addEventListener("click", function() {
+        modal.style.display = "block";
+        backdrop.style.display = "block";
+    });
+}
+
+backdrop.addEventListener("click", function() {
+    mobileNav.style.display = "none";
+    closeModal();
+});
+
+modalNoButton.addEventListener("click", closeModal);
+
+toggleButton.addEventListener("click", function() {
+    mobileNav.style.display = "block";
+    backdrop.style.display = "block";
+});
+```
+
+## Class Name Property
+Removes other classes and adds only one class which is the open class which is not what we want since other classes may be in the element.
+`modal.className = "open";`
+
+## Class List Property
+There are many methods that can be used aside from add method.
+
+Add `open` class to `modal` element.
+`modal.classList.add("open");`
+
+## Property Notation
+Alternative to accessing properties.
+
+Instead of using the property `backgroundImage`, use square brackets to enter a string and use the CSS property name.
+`console.dir(backdrop.style["backdround-image"]);
+
+## Responsive Design
+Designing a responsive website is normally done with a mobile first approach where we create the mobile version of the website first then on desktop next.
+
+Responsive Design Tools
+- Viewport Meta Tag (added in HTML file)
+  - Adjusts webpage to device viewport.
+  - We can't apply design changes. So in the mobile version, we can't change the structure of the website, add or make some things disappear.
+- Media Quaeries (added in CSS file)
+  - Allows us to change the design depending on the actual size. Allows us to specify the way our website is displayed. We can change anything. Not in just one size.
+  - Design changes are defined by us. We can specify a unique design for the different devices.
+
+If we only take into account the actual pixels, we won't be able to display our website correctly or in a propery way in mobile. So we need device width and automatically apply a specific pixel ratio to allow us to translate hardware pixels into software CSS pixels.
+In the HTML file, we will add a meta tag as the third meta tag.
+
+Makes the browser use the CSS pixels and not the hardware pixels.
+`<meta name="viewport" content="width=device-width, initial-scale=1.0">`
+
+We need to add this meta tag to have a mobile design to the website. We can remove this meta tag if you don't create mobile website and you don't want to show mobile website to the user then remove this meta tag but it is not recommended or good practice. But we want a responsive website and a website that looks good on mobile so add this meta tag.
+
+The `viewport` attribute in `name` means to target viewport.
+
+With `content` attribute, we can set width of our page on the viewport to the width of the device. We can tell the browser our device is a smaller device which is a mobile device and that it should apply pixel ratio conversion because otherwise we would have the problem where the browser has the look at the amount of hardware pixels it has and is not aware that we have a smaller device and displays the entire website.
+
+`initial-scale` sets the zoom level we have. `1.0` means we have a default value and it means no zoom applied.
+
+`<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">`
+
+`yes` is default value to `user-scalable` means it is possible to zoom in. `no` means zooming in is not possible.
+
+`<meta name="viewport" content="width=device-width, initial-scale=1.5, maximum-scale=2.0">`
+
+`maximum-scale` restricts the max zoom in.
+
+`<meta name="viewport" content="width=device-width, initial-scale=1.5, maximum-scale=2.0, minimum-scale=1.2">`
+
+`minimum-scale` restricts max zoom out. `1.0` value is the value of not having a zoom in at all.
+
+### My Device IO
+`mydevice.io` contains device sizes.
+
+## Media Queries
+We specify the condition like in an if statement. Then if the width of the browser or viewport because of the device is equal or greater than 40rem or 640 pixels, apply the style inside the media query. Media queries will contain style for desktop version website. We can change any property in media queries.
+```css
+#product-overview h1 {
+    color: white;
+    font-family: "Anton", sans-serif;
+    position: absolute;
+    bottom: 5%;
+    left: 3%;
+    font-size: 1.6rem;
+}
+
+@media(min-width: 40rem) {
+    #product-overview h1 {
+        font-size: 3rem;
+    }
+}
+```
+
+We can add more selectors in media queries.
+```css
+#product-overview h1 {
+    color: white;
+    font-family: "Anton", sans-serif;
+    position: absolute;
+    bottom: 5%;
+    left: 3%;
+    font-size: 1.6rem;
+}
+
+@media(min-width: 40rem) {
+    #product-overview {
+        height: 40vh;
+    }
+
+    #product-overview h1 {
+        font-size: 3rem;
+    }
+}
+```
+
+The image is positioned in left 10% and bottom 70% but it will change in media query.
+```css
+#product-overview h1 {
+    color: white;
+    font-family: "Anton", sans-serif;
+    position: absolute;
+    bottom: 5%;
+    left: 3%;
+    font-size: 1.6rem;
+}
+
+@media(min-width: 40rem) {
+    #product-overview {
+        height: 40vh;
+        background-position: 50% 25%;
+    }
+
+    #product-overview h1 {
+        font-size: 3rem;
+    }
+}
+```
+
+Change `min-width` to `max-width` when using a desktop first approach.
+
+Media query should only kick in where max width of viewport is equal or smaller than the specified value.
+```css
+@media(max-width: 40rem) {
+    /* code here */
+}
+```
+
+We can add multiple media queries below each other.
+We can specify different behaviors for different viewport sizes. Even if the other media queries are at the bottom, they won't overwrite the other conditions as long as there is no two exactly the same conditions. Order is important though so the small screen size condition comes first then desktop and then last is large devices.
+`60rem` is for very large devices so second border. Mobile, desktop and then large devices.
+```css
+#product-overview h1 {
+    color: white;
+    font-family: "Anton", sans-serif;
+    position: absolute;
+    bottom: 5%;
+    left: 3%;
+    font-size: 1.6rem;
+}
+
+@media(min-width: 40rem) {
+    #product-overview {
+        height: 40vh;
+        background-position: 50% 25%;
+    }
+
+    #product-overview h1 {
+        font-size: 3rem;
+    }
+}
+
+@media(min-width: 60rem) {
+    #product-overview {
+        height: 50vh;
+        background-position: 50% 25%;
+    }
+
+    #product-overview h1 {
+        font-size: 5rem;
+    }
+}
+```
+
+Both width and height limits should be satisfied in order to apply changes.
+```css
+@media(min-width: 40rem) and (min-height: 60rem) {
+    #product-overview {
+        height: 40vh;
+        background-position: 50% 25%;
+    }
+
+    #product-overview h1 {
+        font-size: 3rem;
+    }
+}
+```
+
+We can also specify the orientation. `landscape` is the other value.
+
+Don't use portrait value if you want the website to look good in desktop also. Just use min-height.
+```css
+@media(min-width: 40rem) and (orientation: portrait) {
+    #product-overview {
+        height: 40vh;
+        background-position: 50% 25%;
+    }
+
+    #product-overview h1 {
+        font-size: 3rem;
+    }
+}
+```
+
+With comma separated list, we can make it so that if any one of the two conditions are met, apply the code.
+```css
+@media(min-width: 40rem), (orientation: landscape) {
+    .plan__list {
+        width: 100%;
+        text-align: center;
+    }
+
+    .plan {
+        display: inline-block;
+        width: 30%;
+        vertical-align: middle;
+        min-width: 13rem;
+        max-width: 25rem;
+    }
+
+    .plan--highlighted {
+        box-shadow: 2px 2px 2px 2px rgba(0, 0 , 0, 0.5);
+    }
+}
+```
+
+## Advanced Attribute Selectors
+
+Select elements with the type attribute.
+```css
+[type] {
+    color: red;
+}
+```
+```html
+<input type="text">
+```
+
+Select elements with the specific value in its attribute.
+```css
+[type="email"] {
+    color: red;
+}
+```
+```html
+<input type="email">
+```
+
+Select elements with the specific value in attribute when the attribute got a set of values by using a tilde or `~`.
+```css
+[lang~="en-us"] {
+    color: red;
+}
+```
+```html
+<p lang="en-us en-gb">Hi!</p>
+```
+
+Select elements with an attribute that got a specific value or the value is the starting value and it can be followed by anything else by using the pipe or `|`.
+```css
+[lang|="en"] {
+    color: red;
+}
+```
+```html
+<p lang="en-us">Hi!</p>
+```
+
+Select elements with the specific value as the starting part or prefix by using `^`.
+```css
+[href^="#"] {
+    color: red;
+}
+```
+```html
+<a href="#all">Link</a>
+```
+
+Select elements with the specific attribute value as the end part or suffix by using `$`.
+```css
+[href$=".de"] {
+    color: red;
+}
+```
+```html
+<a href="ab.de">Link</a>
+```
+
+Select elements with the specified attribute value and it can be followed before and after by anything. Specified value can be the first part of the value and then followed by anything else. `*` is used.
+```css
+[src*="cdn"] {
+    color: red;
+}
+```
+```html
+<img src="i.cdn.com">
+```
+
+Adding `i` will mean even uppercase or mixed combinations will be included and not just lowercase specified attribute value when selecting elements with the specified value.
+```css
+[src*="cdn" i] {
+    color: red;
+}
+```
+```html
+<img src="i.CDN.com">
+```
+
+Select checkbox element.
+```css
+.signup-form input[type="checkbox"] {
+    display: inline-block;
+}
+````
+```html
+<input type="checkbox" id="agree-terms">
+```
+
+Another way to select checkbox.
+```css
+.signup-form input[id*="terms"] {
+    display: inline-block;
+}
+```
+```html
+<input type="checkbox" id="agree-terms">
+```
+
+There are a lot of ways to select the label element. We can use the for attribute and use attribute selector and use `terms` as value.
+```html
+<label for="agree-terms">Agree to
+    <a href="#">Terms &amp; Conditions</a>
+</label>
+```
+
+Second selector is about selecting labels that are directly after an input with `terms` as value in its attribute.
+```css
+.signup-form input[id*="terms"],
+.signup-form input[id*="terms"] + label {
+    display: inline-block;
+}
+```
+
+## :not()
+Select all input except those that got `checkbox`.
+```css
+.signup-form input:not([type="checkbox"]),
+.signup-form select {
+    border: 1px solid #ccc;
+    padding: 0.2rem 0.5rem;
+    font: inherit;
+}
+```
+
+`:not` can be used on `:focus`.
+
+`:focus` is when input is current input.
+```css
+.signup-form input:not([type="checkbox"]):focus,
+.signup-form select:focus {
+    outline: none;
+    background: #d8f3df;
+    border-color: #2ddf5c;
+}
+```
+
+## Validation
+Validation should be done in server side. It can be done in client side or browser with JS but client can be tricked so don't do that.
+If we want to tell the user the input is invalid, we add a class. We are hard coding the class though.
+
+Select an input element that is invalid.
+```css
+.signup-form input.invalid,
+.signup-form select.invalid {
+    border-color: red;
+    background: rgb(250, 172, 172);
+}
+```
+```html
+<input type="email" id="email" class="invalid">
+```
+
+HTML and CSS offer a more elegant way to do this.
+
+Select any element inside the form.
+```css
+.signup-form input.invalid,
+.signup-form select.invalid,
+.signup-form :invalid {
+    border-color: red;
+    background: rgb(250, 172, 172);
+}
+```
+
+Because of `:not`, it will apply grey border in a higher priority because it is more specific.
+```css
+.signup-form input:not([type="checkbox"]),
+.signup-form select {
+    border: 1px solid #ccc;
+    padding: 0.2rem 0.5rem;
+    font: inherit;
+}
+```
+The solution is to use a long rule or to use important on red border instead since parsing the long rule is bad for performance.
+```css
+.signup-form input.invalid,
+.signup-form select.invalid,
+.signup-form :invalid,
+.signup-form input:not([type="checkbox"]):invalid {
+    border-color: red;
+    background: rgb(250, 172, 172);
+}
+```
+
+```css
+.signup-form input.invalid,
+.signup-form select.invalid,
+.signup-form :invalid {
+    border-color: red !important;
+    background: rgb(250, 172, 172);
+}
+```
+
+You can use `required` attribute in HTML element. If field is empty they will be red but that is not good to see red right away.
+
+There is also `:valid`.
+
+`:invalid` is not supported in Edge and IE.
+
+Button like form elements got some browser defaults so using `inherit` will make inheritance take priority instead.
+
+We can add `disabled` to HTML elements.
+
+Select button elements with disabled.
+```css
+.button[disabled] {
+    
+}
+```
+
+This is wrong since we will select all elements with disabled that are inside a button element.
+```css
+.button [disabled] {
+    
+}
+```
+
+If more styles are in hover effects, overwrite them in `.button[disabled]` since it takes higher priority.
+```css
+.button[disabled] {
+    cursor: not-allowed;
+    border: #a1a1a1;
+    background: #ccc;
+    color: #a1a1a1;
+}
+```
+
+```html
+<button type="submit" class="button" disabled>Sign Up</button>
+```
