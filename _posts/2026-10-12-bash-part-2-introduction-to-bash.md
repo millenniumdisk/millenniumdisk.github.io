@@ -1,12 +1,147 @@
 ---
 layout: post
-title: Introduction to Bash
+title: Bash Part 2: Introduction to Bash
 ---
 
 # Bash Part 2: Introduction to Bash
 
 ## Introduction
 Bourne Again Shell (Bash) was released in June 8, 1989 and is written in C.
+
+## Bash Commands Details
+This section is just a short overview of each Bash command. Bash commands will be used later in the Use Bash Commands section.
+
+### QOL Shortcuts
+#### Autocomplete
+Create two folders. Type `cd git-` then press tab twice to see choices. Delete the command then type `cd git-f` then press tab to use autocomplete.
+1. Create folder.
+2. Create folder.
+
+```bash
+mkdir git-folder
+mkdir git-tutorial
+```
+
+##### Open Folder in File Explorer
+For Windows:
+
+```bash
+start .
+```
+
+For macOS:
+
+```bash
+open .
+```
+
+##### Open File
+For Windows:
+
+```bash
+start pointers.cpp
+```
+
+For macOS:
+
+```bash
+open recursion.cpp
+```
+
+#### Basics
+##### Print a String
+```bash
+echo "create a program that uses pointers in c language"
+```
+
+##### Clear Terminal
+```bash
+clear
+```
+
+##### Exit Terminal
+```bash
+exit
+```
+
+#### Navigation
+##### Go to Root Directory
+```bash
+cd
+```
+
+##### Go to a Specific Directory
+```bash
+cd Desktop
+```
+
+##### Go Back One Level
+```bash
+cd ..
+```
+
+##### Go to a Nested Folder with Relative Address
+```bash
+cd Desktop/bash-testing-folder
+```
+
+##### Go to a Directory with Absolute Address
+```bash
+cd C:/Desktop
+```
+
+#### Inspect
+
+##### Show Current Directory
+```bash
+pwd
+```
+
+##### Show Files and Folders
+```bash
+ls
+ls -l
+ls -a
+ls -l -a
+ls -la
+```
+
+##### Show File Contents
+```bash
+cat index.html
+```
+
+#### Find Files
+
+##### Find a Specific File
+```bash
+find data_folder -name b.txt
+```
+
+##### Find all Files with Wildcard
+1. Find all text files in folder.
+
+```bash
+find data_folder -name *.txt
+```
+
+#### Show Help
+```bash
+man clear
+```
+
+Alternative way to show help.
+```bash
+touch --help
+```
+
+
+
+### Use Bash Commands
+
+
+
+
 
 ### Initial Prep
 Before we start, let's check our current directory first then go to a folder. We will then create our testing area.
@@ -22,205 +157,7 @@ cd Desktop
 mkdir bash-exp
 ```
 
-### First Steps
-#### Autocomplete
-Create two folders. Type `cd` first then space then type `git-` then press tab twice to see choices. Delete the command then type `cd git-f` then press tab to use autocomplete.
-1. Create folder.
-2. Create folder.
 
-```bash
-mkdir git-folder
-mkdir git-tutorial
-```
-
-### Open Folder in File Explorer
-For Windows:
-
-```bash
-start .
-```
-
-For macOS:
-
-```bash
-open .
-```
-
-### Open File
-For Windows:
-
-```bash
-touch pointers.cpp
-start pointers.cpp
-```
-
-For macOS:
-
-```bash
-touch recursion.cpp
-open recursion.cpp
-```
-
-### Basics
-
-#### Print a String
-
-```bash
-echo "create a program that uses pointers in c language"
-```
-
-#### Clear Terminal
-
-```bash
-clear
-```
-
-#### Exit Terminal
-
-```bash
-exit
-```
-
-### Navigation
-
-#### Go to Root Directory
-1. Go to root directory.
-
-```bash
-cd
-```
-
-#### Go to a Specific Directory
-1. Go to folder.
-
-```bash
-cd Desktop
-```
-
-#### Go Back One Level
-1. Go back one level.
-2. Check curent directory.
-
-```bash
-cd ..
-pwd
-```
-
-#### Go to a Nested Folder with Relative Address
-1. Go to folder.
-
-```bash
-cd Desktop/bash-exp
-```
-
-#### Go to a Directory with Absolute Address
-1. Go to root directory.
-2. Go to folder.
-
-```bash
-cd
-cd C:/Desktop
-```
-
-### Inspect
-
-#### Show Current Directory
-1. Show current directory.
-
-```bash
-pwd
-```
-
-#### Show Files and Folders
-1. Show files and folders in different ways.
-2. Clear terminal.
-
-```bash
-ls
-ls -l
-ls -a
-ls -l -a
-ls -la
-clear
-```
-
-#### Show File Contents
-1. Create file.
-2. Show file contents.
-
-```bash
-touch index.html
-cat index.html
-```
-
-#### Find a File
-
-##### Find a Specific File
-1. Create folder.
-2. Create files.
-3. Go back one level.
-4. Find specific file in folder.
-
-```bash
-mkdir data_folder
-touch a.txt b.txt c.txt notes.md
-cd ..
-find data_folder -name b.txt
-```
-
-##### Find all Files with Wildcard
-1. Find all text files in folder.
-
-```bash
-find data_folder -name *.txt
-```
-
-#### Show Help
-
-##### First Way
-1. Show help of `clear` command.
-
-```bash
-man clear
-```
-
-##### Second Way
-If `man` won't work, use `--help`.
-1. Show help of `touch` command.
-
-```bash
-touch --help
-```
-
-### File / Folder Creation
-
-#### Create a File
-1. Create a file.
-
-```bash
-touch coding-notes.txt
-```
-
-#### Create a Directory
-1. Create a directory.
-
-```bash
-mkdir images
-```
-
-#### Create Multiple Files
-1. Create two files.
-
-```bash
-touch apple.txt orange.txt
-```
-
-#### Create Multiple Directories
-1. Create two folders.
-
-```bash
-mkdir fruits vegetable
-```
 
 ### File Editing
 #### Edit a File
