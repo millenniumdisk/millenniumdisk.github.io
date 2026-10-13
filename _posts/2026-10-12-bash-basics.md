@@ -98,7 +98,7 @@ rm coding-notes.txt
 rm images
 ```
 
-## Create and Delete a Non-empty Directory
+## Delete a Non-empty Directory
 1. Create a directory.
 2. Go to the directory.
 3. Create a file.
@@ -110,6 +110,19 @@ cd website
 touch index.html
 cd ..
 rm -rf website
+```
+
+## Remove Multiple Files / Folder
+```bash
+touch dummy1.txt dummy2.txt
+mkdir documents scans
+rm dummy1.txt dummy2.txt
+rm documents scans
+```
+
+If both got files inside them, use `rm -rf`.
+```bash
+rm -rf documents scans
 ```
 
 ## Go to a Nested Folder with Relative Address
