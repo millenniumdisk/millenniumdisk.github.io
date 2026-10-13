@@ -3,12 +3,12 @@ layout: post
 title: Introduction to Bash
 ---
 
-# Introduction to Bash
+# Bash Part 2: Introduction to Bash
 
 ## Introduction
 Bourne Again Shell (Bash) was released in June 8, 1989 and is written in C.
 
-### Autocomplete
+## Autocomplete
 Create two folders. Type `git-` then press tab twice to see choices. Type `git-f` then press tab to use autocomplete.
 1. Create folder.
 2. Create folder.
@@ -18,7 +18,7 @@ mkdir git-folder
 mkdir git-tutorial
 ```
 
-### Open Folder in File Explorer
+## Open Folder in File Explorer
 For Windows:
 
 ```bash
@@ -31,7 +31,7 @@ For macOS:
 open .
 ```
 
-### Open File
+## Open File
 For Windows:
 
 ```bash
