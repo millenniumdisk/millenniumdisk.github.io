@@ -26,8 +26,8 @@ Some things to know first:
 1. Go to Root Directory - `cd`
 2. Go to a Specific Directory - `cd <path>`
 3. Go Back One Level - `cd ..`
-4. Go to a Nested Folder with a Relative Address - `cd <relative_address>` (ex. `cd learning_resources/python_folder`)
-5. Go to a Directory with an Absolute Address - `cd <absolute_address>` (ex. `cd C:/Desktop`)
+4. Go to a Nested Folder with Relative Address - `cd <relative_address>` (ex. `cd learning_resources/python_folder`)
+5. Go to a Directory with Absolute Address - `cd <absolute_address>` (ex. `cd C:/Desktop`)
 
 ### Inspect
 1. Show Current Directory - `pwd`
@@ -38,20 +38,21 @@ Some things to know first:
     2.  Find all Files with Wildcard - `find <path> -name *.<file_extension>` (ex. Get all files that end with `.jpg` file extension with `find backup_folder -name *.jpg`)
 5.  Show Help - `man <command>` / `<command> --help` (ex. `man clear` / `touch --help`)
 
-### File Creation
+### File / Folder Creation
 1. Create a File - `touch <filename>`
 2. Create a Directory - `mkdir <folder_name>`
 3. Create Multiple Files - `touch <first_filename> <second_filename>`
+4. Create Multiple Directories
 
 ### File Editing
 1. Edit a File - `nano <filename>`
 2. Create or Write to a File - `echo "<string>" > <filename>` (when the file already exists, it will be overwritten)
 3. Create or Append to a File. `echo "<string>" >> <filename>`
 
-### File Deletion
+### File / Folder Deletion
 1. Remove a File / Empty Directory - `rm <filename / folder_name>`
-2. . Remove a Non-empty Directory - `rm -rf <folder_name>`
-3.  Remove Multiple Files / Folder
+2. Remove a Non-empty Directory - `rm -rf <folder_name>`
+3. Remove Multiple Files / Folder
     1.  `rm <file1> <file2>`
     2.  `rm <directory1> <directory2>` (use rm -rf if both got files inside them)
 

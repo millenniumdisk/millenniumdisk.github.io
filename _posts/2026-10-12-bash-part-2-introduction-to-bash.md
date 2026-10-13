@@ -8,8 +8,23 @@ title: Introduction to Bash
 ## Introduction
 Bourne Again Shell (Bash) was released in June 8, 1989 and is written in C.
 
-## Autocomplete
-Create two folders. Type `git-` then press tab twice to see choices. Type `git-f` then press tab to use autocomplete.
+### Initial Prep
+Before we start, let's check our current directory first then go to a folder. We will then create our testing area.
+1. Check current directory.
+2. Check files and folders in current directory.
+3. Go to Desktop folder.
+4. Create folder for experiments.
+
+```bash
+pwd
+ls
+cd Desktop
+mkdir bash-exp
+```
+
+### First Steps
+#### Autocomplete
+Create two folders. Type `cd` first then space then type `git-` then press tab twice to see choices. Delete the command then type `cd git-f` then press tab to use autocomplete.
 1. Create folder.
 2. Create folder.
 
@@ -18,7 +33,7 @@ mkdir git-folder
 mkdir git-tutorial
 ```
 
-## Open Folder in File Explorer
+### Open Folder in File Explorer
 For Windows:
 
 ```bash
@@ -31,7 +46,7 @@ For macOS:
 open .
 ```
 
-## Open File
+### Open File
 For Windows:
 
 ```bash
@@ -46,15 +61,77 @@ touch recursion.cpp
 open recursion.cpp
 ```
 
-## Find Desktop Folder
-1. Check current directory.
+### Basics
+
+#### Print a String
+
+```bash
+echo "create a program that uses pointers in c language"
+```
+
+#### Clear Terminal
+
+```bash
+clear
+```
+
+#### Exit Terminal
+
+```bash
+exit
+```
+
+### Navigation
+
+#### Go to Root Directory
+1. Go to root directory.
+
+```bash
+cd
+```
+
+#### Go to a Specific Directory
+1. Go to folder.
+
+```bash
+cd Desktop
+```
+
+#### Go Back One Level
+1. Go back one level.
+2. Check curent directory.
+
+```bash
+cd ..
+pwd
+```
+
+#### Go to a Nested Folder with Relative Address
+1. Go to folder.
+
+```bash
+cd Desktop/bash-exp
+```
+
+#### Go to a Directory with Absolute Address
+1. Go to root directory.
+2. Go to folder.
+
+```bash
+cd
+cd C:/Desktop
+```
+
+### Inspect
+
+#### Show Current Directory
+1. Show current directory.
 
 ```bash
 pwd
 ```
 
-## Show Contents of Current Directory and Clear Terminal
-
+#### Show Files and Folders
 1. Show files and folders in different ways.
 2. Clear terminal.
 
@@ -67,52 +144,182 @@ ls -la
 clear
 ```
 
-## Go to Root Directory then to Desktop Folder
-1. Go to desktop folder.
-2. Go to root directory.
-3. Go to desktop folder.
+#### Show File Contents
+1. Create file.
+2. Show file contents.
 
 ```bash
-cd Desktop
-cd
-cd Desktop
+touch index.html
+cat index.html
 ```
 
-## Create a New Directory as Testing Area
-1. Create a direcotory.
-2. Go to the directory.
+#### Find a File
+
+##### Find a Specific File
+1. Create folder.
+2. Create files.
+3. Go back one level.
+4. Find specific file in folder.
 
 ```bash
-mkdir bash-testing-area
-cd bash-testing-area
+mkdir data_folder
+touch a.txt b.txt c.txt notes.md
+cd ..
+find data_folder -name b.txt
 ```
 
-## Check Current Directory
-1. Check current directory.
-2. Clear terminal
+##### Find all Files with Wildcard
+1. Find all text files in folder.
 
 ```bash
-pwd
-clear
+find data_folder -name *.txt
 ```
 
-## Create a File and a Directory
+#### Show Help
+
+##### First Way
+1. Show help of `clear` command.
+
+```bash
+man clear
+```
+
+##### Second Way
+If `man` won't work, use `--help`.
+1. Show help of `touch` command.
+
+```bash
+touch --help
+```
+
+### File / Folder Creation
+
+#### Create a File
 1. Create a file.
-2. Create a directory.
 
 ```bash
 touch coding-notes.txt
+```
+
+#### Create a Directory
+1. Create a directory.
+
+```bash
 mkdir images
 ```
 
-## Remove a File and an Empty Directory
+#### Create Multiple Files
+1. Create two files.
+
+```bash
+touch apple.txt orange.txt
+```
+
+#### Create Multiple Directories
+1. Create two folders.
+
+```bash
+mkdir fruits vegetable
+```
+
+### File Editing
+#### Edit a File
+
+```bash
+touch grocery-to-buy.txt
+nano grocery-to-buy.txt
+```
+
+#### Create or Write to a File
+
+```bash
+echo "create a todo program" > challenge.txt
+```
+
+#### Create or Append to a File
+
+```bash
+echo "create a simple board game program or a hangman" >> project.txt
+```
+
+### File / Folder Deletion
+
+#### Remove a File
 1. Remove a file.
-2. Remove an empty directory.
 
 ```bash
 rm coding-notes.txt
+```
+
+#### Remove an Empty Directory
+1. Remove an empty directory.
+
+```bash
 rm images
 ```
+
+#### Remove a Non-empty Directory
+1. Remove a non-empty directory.
+
+```bash
+rm -rf logos
+```
+
+#### Remove Multiple Files
+1. Remove multiple files.
+
+```bash
+rm major-tests.txt quizzes.txt
+```
+
+#### Remove Multiple Empty Folders
+1. Remove multiple empty folders.
+
+```bash
+rm exams attendance
+```
+
+#### Remove Multiple Non-empty Folders
+1. Remove multiple non-empty folders.
+
+```bash
+rm -rf python-programs text-files
+```
+
+### File Organization
+
+#### Copy a File
+
+## Copy a File
+1. Create two folders.
+2. Go to folder.
+3. Create a file.
+4. Copy file to another folder.
+
+```bash
+mkdir alpha_folder beta_folder
+cd alpha_folder
+touch calculator.js
+cp calculator.js beta_folder
+```
+
+#### Move a File
+1. Create two folders.
+2. Go to folder.
+3. Create a file.
+4. Move file to another folder.
+
+```bash
+mkdir old_folder new_folder
+cd old_folder
+touch style.css
+mv style.css new_folder
+```
+
+
+
+
+
 
 ## Delete a Non-empty Directory
 1. Create a directory.
@@ -179,11 +386,6 @@ cd C:/Desktop
 cd ..
 ```
 
-## Print a String
-
-```bash
-echo "create a program that uses pointers in c language"
-```
 
 ## Edit a File
 1. Create file.
@@ -215,63 +417,4 @@ echo "we have a cold weather today" >> random.txt
 ```bash
 touch fib.py
 cat fib.py
-```
-
-## Copy a File
-1. Create two folders.
-2. Go to folder.
-3. Create a file.
-4. Copy file to another folder.
-
-```bash
-mkdir alpha_folder beta_folder
-cd alpha_folder
-touch calculator.js
-cp calculator.js beta_folder
-```
-
-## Move a File
-1. Create two folders.
-2. Go to folder.
-3. Create a file.
-4. Move file to another folder.
-
-```bash
-mkdir old_folder new_folder
-cd old_folder
-touch style.css
-mv style.css new_folder
-```
-
-## Find a File
-1. Create folder.
-2. Create files.
-3. Go back one level.
-4. Find a file.
-5. Find all text files.
-
-```bash
-mkdir data_folder
-touch a.txt b.txt c.txt notes.md
-cd ..
-find data_folder -name b.txt
-find data_folder -name *.txt
-```
-
-## Show Help
-
-```bash
-man clear
-```
-
-If `man` won't work, use `--help`.
-
-```bash
-touch --help
-```
-
-## Exit Terminal
-
-```bash
-exit
 ```
