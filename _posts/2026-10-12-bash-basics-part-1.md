@@ -11,30 +11,37 @@ title: Bash Basics Part 1
 4. Show Hidden Files / Directories - `ls -a`
 5. Show All Files / Directories as List - `ls -l -a`
 6. Show All Files / Directories as List V2 - `ls -la`
-7. Go to a Specific Directory - `cd <path>` (path can be an absolute or relative address)
-8. Go to Root Directory - `cd`
-9. Go Back One Level - `cd ..`
-10. Create a File - `touch <filename>`
-11. Create Multiple Files - `touch <filename1> <filename2>`
-12. Create a Directory - `mkdir <directory>`
-13. Create Multiple Directories - `mkdir <directory1> <directory2>`
-14. Remove a File / Empty Directory - `rm <filename / directory>`
-15. Remove Multiple Files - `rm <filename1> <filename2>`
-16. Remove Multiple Empty Directories - `rm <directory1> <directory2>`
-17. Remove Multiple Non-empty Directories `rm -rf <directory1> <directory2>`
-18. Show File Contents - `cat <filename>`
-19. Edit a File - `nano <filename>`
-20. Print a String - `echo "<string>"`
-21. Create or Overwrite File - `echo "<string>" > <filename>`
-22. Create or Append to a File - `echo "<string>" >> <filename>`
-23. Copy a File - `cp <source> <destination>`
-24. Move a File - `mv <source> <destination>`
-25. Find a File - `find <path> <options> <expression>` (there are a lot more ways to use `find`)
+7. Show All Files / Directories in Path as List - `ls -la <path>`
+8. Go to a Specific Directory - `cd <path>` (path can be an absolute or relative address)
+9. Go to Root Directory - `cd`
+10. Go Back One Level - `cd ..`
+11. Create a File - `touch <filename>`
+12. Create Multiple Files - `touch <filename1> <filename2>`
+13. Create a Directory - `mkdir <directory>`
+14. Create Multiple Directories - `mkdir <directory1> <directory2>`
+15. Remove a File / Empty Directory - `rm <filename / directory>` (deleting a file inside a directory is possible: `rm <directory>/<filename>`)
+16. Remove Multiple Files - `rm <filename1> <filename2>`
+17. Remove Multiple Empty Directories - `rm <directory1> <directory2>`
+18. Remove Multiple Non-empty Directories `rm -rf <directory1> <directory2>`
+19. Show File Contents - `cat <filename>`
+20. Edit a File - `nano <filename>` (exiting right away works and then when asked to save, press `y`)
+    1.  Save File in Nano Editor - `ctrl + o`
+    2.  Exit Nano Editor - `ctrl + x`
+21. Print a String - `echo "<string>"`
+22. Create or Overwrite File - `echo "<string>" > <filename>`
+23. Create or Append to a File - `echo "<string>" >> <filename>`
+24. Copy a File - `cp <source> <destination>`
+25. Move / Rename a File / Directory
+    1.  Move File / Directory - `mv <source> <destination>`
+    2.  Rename File / Directory - `mv <old_name> <new_name>`
+    3.  Move Multiple Files with Wildcard - `mv *.<file_extension> <destination>`
+26. Find a File - `find <path> <options> <expression>` (there are a lot more ways to use `find`)
     1.  Find a Specific File - `find <path> -name <filename>`
     2.  Find all Files with Wildcard - `find <path> -name *.<file_extension_name>`
-26. Clear Terminal - `clear`
-27. Show Help - `man <command>` / `<command> --help`
-28. Exit Terminal - `exit`
+    3. Find Regular Files - `find <directory/directory> -type f`
+27. Clear Terminal - `clear`
+28. Show Help - `man <command>` / `<command> --help` (`ctrl + z` to close)
+29. Exit Terminal - `exit`
 
 ## Terminal Concepts
 - `.` is the symbol used for current directory.
@@ -42,9 +49,8 @@ title: Bash Basics Part 1
 - `Relative address` is the location of the file or folder which is short and must be used relative to the current directory.
 - `Absolute address` is the location of the file or folder which is complete and can be used regardless of the current directory.
 - `Hidden` files or folders start with `.` in their name.
-- Using `start .` / `open .` (macOS) will open the current folder in the file explorer.
+- Using `start .` / `open .` (macOS) / `explorer .` will open the current folder in the file explorer.
 - `start <filename>` / `open <filename>` (macOS) will open the file.
-- Pressing the `tab` key will autocomplete an unfinished command.
-- Pressing `tab` twice will show possible command choices.
+- Use tab key to autocomplete commands in the terminal. Press tab key twice to see choices. Can show available commands or possible directories in the incomplete command.
 - Previously used commands can be navigated with up or down arrow keys.
 - `Bourne Again Shell` (Bash) was released in June 8, 1989 and was written in C.

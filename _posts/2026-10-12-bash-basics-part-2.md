@@ -15,6 +15,7 @@ ls -l
 ls -a
 ls -l -a
 ls -la
+ls -la Desktop
 clear
 ```
 
@@ -109,6 +110,16 @@ cd ..
 mv alpha/pointers.cpp beta
 ```
 
+## Rename
+Rename files and directories.
+
+```bash
+mkdir nature
+mv nature beach
+touch pasta.txt
+mv pasta.txt carbonara.txt
+```
+
 ## Find
 Find files.
 
@@ -127,14 +138,14 @@ Show help.
 man touch
 ```
 
-or
-
+Other way to show help.
 ```bash
 touch --help
 ```
 
 ## Exit
 Exit terminal.
+
 ```bash
 exit
 ```
