@@ -1,6 +1,6 @@
 ---
 layout: post
-title: bash basics part 2
+title: Bash Basics Part 2
 ---
 
 # Bash Basics Part 2
@@ -133,6 +133,7 @@ or
 touch --help
 ```
 
+## Exit
 Exit terminal.
 ```bash
 exit

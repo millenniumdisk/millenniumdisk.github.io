@@ -1,6 +1,6 @@
 ---
 layout: post
-title: bash basics part 1
+title: Bash Basics Part 1
 ---
 
 # Bash Basics Part 1
