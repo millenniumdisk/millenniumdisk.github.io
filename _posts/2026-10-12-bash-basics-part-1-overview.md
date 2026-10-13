@@ -1,9 +1,10 @@
 ---
 layout: post
-title: Bash Basics Part 1: Overview
+title: bash basics part 1
 ---
 
-# Bash Basics Part 1: Overview
+# Bash Basics Part 1
+## Bash Commands
 1. Show Current Directory - `pwd`
 2. Show Files / Directories - `ls`
 3. Show Files / Directories as List - `ls -l`

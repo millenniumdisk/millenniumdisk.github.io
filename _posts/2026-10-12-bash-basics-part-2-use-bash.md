@@ -1,10 +1,13 @@
 ---
 layout: post
-title: Bash Basics Part 2: Use Bash
+title: bash basics part 2
 ---
 
-# Bash Basics Part 2: Use Bash
+# Bash Basics Part 2
+
+## Inspect
 We check what our current directory is and show files and folders.
+
 ```bash
 pwd
 ls
@@ -15,7 +18,9 @@ ls -la
 clear
 ```
 
+## Navigation
 Navigate to a folder.
+
 ```bash
 cd Desktop
 cd 
@@ -24,7 +29,9 @@ cd ..
 cd Desktop
 ```
 
+## Create Part 1
 Create directories.
+
 ```bash
 mkdir bash-experiments
 cd bash-experiments
@@ -47,13 +54,17 @@ touch calculator.py
 cd ..
 ```
 
+## Create Part 2
 Create files.
+
 ```bash
 touch apple.txt
 touch cabbage.txt lettuce.txt
 ```
 
+## Delete Part 1
 Delete directories.
+
 ```bash
 rm fruits
 rm fonts music
@@ -61,7 +72,16 @@ rm -rf recipes
 rm -rf logos projects
 ```
 
+## Delete Part 2
+Delete files.
+```bash
+rm apple.txt
+rm cabbage.txt lettuce.txt
+```
+
+## Edit
 Edit files.
+
 ```bash
 echo "pineapple on pizza or not?"
 echo "create a simple todo program in python" > homework.txt
@@ -72,7 +92,9 @@ touch grocery_shopping.txt
 nano grocery_shopping.txt
 ```
 
+## Organize
 Organize files.
+
 ```bash
 mkdir old_folder new_folder alpha beta
 cd old_folder
@@ -87,7 +109,9 @@ cd ..
 mv alpha/pointers.cpp beta
 ```
 
+## Find
 Find files.
+
 ```bash
 mkdir backup_folder
 cd backup_folder
@@ -97,6 +121,7 @@ find backup_folder -name b.txt
 find backup_folder -name *.txt
 ```
 
+## Help
 Show help.
 ```bash
 man touch
