@@ -6,7 +6,7 @@ title: Git Commands
 # Git
 
 ## Introduction
-Git Bash terminal is needed for Git.
+More information in [Git Website](https://git-scm.com/docs). When the term Git repository is used, it can mean different things. It can be the project folder itself or the hidden `.git` folder inside the project folder so it depends on the context.
 
 ### Use Git Right Away
 There are two ways to use Git right away. A Git hosting service will be used in both ways.
@@ -14,7 +14,7 @@ There are two ways to use Git right away. A Git hosting service will be used in 
 #### Long Process (Local Repository Exists)
 Long process is used when we have a lot of files in the project folder that we want to be uploaded to the remote repository and it means that there is an existing local Git repository.
 
-Create a remote repository. Copy the remote repository URL. Make sure the name of the local Git repository is the same as the remote repository. An example name of repository is `python-project`. Add a remote server. Push with `-u` option and this means that pushing won't need `-u` for the next pushes.
+Create a remote repository. Copy the remote repository URL. Make sure the name of the local Git repository is the same as the remote repository. An example name of repository is `python-project`. Add a remote server. We only need to push with `-u` option one time which will make the next pushes only needing `git push` command.
 
 1. Go to a drive.
 2. Create a project directory.
@@ -51,20 +51,17 @@ cd E:
 git clone https://github.com/millenniumdisk/python-project.git
 ```
 
-### Git Website
-More information in [Git Website](https://git-scm.com/docs).
-
 ### What is Git?
 Git is used to track your project and its old versions. When combined with an online repository like GitHub, it is possible to collaborate with two or more people simultaneously. Working on the same project is possible regardless of time or place.
 
 ### What is a Repository Hosting Service?
 A repository hosting service like GitHub or GitLab is where Git repositories can be stored and be used as a centralized point of getting and giving project updates for collaboration.
 
-## Terminal Basics (Git Bash)
-Git Bash terminal is used.
+## Terminal Basics
+Git Bash terminal will be used for Git.
 
 ### Escaped Characters
-`!` is used for history expansion in bash so it should be escaped with `\` as in `\!` or single quotes. So single quotes is used in `git commit -m 'Fixed the bug!'`.
+`!` is used for history expansion in Bash so it should be escaped with `\` as in `\!` or single quotes (ex. `git commit -m 'Fixed the bug!'`).
 
 ### Case Sensitivity
 In Windows OS, using an uppercase or lowercase letter in the path both works like in `cd E:` and `cd e:` but creating a folder with uppercase letter like in `mkdir folder1` will clash with another command containing an uppercase letter like in `mkdir Folder1` since the folder already exists.
@@ -73,19 +70,19 @@ In Windows OS, using an uppercase or lowercase letter in the path both works lik
 Don't manually edit files in .git folder. It is managed by Git.
 
 ### Management of Blobs and Trees
-For management of blobs and trees, we will use low level git commands like `git hash-object` and `git cat-file`.
+For management of blobs and trees, we will use low level git commands.
 
-### Mktree
-`git mktree` - Low level git command. Create new tree object.
+### Mktree (Low Level Git Command)
+`git mktree` - Creates new tree object.
 
-### Hash-object
-`git hash-object` - Low level git command. Create new object in Git structure. `echo "Hello, Git" | git hash-object --stdin -w` creates an object file. Pipe symbol is used to make the output of echo be the input of the next command and stdin is placed to make hash-object take standard input as input. -w is sued to make Git store object in its database. Create a file with content then use `git hash-object <filename> -w` to create Git object. File is in Desktop so use .. to got back one level to parent `git hash-object ../new-file.txt -w`.
+### Hash Object (Low Level Git Command)
+`git hash-object` - Creates new object in Git structure. `echo "Hello, Git" | git hash-object --stdin -w` creates an object file. Pipe symbol is used to make the output of echo be the input of the next command and stdin is placed to make hash-object take standard input as input. -w is sued to make Git store object in its database. Create a file with content then use `git hash-object <filename> -w` to create Git object. File is in Desktop so use .. to got back one level to parent `git hash-object ../new-file.txt -w`.
 
-### Cat-file
-Low level git command. Reads Git objects.
-- `git cat-file -p <hash>` - Contents of the object will be printed to terminal.
-- `git cat-file -s <hash>` - Size of the object will be printed to terminal.
-- `git cat-file -t <hash>` - Git type of the object will be printed to terminal.
+### Cat File (Low Level Git Command)
+Reads Git objects.
+- Show Object Contents - `git cat-file -p <hash>`
+- Show Object Size - `git cat-file -s <hash>`
+- Show Object Type - `git cat-file -t <hash>`
 
 ### Pipe Symbol
 `echo "Hello, Git" | git hash-object --stdin` - We take the output of another command as input of a different command with pipe symbol.
@@ -93,16 +90,16 @@ Low level git command. Reads Git objects.
 ### Config File
 Config file is a configuration of your Git repository and default settings.
 
-### Check Files in Staging Area
-`git ls-files` - Lowl level command. List files that are in staging area. `git ls-files -s` is used to show output in a table. The 0 means the files are the same in Git repository.
+### Check Files in Staging Area (Low Level Git Command)
+`git ls-files` - List files that are in staging area. `git ls-files -s` is used to show output in a table. The 0 means the files are the same in Git repository.
 
-### Load Files to Staging Area
+### Load Files to Staging Area (Low Level Git Command)
 `git read-tree <hash>` - Files in Git repository can be loaded to staging area.
 
-### Load Files to Working Directory
+### Load Files to Working Directory (Low Level Git Command)
 `git checkout-index -a` - Put files from staging area to working directory. `a` option means all files.
 
-### Unpack
+### Unpack (Low Level Git Command)
 `cat <file> | git unpack-objects` - Unpack the pack file by moving the pack file from its folder and put it in `.git` folder and then use the command like in `cat pack-bf7eaf2ba9af7da56f3a874b2483b00dba0e8a98.pack | git unpack-objects`. After unpacking, delete pack file with `rm -f` command.
 
 ## Git Concepts
@@ -111,38 +108,34 @@ Config file is a configuration of your Git repository and default settings.
 Git stores blobs, trees, commits and annotated text in the Git repository. Git objects are made up of content (Hello, Git), type (blob), length (11) and delimiter (\0). Git stores files in compressed binary format. We can use zlib in Python to open that object. `echo -e "blob 11\0Hello, Git" | shasum` to generate the same hash.
 
 ### Three Main Areas in a Project
-- Working Directory - Contains untracked, modified and unmodified files.
-- Staging Area - Contains staged and unmodified files.
-- Git Repository - Contains unmodified files.
-
 #### Working Directory
-Untracked files are in working directory.
+Contains untracked, modified and unmodified files. This is our project folder and its contents will change when we go to an older version of our project by checking out an old commit.
 
 #### Staging Area
-Sits between working directory and Git repository. It is usually called index and it is actually responsible for preparing files to be inserted into the Git repository and also in the opposite way. It prepares file taken from Git repository to be put into working directory. Putting files into staging area is a mandatory step in all operations either when you want to place files from working directory into Git repository or when you want to read files from Git repository and checkout them into your working directory.
+Contains staged and unmodified files. Sits between working directory and Git repository. It is usually called index and it is actually responsible for preparing files from working directory to be inserted into the Git repository and also when getting objects from Git repository to working directory. It prepares file taken from Git repository to be put into working directory. Putting files into staging area is a mandatory step in all operations either when you want to place files from working directory into Git repository or when you want to read files from Git repository and checkout them into your working directory.
 
 #### Git Repository
-Unmodified files are in Git repository.
+Contains unmodified files. Unmodified files are in Git repository.
 
 ### File Status Types
 Every file in Git may have one of four tracking statuses:
-1. Untracked - File only exist in working directory.
-2. Tracked - Files that are monitored by git.
-   - Modified - Use git add to put this file to staging area (Deleted is another state and it is also added to staging area).
-   - Staged - This file is still located in working directory but is only written in staging area for simplicity's sake. If `git commit` is not used, the file in Git repository is an old version of the staged file.
-   - Unmodified - Files that are present in working directory, staging area and Git repository.
+1. Untracked - File only exists in working directory and is not yet added to staging area.
+2. Tracked - Files that are monitored by Git.
+   - Modified - A changed file that is not yet added to staging area (Deleted is another state and it can also be added to staging area).
+   - Staged - An untracked file will that is also added to staging area will be in this state. If a file is already tracked before and modified, adding it to staging area will make it and the one in working directory the new file version while the one in Git reposttory will be the old file version.
+   - Unmodified - Files that are present in working directory, staging area and Git repository (it means there is nothing new to stage and commit).
 3. Ignored - Files that are excluded from staging and committing.
-4. Committed - Committed files are saved in Git and a new commit will appear in commit history. The changes are only saved locally. If there is one or more commits, those changes can be pushed to the Remote Repository.
+4. Committed - Committed files are saved in Git and a new commit will appear in commit history. The changes are only saved locally. If there is one or more commits, those changes can be pushed to remote.
 
 ### Setup
 
-#### Display Git Version Number
+#### Show Git Version Number
 ```bash
 git --version
 ```
-Get the version of Git. Also helps in checking if Git is installed (`git -v` and `git version` works similarly).
+Get the version of Git (`git -v` and `git version` works similarly).
 
-##### Activity - Display the Version of Git
+##### Activity - Show Git Version Number
 1. Check current directory.
 2. See the Git version.
 
@@ -151,11 +144,11 @@ pwd
 git --version
 ```
 
-#### Display Configuration
+#### Show Configuration
 ```bash
 git config --list
 ```
-Display the current Git configuration.
+Show the current Git configuration.
 
 ##### Activity - Display the Current Git Configuration
 1. Check current directory.
@@ -166,13 +159,14 @@ pwd
 git config --list
 ```
 
-#### Display Global / Local Username
+#### Show Global / Local Username
 ```bash
 git config user.name
 ```
-Show the global username when not inside a Git repository. It will show the local username when inside a Git repository.
+- Shows global username when outside a Git repository.
+- Shows local username when inside a Git repository.
 
-##### Activity - Display the Local and Global Git Username
+##### Activity - Show the Local and Global Git Username
 1. Check current directory.
 2. Go to another drive.
 3. Create a folder.
@@ -193,13 +187,14 @@ cd ..
 git config user.name
 ```
 
-#### Display Global / Local User Email
+#### Show Global / Local User Email
 ```bash
 git config user.email
 ```
-Show the global user email when not inside a Git repository. It will show the local user email when inside a Git repository.
+- Shows global user email when outside a Git repository.
+- Shows local user email when inside a Git repository.
 
-##### Activity - Display the Local and Global Git User Email
+##### Activity - Show the Local and Global Git User Email
 1. Check current directory.
 2. Go to another drive.
 3. Create a folder.
@@ -224,7 +219,7 @@ git config user.email
 ```bash
 git config --global user.name "<name>"
 ```
-Changes the name that will be displayed in the commits.
+Changes the name that will be displayed in commits.
 
 ##### Activity - Change Global Username
 1. Check current directory.
@@ -258,9 +253,9 @@ git config --list
 ```bash
 git config user.name "<name>"
 ```
-Set local username per project. Should be done inside a Git repository. Overrides global username.
-
-`cat .git/config` can be used to check config file.
+- Sets local username per project.
+- Should be done inside a Git repository.
+- Overrides global username.
 
 ##### Activity - Change Local Username
 1. Check current directory.
@@ -291,7 +286,9 @@ git log
 ```bash
 git config user.email "<email>"
 ```
-Set local email per project. Should be done inside a Git repository. Overrides global email.
+- Sets local email per project.
+- Should be done inside a Git repository.
+- Overrides global email.
 
 ##### Activity - Change Local User Email
 1. Check current directory.
@@ -318,11 +315,25 @@ git commit -m "initial commit"
 git log
 ```
 
+#### Check Config File
+```bash
+cat .git/config
+```
+Shows config file contents while inside a Git repository.
+
+##### Activity - Check Config File
+1. Check current directory
+2. Check config file.
+```bash
+pwd
+cat .git/config
+```
+
 #### Change Default Branch Name
 ```bash
 git config --global init.defaultBranch <branch>
 ```
-Change branch into main to change the default name of branch in initialization to main (used when default name of branch isn't main). The branch name will change when using `git init` command. The changes in settings can be seen with `git config --list`.
+Change default branch name. A different branch name will be used when using `git init` command. The changes in settings can be seen with `git config --list`.
 
 ##### Activity - Change Default Branch Name
 1. Check current directory.
@@ -339,7 +350,7 @@ git config --list
 ```bash
 git init
 ```
-Initialize current directory as Git repository. It will create a hidden `.git` folder that can only be managed by Git. This is about local repositories. Not related to remotes (remote repository).
+Initialize local current directory as a Git repository. It will create a hidden `.git` folder that can only be managed by Git.
 
 ##### Activity - Initialize a Git Repository
 1. Check the current location in the terminal.
@@ -363,15 +374,15 @@ git init
 ```
 
 #### Local Repository
-A copy of remote repository that a team member or collaborator can work on in their own computer.
+A local copy of remote repository that a team member or collaborator can work on in their own computer.
 
 ### Inspect
 
-#### Status
+#### Show Status of Git Repository
 ```bash
 git status
 ```
-Display status of Git repository (but doesn't show files in staging). Can be used with verbose option (`git status -v`). Depending on the terminal, yellow cross signs means uncommitted changes and those changes to be committed are located in staging area. Yellow cross signs will disappear and it means there are no changes to be committed.
+Show the status of the Git repository (but it doesn't show files in staging area). Can be used with verbose option (`git status -v`).
 
 ##### Activity - See Status of Git Repository
 1. Check current directory.
@@ -418,11 +429,16 @@ git commit -m "initial commit"
 git status
 ```
 
-#### Display Commit History
+#### Show Commit History
 ```bash
 git log
 ```
-Display all commits in the current branch. Ctrl + z to exit. Show history of changes (commits). See all commits that were created in history. Press Q to exit. Use `git log --oneline` to see one line in the output. Use --stat to see additional information as in `git log --stat`. The -p option shows changes in every file or every commit as in `git log -p` but it is not convenient to see changes in terminal (use gui programs like vscode or sourcetree instead). Using `git log -<number>` will only show a specific number of commits as in `git log -4` and --oneline can be added to it as in `git log -4 --oneline`. `git log --graph` will show commits history with branch connections. We can see how many parents and can be combined with --oneline as in `git log --graph --oneline`.
+- Shows all commits in the current branch. Ctrl + z or ctrl + c or q to exit.
+- Use `git log --oneline` to see one line in the output.
+- See additional information as in `git log --stat`. 
+- The -p option shows changes in every file or every commit as in `git log -p` but it is not convenient to see changes in terminal (use gui programs like VS Code or Sourcetree instead).
+- Using `git log -<number>` will only show a specific number of commits as in `git log -4` and --oneline can be added to it as in `git log -4 --oneline`.
+- `git log --graph` will show commits history with branch connections. We can see how many parents and can be combined with `--oneline` as in `git log --graph --oneline`.
 
 ##### Activity - See Different States of Git Repository
 1. Check current directory.
@@ -447,9 +463,14 @@ git commit -m "initial commit"
 git log
 ```
 
-#### Format Output of Git Log
-`git log --pretty=format:"%H"` - Shows log of commits but formatted. %H is variable for complete hash of commits. Add cn to see committer names as in `git log --pretty=format:"%cn %H"`. More pretty formatting variables in https://devhints.io/git-log-format. Short hash is h as in `git log --pretty=format:"%cn %h"`.
-Strings can also be added as in `git log --pretty=format:"Author of commit: %cn Commit SHA1 hash: %h"`. Date can be added with cd as in `git log --pretty=format:"Author of commit: %cn; Commit SHA1 hash: %h; Date: %cd"`
+#### Formatted Commit History
+`git log --pretty=format:"%H"`
+- Formatted output.
+- `H` - Complete commit hash.
+- `cn` - Committer names (`git log --pretty=format:"%cn %H"`).
+- `h` - Short hash (`git log --pretty=format:"%cn %h"`).
+- Strings can also be added as in `git log --pretty=format:"Author of commit: %cn Commit SHA1 hash: %h"`.
+- `cd` - Date (`git log --pretty=format:"Author of commit: %cn; Commit SHA1 hash: %h; Date: %cd"`).
 
 ##### Activity - Format Output of Git Log
 ```bash
@@ -469,9 +490,9 @@ git log --pretty=format:"Author of commit: %cn; Commit hash: %h; Date: %cd"
 ```
 
 #### Show Merge Commits and Non Merge Commits
-`git log --merges` - The option --oneline can be used as in `git log --merges --oneline`. Only show merge commits. There is a reason why there can be few merge commits in a repository and why in some cases people do not merge branches in traditional and they use rebasing with squashing instead. `git log --no-merges` can be used to see non merge commits (commits made by humans or merges using other techniques). Option --oneline can also be used as in `git log --no-merges --oneline`.
+`git log --merges` - Only show merge commits (`git log --merges --oneline`). There is a reason why there can be few merge commits in a repository and why in some cases people do not merge branches in traditional and they use rebasing with squashing instead. `git log --no-merges` can be used to see non merge commits (commits made by humans or merges using other techniques). Option --oneline can also be used as in `git log --no-merges --oneline`.
 
-##### Activity - Format Output of Git Log
+##### Activity - Show Merge Commits and Non Merge Commits
 Output will only be a bunch of small letters and numbers. These are the hashes of commits.
 
 ```bash
@@ -509,7 +530,13 @@ git log --author="millenniumdisk"
 ```bash
 git diff
 ```
-Show two versions of every file that were modified. Show difference between old and new file. When changes are made and they are saved but not yet staged then committed, you can use this command to see the modifications made. With `git diff`, if a file is modififed and that file is saved, `git status` will show one file is modififed. Without staging and committing, use `git diff`. A will mean the previous file and B represents modified file. Click in VS Code to see those two side by side. You will also see hashes of the two when `git diff` is used. Modififed version got a hash even if it isn't staged yet. If a number like -3, 6 +3, 8 shows, it means old file with - is displayed with line 3 as the one we see and there are 6 lines total. The modified file is + and the displayed code start at line 3 and there are a total of 8 lines. Only a portion of the whole code is shown. We also see a text that is part of the code beside the numbers. We can copy those text and find it to see portion of the code that was changed. Scroll down in command line with down arrow key. You can stage and commit after using `git diff`.
+- Show two versions of every file that were modified.
+- Show difference between old and new file.
+- When changes are made and they are saved but not yet staged then committed, you can use this command to see the modifications made. With `git diff`, if a file is modififed and that file is saved, `git status` will show one file is modififed. Without staging and committing, use `git diff`.
+- A will mean the previous file and B represents modified file. Click in VS Code to see those two side by side. You will also see hashes of the two when `git diff` is used. Modififed version got a hash even if it isn't staged yet.
+- If a number like -3, 6 +3, 8 shows, it means old file with - is displayed with line 3 as the one we see and there are 6 lines total.
+- The modified file is + and the displayed code start at line 3 and there are a total of 8 lines.
+- Only a portion of the whole code is shown. We also see a text that is part of the code beside the numbers. We can copy those text and find it to see portion of the code that was changed. Scroll down in command line with down arrow key. You can stage and commit after using `git diff`.
 
 ##### Activity - Compare
 ```bash
@@ -524,7 +551,7 @@ git commit -m "initial commit"
 git diff
 ```
 
-#### Show Changes in Commit
+#### Show Changes in Specific Commit
 ```bash
 git show <hash>
 ```
@@ -549,9 +576,11 @@ git show cba3b01
 ```bash
 git shortlog
 ```
-Display a summary of all commits.
-
-`git shortlog` - Show summary of all commits. You can see which authors made more commits and you can sort the output in descending order starting from authors that made more commits. By default, this will be sorted by author name. You will see commits made by author. Use -n to sort by number of commits as in `git shortlog -n`. Suppress showing of commits with -s (show summary) to only show author and number of commits as in `git shortlog -n -s` while -e is to show email as in `git shortlog -n -s -e`. `git shortlog -nse` also works similarly.
+Show commits summary.
+- `git shortlog -n` - Sort by number of commits.
+- `git shortlog -n -s` - Suppress showing of commits with `-s`.
+- `git shortlog -n -s -e` - Shows email with `-e`.
+- `git shortlog -nse` - Same as `git shortlog -n -s -e`.
 
 ##### Activity - Show Summary of All Commits
 Use the hash that will appear in `git log`. There is no need to write the complete hash. Just write the first few characters of the hash.
@@ -568,12 +597,13 @@ git commit -m "initial commit"
 git shortlog
 ```
 
-#### Alias
+#### Create an Alias
 ```bash
 git lg
 ```
-Show history of commits with author and when were commits made but not much detail (no date).
-If `git lg` is not available, create an alias for it with `git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit"`. The `git lg` command can be used which is similar to `git log`.
+- Alias lets us create our own shortcuts with customization.
+- `git lg` will show history of commits with author and when were commits made but not much detail (no date).
+- If `git lg` is not available, create an alias for it with `git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit"`.
 
 ##### Activity - Alias
 ```bash
@@ -588,14 +618,14 @@ git commit -m "initial commit"
 git lg
 ```
 
-#### Show References
+#### Show Remote and Local References
 ```bash
 git show-ref
 ```
 Check remote refs and local refs.
 
 ##### Activity - Show References
-Create a repository with the same name of `git-experiments` and then add the remote before using `git show-ref`.
+Create a remote repository with the same name of `git-experiments` and then add the remote before using `git show-ref`.
 ```bash
 cd E:
 mkdir git-experiments
@@ -610,7 +640,7 @@ git show-ref
 ```
 
 #### Compare References for a Specific Branch
-`git show-ref <branch>` - When branch is master, you will only see references for master branch in local master master and remote master branch. Branch can be other branch. The references can be different or exactly the same. When a commit is made but not yet pushed, references will be different. When pushed, the references will become the same and it means local and remote branch are in sync.
+`git show-ref <branch>` - When branch is master, you will only see references for master branch in local master master and remote master branch. Branch can be other branch. The references can be different or exactly the same. When a commit is made but not yet pushed, references will be different. When pushed, the references will become the same and it means local and remote branch are in sync (no new changes to push and no new updates to get from remote).
 
 ##### Activity - Compare References for a Specific Branch
 ```bash
@@ -631,7 +661,7 @@ git show-ref main
 ```bash
 git add <filename>
 ```
-Add a file from working directory to staging area. Staging multiple files can be done by separating two files or more with a space as in `git add file1.txt file2.txt`.
+Add a file from working directory to staging area.
 
 ##### Activity - Stage a File
 ```bash
@@ -642,6 +672,12 @@ git init
 touch file1.txt
 git add file1.txt
 ```
+
+#### Stage Multiple Files
+```bash
+git add <filename1> <filename2>
+```
+Staging multiple files can be done by separating two files or more with a space as in `git add file1.txt file2.txt`.
 
 #### Stage All Files
 ```bash
