@@ -22,6 +22,7 @@ Use `pwd` command a lot.
 cd C:/Users/millenniumdisk/Desktop/testing_area
 pwd
 ```
+
 ## Show Files And Directories
 Use `ls` command a lot.
 ```bash
@@ -37,6 +38,7 @@ cd patient.txt
 cd ..
 ls -la hospital
 ```
+
 ## Change Directory
 ### Go To Root Directory
 ```bash
@@ -44,12 +46,14 @@ cd C:/Users/millenniumdisk/Desktop/testing_area
 cd
 pwd
 ```
+
 ### Go To A Directory
 ```bash
 cd C:/Users/millenniumdisk/Desktop/testing_area
 mkdir backups
 cd backups
 ```
+
 ### Go Back One Level
 ```bash
 cd C:/Users/millenniumdisk/Desktop/testing_area
@@ -57,6 +61,7 @@ mkdir products
 cd products
 cd ..
 ```
+
 ### Go Back One Level And Go To A Different Directory
 ```bash
 cd C:/Users/millenniumdisk/Desktop/testing_area
@@ -65,16 +70,19 @@ cd f1
 cd ../f2
 pwd
 ```
+
 ### Use An Absolute Address
 ```bash
 cd C:/Users/millenniumdisk/Desktop/testing_area
 ```
+
 ### Use A Relative Address
 ```bash
 cd C:/Users/millenniumdisk/Desktop/testing_area
 mkdir logos
 cd logos
 ```
+
 ### Go To A Nested Folder
 ```bash
 cd C:/Users/millenniumdisk/Desktop/testing_area
@@ -84,28 +92,33 @@ mkdir nature
 cd ..
 cd pictures/nature
 ```
+
 ## Create Files
 ### Create A File
 ```bash
 cd C:/Users/millenniumdisk/Desktop/testing_area
 touch index.html
 ```
+
 ### Create Multiple Files
 ```bash
 cd C:/Users/millenniumdisk/Desktop/testing_area
 touch doc1.txt doc2.txt
 ```
+
 ## Create Directories
 ### Create A Directory
 ```bash
 cd C:/Users/millenniumdisk/Desktop/testing_area
 mkdir python_folder
 ```
+
 ### Create Multiple Directories
 ```bash
 cd C:/Users/millenniumdisk/Desktop/testing_area
 mkdir projects assignments
 ```
+
 ## Delete Files Or Directories
 ### Delete A File
 ```bash
@@ -113,18 +126,21 @@ cd C:/Users/millenniumdisk/Desktop/testing_area
 touch program1.py
 rm program1.py
 ```
+
 ### Delete A Directory
 ```bash
 cd C:/Users/millenniumdisk/Desktop/testing_area
 mkdir images
 rm images
 ```
+
 ### Delete Multiple Directories
 ```bash
 cd C:/Users/millenniumdisk/Desktop/testing_area
 mkdir chemistry biology
 rm chemistry biology
 ```
+
 ### Delete A Non-empty Directory
 ```bash
 cd C:/Users/millenniumdisk/Desktop/testing_area
@@ -134,6 +150,7 @@ touch instructions.txt
 cd ..
 rm -rf arduino
 ```
+
 ### Delete Multiple Non-empty Directories
 ```bash
 cd C:/Users/millenniumdisk/Desktop/testing_area
@@ -146,6 +163,7 @@ touch presentation.txt
 cd ..
 rm -rf math english
 ```
+
 ## Show File Contents
 ```bash
 cd C:/Users/millenniumdisk/Desktop/testing_area
@@ -154,6 +172,7 @@ cat fruit.txt
 echo "Orange" > fruit.txt
 cat fruit.txt
 ```
+
 ## Create Or Edit A File With An Editor
 ### Create A File With An Editor
 Creates a file if it doesn't exist.
@@ -163,6 +182,7 @@ Create a file and edit it.
 cd C:/Users/millenniumdisk/Desktop/testing_area
 nano recursion.c
 ```
+
 ### Edit A File With An Editor
 Edits a file if it already exists.
 
@@ -172,17 +192,20 @@ cd C:/Users/millenniumdisk/Desktop/testing_area
 echo "Cook an italian carbonara" > reminder.txt
 nano reminder.txt
 ```
+
 ## Use String To Print, Overwrite Or Append
 ### Print A String
 ```bash
 cd C:/Users/millenniumdisk/Desktop/testing_area
 echo "It is raining today"
 ```
+
 ### Create Or Overwrite A File
 ```bash
 cd C:/Users/millenniumdisk/Desktop/testing_area
 echo "It is time to read a book about programming" > todos.txt
 ```
+
 ### Create Or Append To A File
 ```bash
 cd C:/Users/millenniumdisk/Desktop/testing_area
@@ -191,6 +214,7 @@ cat vegetable.txt
 echo "Cabbage" >> vegetable.txt
 cat vegetable.txt
 ```
+
 ## Copy A File
 Creates a new file. If file exists, its contents will be overwritten.
 
@@ -201,6 +225,7 @@ echo "this is apple street" > apple.txt
 cp apple.txt orange.txt
 cat orange.txt
 ```
+
 ## Move Or Rename Files And Folders
 ### Rename A File
 ```bash
@@ -211,8 +236,9 @@ mv quiz.txt exam.txt
 ls -la
 cat exam.txt
 ```
+
 ### Rename A Directory
-If directory in the second argument doesn't exist, a rename will happen.
+If directory in the second argument doesn't exist, renaming will happen.
 
 Rename folder.
 ```bash
@@ -221,6 +247,7 @@ mkdir videos
 mv videos movies
 ls -la
 ```
+
 ### Move A File
 Move a file to a folder.
 ```bash
@@ -231,6 +258,7 @@ mv grocery.txt docs
 cd docs
 ls -la
 ```
+
 ### Move A Directory
 If second directory exists, first directory will be moved.
 
@@ -243,6 +271,7 @@ mkdir f1 f2
 mv f1 f2
 ls -la
 ```
+
 ### Move Multiple Files
 ```bash
 cd C:/Users/millenniumdisk/Desktop/testing_area
@@ -252,6 +281,15 @@ mv tuna.txt sardines.txt box
 cd box
 ls -la
 ```
+
+### Move Multiple Files With Wildcard
+```bash
+cd C:/Users/millenniumdisk/Desktop/testing_area
+touch text1.txt text2.txt program1.py
+mkdir shelf
+mv *.txt shelf
+```
+
 ### Move And Rename File
 Move and then rename file after moving.
 ```bash
@@ -260,6 +298,7 @@ touch cookie.txt
 mkdir container
 mv cookie.txt container/chocolate.txt
 ```
+
 ## Find Files
 ### Find A File
 Find a specific file with a filename.
@@ -270,6 +309,7 @@ touch monkey.txt lion.txt tiger.txt
 cd ..
 find animals -name lion.txt
 ```
+
 ### Find All Files
 `*` in `find hiking -name *.txt` is a wildcard.
 
@@ -281,6 +321,7 @@ touch essentials.txt schedule.txt random_number_generator.py
 cd ..
 find hiking -name *.txt
 ```
+
 ### Find Regular Files
 `f` in `find codes -type f` means file.
 ```bash
@@ -290,22 +331,26 @@ touch index.html project.txt
 cd ..
 find codes -type f
 ```
+
 ## Clear Terminal
 ```bash
 cd C:/Users/millenniumdisk/Desktop/testing_area
 pwd
 clear
 ```
+
 ## Help
 ```bash
 cd C:/Users/millenniumdisk/Desktop/testing_area
 man ls
 ```
+
 Use `--help` to get help if `man` is not working.
 ```bash
 cd C:/Users/millenniumdisk/Desktop/testing_area
 cd --help
 ```
+
 ## Exit terminal
 ```bash
 cd C:/Users/millenniumdisk/Desktop/testing_area

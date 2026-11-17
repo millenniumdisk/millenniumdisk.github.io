@@ -154,25 +154,52 @@ echo "<string>" >> <filename>
 ```
 
 ### `cp` Command
-Copy a File.
+Copy a file where first argument is the source and second argument is the destination. If destination doesn't exist, create it (ex. `cp apple.txt orange.txt`).
+```bash
+cp <source> <destination>
+```
+
+Rename a file. If destination exists, overwrite it (ex. `cp apple.txt orange.txt`).
 ```bash
 cp <source> <destination>
 ```
 
 ### `mv` Command
-Move file or directory.
+Move file or directory. Source and destination can be a filename, directory or path of where the file or directory is.
+
+Rename a file (`mv quiz.txt exam.txt`).
+```bash
+mv <old_name> <new_name>
+```
+
+Rename a directory (ex. `mv videos movies`).
+```bash
+mv <old_name> <new_name>
+```
+
+Move a file (ex. `mv grocery.txt docs`).
 ```bash
 mv <source> <destination>
 ```
 
-Rename file or directory.
+Move a directory. Move `dir1` directory to `dir2` directory (ex. `mv f1 f2`).
 ```bash
-mv <old_name> <new_name>
+mv <dir1> <dir2>
+```
+
+Move multiple files (`mv tuna.txt sardines.txt box`).
+```bash
+mv <file1> <file2> <directory>
 ```
 
 Move multiple files with wildcard.
 ```bash
 mv *.<file_extension> <destination>
+```
+
+Move and then rename file (ex. `mv cookie.txt container/chocolate.txt`).
+```bash
+mv <source> <destination>
 ```
 
 ### `find` Command
@@ -412,7 +439,7 @@ Read configuration of Git. `user.name` and `user.email` can be seen.
 git config --list
 ```
 
-## `git commit` Command
+## `git commit` Command With Description
 There should be changes and those changes should be placed in the staging area then creating a commit is possible.
 
 We can add description with `-m` option. We will see in what branch the commit is created. `root-commit` means it is the first commit and it doesn't have any parents. We will see its hash and description. Commit will have information about the author (who made changes), committer (who used commit command), time, time zone and description.
@@ -466,10 +493,26 @@ git rm --cached <filename>
 ```
 
 ## `git checkout` Command
-Takes files from Git repository, puts them into staging area under the hood and then replaces the files in working directory. We can check out a commit or branch. With this command, we can go to old project versions.
+Takes files from Git repository, puts them into staging area under the hood and then replaces the files in working directory. We can check out a commit or branch. With this command, we can go to old project versions. 
+
+This command only moves the HEAD pointer.
+
+We need to put the branch name to go to a branch.
+
+Go to a branch (`ex. git checkout br1`).
+```bash
+git checkout <branch>
+```
+
+We need to put the hash of the commit to go to a commit.
+
+Go to a commit (`git checkout ba5e7c02ed`).
+```bash
+git checkout <hash>
+```
 
 ## Branch
-A branch is just a pointer to a specific commit.
+A branch is just a pointer to a specific commit (a branch is like a bookmark on a commit).
 
 The default branch is `master` branch or `main` branch.
 
@@ -480,3 +523,58 @@ Pointers for branches are in `.git/refs/heads` folder.
 Branch names can't have spaces.
 
 Going inside `.git` folder with `cd .git/refs/heads`, we can see one file named `master`. Using `cat master` will show the hash of a commit. It means master branch points to a commit.
+
+## HEAD
+Working directory can only be in one version of project at a time.
+
+- HEAD is a reference to the currently checked out branch or commit (it points to current project version).
+- HEAD is locally significant.
+- File location is at `.git/HEAD`.
+- Default pointer is `ref: refs/heads/master`.
+- There is only one HEAD.
+
+In `.git`, we can check contents of HEAD file with `cat HEAD`. We will see `ref: refs/heads/master` and when we use `cat ref: refs/heads/master`, we get hash of commit that the current branch points to.
+
+## Deleted File State
+Another file state is deleted. It is like modified state.
+
+## `git commit` Command
+`git commit` will open default editor to enter description and then a commit will be created.
+```bash
+git commit
+```
+
+Vim might be the default editor.
+To enter insert mode press `i` key then type description.
+To exit insert mode press `esc` key then type `:wq` to save file and exit (`w` is write and `q` is quit).
+
+Using `cat .git/HEAD` will give `ref: refs/heads/master` which is the same as before.
+Using `cat .git/refs/heads/master` will give a new hash because of new commit.
+
+If we delete all files in working directory, stage and commit them, files won't be deleted in Git repository. Staging area will be empty but Git repository will keep all history.
+
+## Detached HEAD State
+Normally, HEAD points to a branch. Detached HEAD state is when HEAD points to a commit.
+
+Checking out old commits won't show new commits in commits history.
+
+Checking out commits instead of branch is not the preferrable way to change project version.
+
+It is not reccommended to create new commits while in detached HEAD state. After creating a commit while in detached HEAD state and then checking out a branch, the commits created while in detached HEAD state will be lost and deleted automatically by Git and you won't be able to return to those commits.
+
+## Why Do We Need Branches
+Branches can be created when collaborating with other team members is needed. If you are working in `br1`, someone can work on a different `br2` branch at the same time.
+
+It is possible that you are working in `br1` branch and another team member is also working on the same `br1` branch.
+
+If master or main branch is the main project, a branch `br1` can be created so that changes in `br1` won't affect master or main branch.
+
+Different features can be developed at the same time.
+
+When a feature is ready. It will be tested and verified. The branch with the feature can be merged to master or main branch.
+
+Having multiple branches is like each having their own separate history line.
+
+Use consistent branch names so making all branch names be descriptive is ok (ex. `refactor-main-menu`).
+
+With branches, moving with `git checkout` is easy because we only need to remember the branch name.
