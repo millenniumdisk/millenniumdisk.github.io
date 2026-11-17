@@ -34,7 +34,7 @@ In Windows 11, `Desktop` folder can be found in `C:\Users\<name>` (ex. `C:\Users
 - Use `tab` key to autocomplete commands in the terminal. Press tab key twice to see choices. Can show available commands or possible directories in the incomplete command.
 - Previously used commands can be navigated with up or down arrow keys.
 
-### <span style="color:blue">pwd</span> Command
+### `pwd` Command
 `pwd` will give us information on what is the current directory. `pwd` means print working directory.
 ```bash
 pwd
