@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Short Git
+title: Git Overview
 ---
 
-# Short Git
+# Git Overview
 
 ## Git Commands
 `git init` - Initialize a project directory as a Git repository.

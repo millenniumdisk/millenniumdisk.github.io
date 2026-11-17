@@ -1,16 +1,16 @@
 ---
 layout: post
-title: Long Git
+title: Git Notes
 ---
 
-# Long Git
+# Git Notes
 
 ## Introduction
 Git is a distributed version control system (VCS). Distributed means that team members in a project got their own repository copy in their local computers.
 
 Git works offline and repository is stored in the local computer.
 
-## Remote Repository Hosting Service
+## Remote Repository Hosting Services
 A remote repository hosting service can be used when many team members are working on a project (or even if it is just a personal project you are working on alone) in order do the following:
 - Update the project.
 - Get the latest version of the project.
@@ -22,7 +22,7 @@ Git must be installed and internet connection plus an account in GitHub or GitLa
 ## Terminal Commands
 Bash will be used. Bash (Bourne Again Shell) was released in June 8, 1989 and was written in C.
 
-In Windows 11, `Desktop` folder can be found in `C:\Users\<name>` (ex. ``C:\Users\millenniumdisk`) and `/` can be used in Git Bash instead of `\`.
+In Windows 11, `Desktop` folder can be found in `C:\Users\<name>` (ex. `C:\Users\millenniumdisk`) and `/` can be used in Git Bash instead of `\`.
 
 - `.` is the symbol used for current directory.
 - `..` is the symbol used for parent directory.
@@ -34,7 +34,7 @@ In Windows 11, `Desktop` folder can be found in `C:\Users\<name>` (ex. ``C:\User
 - Use `tab` key to autocomplete commands in the terminal. Press tab key twice to see choices. Can show available commands or possible directories in the incomplete command.
 - Previously used commands can be navigated with up or down arrow keys.
 
-### `pwd` Command
+### <span style="color:blue">pwd</span> Command
 `pwd` will give us information on what is the current directory. `pwd` means print working directory.
 ```bash
 pwd
@@ -113,7 +113,12 @@ Remove multiple empty directories.
 rm <directory1> <directory2>
 ```
 
-Remove multiple non-empty directories
+Remove a non-empty directory.
+```bash
+rm -rf <directory1>
+```
+
+Remove multiple non-empty directories.
 ```bash
 rm -rf <directory1> <directory2>
 ```
@@ -417,14 +422,8 @@ Create a commit in Git repository. Git will create objects if those objects are 
 git commit -m "<description>"
 ```
 
-## `git add` Command
-Add files from working directory into staging area. New untracked files will become tracked.
-
 ## `git log` Command
 Show commit history.
-
-## `git checkout` Command
-Takes files from Git repository and replaces the files in working directory. We can check out a commit or branch. With this command, we can go to old project versions.
 
 ## File Status
 Files that are newly added in working directory are `untracked` files.
@@ -446,7 +445,7 @@ When an unmodified file became modified and it turned into staged state, it can 
 An untracked that is staged can become untracked after unstaging.
 
 ## `git add` Command
-Take files in working directory and add them in staging area.
+Add files from working directory into staging area. New untracked files will become tracked.
 
 Stage a file from working directory (ex. `git add file1.txt`).
 ```bash
@@ -465,3 +464,19 @@ Remove file from staging area (ex. `git rm --cached file1.txt`).
 ```bash
 git rm --cached <filename>
 ```
+
+## `git checkout` Command
+Takes files from Git repository, puts them into staging area under the hood and then replaces the files in working directory. We can check out a commit or branch. With this command, we can go to old project versions.
+
+## Branch
+A branch is just a pointer to a specific commit.
+
+The default branch is `master` branch or `main` branch.
+
+A Git repository can have many branches.
+
+Pointers for branches are in `.git/refs/heads` folder.
+
+Branch names can't have spaces.
+
+Going inside `.git` folder with `cd .git/refs/heads`, we can see one file named `master`. Using `cat master` will show the hash of a commit. It means master branch points to a commit.
