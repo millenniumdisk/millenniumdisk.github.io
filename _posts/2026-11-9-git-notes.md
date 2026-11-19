@@ -17,7 +17,7 @@ A remote repository hosting service can be used when many team members are worki
 - Collaborate with other team members regardless of time, location or computer being used.
 - Use the remote repository as backup in the event that the local repository is lost due to the local computer malfunctioning.
 
-Git must be installed and internet connection plus an account in GitHub or GitLab is needed.
+Git should be installed then the computer should be connected to the internet and an account in GitHub or GitLab is needed.
 
 ## Terminal Commands
 Bash will be used. Bash (Bourne Again Shell) was released in June 8, 1989 and was written in C.
@@ -351,7 +351,7 @@ A Git object got four fields: a `content`, `type`, `length` and `delimiter`. An 
 Use `-e` option to interpret escaped characters (ex. `echo -e "blob 11\0Hello, Git"`) when `\0` can be seen in output when using `echo "blob 11\0Hello, Git"`.
 
 ## Tree Object Structure
-Structure of tree is similar to blob but it got a type `tree` and it got information about `permissions`, `object type`, `hash` and `name` for each blob or tree inside it.
+Structure of tree is similar to blob but it got a type `tree` and it got information about `permissions`, `object type`, `hash` and `name` for each blob or tree inside it. Git will reuse the same objects and not create new objects since filenames are inside the `tree` object type.
 
 ## Permissions
 Only directory and regular non-executable file permissions are common. We need permissions because root folder or project folder is a separate file system from Git repository (we can also use low level commands to create files in our project folder based on `objects` folder).
@@ -474,6 +474,8 @@ An untracked that is staged can become untracked after unstaging.
 ## `git add` Command
 Add files from working directory into staging area. New untracked files will become tracked.
 
+Modified, newly added and deleted files will be affected by `git add`.
+
 Stage a file from working directory (ex. `git add file1.txt`).
 ```bash
 git add <filename>
@@ -499,22 +501,24 @@ This command only moves the HEAD pointer.
 
 We need to put the branch name to go to a branch.
 
-Go to a branch (`ex. git checkout br1`).
+Go to a branch (`ex. git checkout br1`). Only moves HEAD pointer to branch.
 ```bash
 git checkout <branch>
 ```
 
 We need to put the hash of the commit to go to a commit.
 
-Go to a commit (`git checkout ba5e7c02ed`).
+Go to a commit (`git checkout ba5e7c02ed`). Only moves HEAD pointer to commit.
 ```bash
 git checkout <hash>
 ```
 
 ## Branch
-A branch is just a pointer to a specific commit (a branch is like a bookmark on a commit).
+A branch is just a pointer to a specific commit (a branch is like a bookmark on a commit that also automatically moves to the latest commit in it).
 
 The default branch is `master` branch or `main` branch.
+
+Sometimes the name of `master` is `release`.
 
 A Git repository can have many branches.
 
@@ -527,7 +531,7 @@ Going inside `.git` folder with `cd .git/refs/heads`, we can see one file named 
 ## HEAD
 Working directory can only be in one version of project at a time.
 
-- HEAD is a reference to the currently checked out branch or commit (it points to current project version).
+- HEAD is a reference to the currently checked out branch or commit (it points to current project version) so it automatically moves.
 - HEAD is locally significant.
 - File location is at `.git/HEAD`.
 - Default pointer is `ref: refs/heads/master`.
@@ -569,12 +573,182 @@ It is possible that you are working in `br1` branch and another team member is a
 
 If master or main branch is the main project, a branch `br1` can be created so that changes in `br1` won't affect master or main branch.
 
-Different features can be developed at the same time.
+We create branches so that different features can be developed at the same time.
 
-When a feature is ready. It will be tested and verified. The branch with the feature can be merged to master or main branch.
+When a feature is ready, tt will be tested and verified and then the branch with the feature can be merged to master or main or release branch.
 
 Having multiple branches is like each having their own separate history line.
 
 Use consistent branch names so making all branch names be descriptive is ok (ex. `refactor-main-menu`).
 
 With branches, moving with `git checkout` is easy because we only need to remember the branch name.
+
+## Branch Management
+List all local branches. Currently checked out branch will be marked.
+```bash
+git branch
+```
+
+Create a new branch based on the current branch (ex. `git branch br1`). Doesn't automatically checks out the new branch. Branch should have at least one commit.
+```bash
+git branch <name>
+```
+
+Delete a merged branch (ex. `git branch -d br1`). 
+```bash
+git branch -d <name>
+```
+
+Rename a specific branch and apply immediately (ex. `git branch -m br1 DEV-1532`).
+```bash
+git branch -m <old_name> <new_name>
+```
+
+Force delete a non-merged branch (ex. `git branch -D br1`).
+```bash
+git branch -D <name>
+```
+
+If branch name doesn't exist, create a branch based on the current branch and automatically check out the new branch.
+```bash
+git checkout -b <name>
+```
+
+Using `ls .git/refs/heads` will show branches.
+Using `cat .git/HEAD` will show `ref: refs/heads/master` which is the same as before.
+After changing branches with `git checkout`, `cat .git/HEAD` will show `ref: refs/heads/temp` because a branch like `temp` is the current branch.
+
+## Public Repository
+A public repository is a Git repository that can be viewed in a repository hosting service like GitHub or GitLab and we can always get the latest updated repository since it is public.
+
+Author and committer can be different in a public repository.
+
+We can clone a public Git repository to our local computer and then create local commits or local branches.
+
+If we don't have write access to the public Git repository, we can't push to it.
+
+## `git clone` Command
+We can clone our own private repository or a public repository owned by others.
+
+We want to clone a public repository so in GitHub's website go to Developers -> Explore -> Trending repos -> Collections -> Learn to Code -> `leachim6 / hello-world` to find a Git repository with different programming languages inside it.
+
+Click the green `Code` button. Copy the URL (`Download Zip` won't include `.git` folder so we don't want it).
+
+The URL can be:
+`https://github.com/leachim6/hello-world.git`
+
+Go to `Desktop`.
+
+Clone a remote repository and create new folder. A new folder will be created. Local repository will be connected to remote repository.
+```bash
+git clone <url>
+```
+
+## Merge Commit
+If a commit is a `merge commit`, it means someone else has created a `pull request` and the author in the commit merged the pull request into a branch like master branch.
+
+## Empty Objects Folder
+In a public repository, the `objects` folder may only have `info` and `pack` folders. It is empty because the repository is optimized to save space. All Git objects are in the pack file (archived file) inside `pack` folder. The file with `.idx` inside `pack` folder is a file that contains index of Git objects. We can unpack the `.pack` file.
+
+## `git upack-objects` Low Level Command
+Unpack objects to `objects` folder. The `file` argument is the pack file. Output contents of pack file to the second command.
+```bash
+cat <file> | git unpack-objects
+```
+
+1. Move `.pack` file to `.git` folder (`.pack` file will disappear in `pack` folder).
+2. Go to `.git` folder with `cd .git`.
+3. Use `cat pack-a1a6323.pack | git unpack-objects`
+4. Delete `.pack` file with `rm pack-a1a6323.pack` because we don't need it anymore (Use `rm -f pack-a1a6323.pack` to forcefully delete it if it won't work the first time).
+
+## GitHub Desktop
+`Fetch origin` button in GitHub Desktop will download all updates or latest changes in remote repository.
+
+## Visual Studio Code
+In most bottom left corner of Visual Studio Code, current branch name can be seen.
+
+Revert changes by clicking `Discard Changes` on a file when in `Source Control: Git` in Visual Studio Code. File will return to original state.
+There are file labels when using Visual Studio Code:
+`M` - File is modified.
+`D` - File is deleted.
+
+## Source Control
+When in Visual Studio Code, `Source Control: Git` will show old version and new version when the changed file is clicked before committing.
+
+## Last Commit Of Remote Repository
+We can see the last commit of a remote repository when there is a `origin/master` (`origin` means it is in remote repository and `master` is the remote branch name) and `origin/HEAD`.
+
+## `git diff` Command
+Use `git diff`. If there are no output, it means there are no changes.
+
+If ther are changes and changes are not yet staged and not yet committed, the command will show old and new versions of every file that was changed.
+
+Show sections of file `a` (old version) and file `b` (modified version).
+```bash
+git diff
+```
+The command will show `@@ -<n1>, <n2> +<n3>, <n4> @@` where `-` means old file and `+` means new file (ex. `@@ -3,6 +3,8 @@`).
+
+Old File:
+`n1` - Line number start.
+`n2` - Total number of lines.
+New File:
+`n3` - Line number start.
+`n4` - Total number of lines.
+
+Comparison can be done with Visual Studio Code since using this command can be inconvenient.
+
+## `git commit` Command With `-a` Option
+Automatically stage `modified` and `deleted` files to staging area and commit them (ex. git `commit -a -m "Changed program1.py"` or `commit -am "Initial commit"`).
+```bash
+git commit -a -m "<description>"
+```
+
+## Branch Merging
+We can merge any branch into any other branch.
+
+In most cases, other branches will be merged into master or main branch.
+
+There are two ways merging is done: fast forward merge and three way merge.
+
+To incorporate the changes made in a branch, we use merging so that the other branch will get the changes.
+
+## Receiving Branch
+It is the branch that will receive changes from another branch because of branch merging.
+
+## Feature Branch
+It is the branch that was created to develop a feature while at the same time not affecting the master or main branch when making changes.
+
+Feature branch can be merged into a receiving branch which can be master or main branch.
+
+## Fast Forward Approach Merge
+Git only moves the branch pointer of the receiving branch to point to the feature branch's latest commit. No new comits will be created.
+
+Fast forward merge happens when the receiving branch have no further commits at the time when the other branch that will be incorporated to it was made.
+
+If we want to merge a feature branch (`br1`) into a receiving branch (master or main branch):
+1. We need to go to the receiving branch with `git checkout`.
+2. We then choose what branch to merge into the receiving branch.
+3. You can delete the feature branch if you are not going to make any changes to it by using `git branch -d <branch>` (`br1` is feature branch so use `git branch -d br1`).
+
+## Merging Process
+1. Create new feature branch from the master or main branch.
+2. Make changes in the new branch and commit them (test changes first before merging).
+3. Check out master or main branch (receiving branch).
+4. Merge feature branch into the current receiving branch (if feature branch is `br1` then use `git merge br1`).
+
+Git will automatically determine what merging technique to use (fast forward merge or three way merge).
+
+## Three Way Merge
+A new merge commit will be created. It will contain all changes.
+
+## Merge Conflict
+## `git branch` Command
+
+```bash
+
+```
+
+```bash
+
+```
