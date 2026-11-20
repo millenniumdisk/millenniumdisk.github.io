@@ -681,7 +681,7 @@ We can see the last commit of a remote repository when there is a `origin/master
 ## `git diff` Command
 Use `git diff`. If there are no output, it means there are no changes.
 
-If ther are changes and changes are not yet staged and not yet committed, the command will show old and new versions of every file that was changed.
+If there are changes and changes are not yet staged and not yet committed, the command will show old and modified versions of every file that was changed.
 
 Show sections of file `a` (old version) and file `b` (modified version).
 ```bash
@@ -699,7 +699,7 @@ New File:
 Comparison can be done with Visual Studio Code since using this command can be inconvenient.
 
 ## `git commit` Command With `-a` Option
-Automatically stage `modified` and `deleted` files to staging area and commit them (ex. git `commit -a -m "Changed program1.py"` or `commit -am "Initial commit"`).
+Automatically stage `modified` and `deleted` files to staging area and commit them (ex. git `commit -a -m "Changed program1.py"` or `commit -am "Initial commit"`). Doesn't work on files that aren't `modified` or `deleted`.
 ```bash
 git commit -a -m "<description>"
 ```
@@ -713,6 +713,11 @@ There are two ways merging is done: fast forward merge and three way merge.
 
 To incorporate the changes made in a branch, we use merging so that the other branch will get the changes.
 
+Merge branch into current branch (ex. `git merge br1`).
+```bash
+git merge <branch>
+```
+
 ## Receiving Branch
 It is the branch that will receive changes from another branch because of branch merging.
 
@@ -721,26 +726,40 @@ It is the branch that was created to develop a feature while at the same time no
 
 Feature branch can be merged into a receiving branch which can be master or main branch.
 
-## Fast Forward Approach Merge
+## Fast Forward Merge
 Git only moves the branch pointer of the receiving branch to point to the feature branch's latest commit. No new comits will be created.
 
 Fast forward merge happens when the receiving branch have no further commits at the time when the other branch that will be incorporated to it was made.
 
+## Try Fast Forward Merge
 If we want to merge a feature branch (`br1`) into a receiving branch (master or main branch):
-1. We need to go to the receiving branch with `git checkout`.
-2. We then choose what branch to merge into the receiving branch.
-3. You can delete the feature branch if you are not going to make any changes to it by using `git branch -d <branch>` (`br1` is feature branch so use `git branch -d br1`).
-
-## Merging Process
 1. Create new feature branch from the master or main branch.
-2. Make changes in the new branch and commit them (test changes first before merging).
-3. Check out master or main branch (receiving branch).
-4. Merge feature branch into the current receiving branch (if feature branch is `br1` then use `git merge br1`).
+2. Check out new feature branch.
+3. Make changes in the new branch and commit them (test changes first before merging).
+4. Check out the receiving branch.
+5. Merge feature branch into the current branch or receiving branch (if feature branch is `br1` then use `git merge br1`).
+6. You can delete the feature branch if you are not going to make any changes to it by using `git branch -d <branch>` (`br1` is feature branch so use `git branch -d br1`).
+
+We will see that the receiving branch will point to a commit with a new hash instead of the old hash after merging.
 
 Git will automatically determine what merging technique to use (fast forward merge or three way merge).
 
+## Ancestor Commit
+Ancestor commit is a commit that is both in the feature branch and receiving branch.
+
 ## Three Way Merge
-A new merge commit will be created. It will contain all changes.
+When there are new commits in the receiving branch (which can be master or main branch) and we want to merge a feature branch, three way merge will be used to avoid losing commits if fast forward merge is used.
+
+In three way merge a new merge commit will be created. It will contain all changes. The new merge commit will be based on three commits and those commits are: the first nearest ancestor commit in receiving branch and feature branch, the latest commit in receiving branch and the latest commit of feature branch.
+
+## Try Three Way Merge
+1. Create new feature branch from the master or main branch.
+2. Check out new feature branch.
+3. Make changes in the new feature branch and commit them (test changes first before merging).
+4. Check out master or main branch (receiving branch)
+5. Make changes in the master or main branch and commit them.
+6. Merge feature branch into the current branch or receiving branch (if feature branch is `br1` then use `git merge br1`).
+7. You can delete the feature branch if you are not going to make any changes to it by using `git branch -d <branch>` (`br1` is feature branch so use `git branch -d br1`).
 
 ## Merge Conflict
 ## `git branch` Command
