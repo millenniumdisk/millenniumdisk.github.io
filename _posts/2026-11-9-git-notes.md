@@ -752,6 +752,10 @@ When there are new commits in the receiving branch (which can be master or main 
 
 In three way merge a new merge commit will be created. It will contain all changes. The new merge commit will be based on three commits and those commits are: the first nearest ancestor commit in receiving branch and feature branch, the latest commit in receiving branch and the latest commit of feature branch.
 
+New merge commit will have two parents.
+
+Commits can have two or more parents when merging multiple branches.
+
 ## Try Three Way Merge
 1. Create new feature branch from the master or main branch.
 2. Check out new feature branch.
@@ -759,7 +763,17 @@ In three way merge a new merge commit will be created. It will contain all chang
 4. Check out master or main branch (receiving branch)
 5. Make changes in the master or main branch and commit them.
 6. Merge feature branch into the current branch or receiving branch (if feature branch is `br1` then use `git merge br1`).
-7. You can delete the feature branch if you are not going to make any changes to it by using `git branch -d <branch>` (`br1` is feature branch so use `git branch -d br1`).
+7. When using `git merge br1`, Git will ask us for a commit description for new merge commit. It is ok to use default description. You can edit it if Vim is used with `I` to type then `Esc` to use `:wq` to save and exit file.
+8. You can delete the feature branch if you are not going to make any changes to it by using `git branch -d <branch>` (`br1` is feature branch so use `git branch -d br1`).
+
+Merge commit will become the last commit in receiving branch.
+
+Three way merge preserves all history of changes.
+
+## Sourcetree
+In Sourcetree's Workspace, we can click on `File Status` to see the changes in files.
+
+Double click on a commit to check it out.
 
 ## Merge Conflict
 ## `git branch` Command
