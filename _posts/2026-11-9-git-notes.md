@@ -776,7 +776,209 @@ In Sourcetree's Workspace, we can click on `File Status` to see the changes in f
 Double click on a commit to check it out.
 
 ## Merge Conflict
-## `git branch` Command
+Merge conflicts won't appear when different files are changed in the feature branch and the receiving branch when merging.
+
+Merge conflicts may appear when the same file or files are changed in both feature branch and receiving branch when merging.
+
+Merge conflicts may happen when there are new commits in receiving branch after the feature branch is created.
+
+If there are merge conflicts, merging will stop and Git will ask you to resolve conflicts.
+
+Fix:
+1. Resolve conflicts manually and decide which changes you want to keep in the merge commit. You can keep the changes from receiving branch (might be master or main branch), changes from feature branch or other changes (editing files with conflicts in any way is possible).
+2. Stage changes after editing.
+3. Commit changes.
+
+Git will create merge commit.
+
+## Try Merge Conflict
+1. Create a feature branch (`br1`).
+2. Make changes in feature branch.
+3. Stage changes in feature branch.
+4. Commit changes in feature branch.
+5. Check out receiving branch (might be master or main branch).
+6. Make modifications to the same files in the same places in receiving branch.
+7. Stage changes in receiving branch.
+8. Commit changes in receiving branch.
+9. Merge (use `git merge br1`) feature branch into current branch (merge will be unsuccessful and using `git status` will show that there are unmerged paths while if `git merge --abort` is used then merge will be aborted).
+10. Resolve conflicts manually (use Visual Studio Code or other editor).
+11. Stage changes after resolving conflicts to mark conflicts as resolved.
+12. Commit changes.
+
+A new merge commit will appear.
+
+While trying to resolve conflicts, in Visual Studio Code's `Source Control: Git`, we can see the files with conflicts and see both versions (a section only). The changes in receiving branch (`<<<<<<<`) will have `HEAD` and `Current Change` as labels while changes from feature branch will have the label of (might be `br1`) feature branch name (`>>>>>>>`) and `Incoming Change`. The changes are divided by `=======`.
+
+We can click one of the following in the part that will have conflicts:
+- `Accept Current Change`
+- `Accept Incoming Change`
+- `Accept Both Changes`
+
+We can delete the entire section in the fils with conflicts and write other texts.
+
+In Visual Studio Code, use `Alt + Z` will show the content using word wrap.
+
+When using `git ls-files -s`, we can see three numbered files for each file with conflicts where 1 is the common content, 2 is the one from receiving branch while 3 is the one from feature branch. When looking at working directory, it will combine the three files to show the common, change from receiving branch and change from feature branch.
+
+## Resolve Merge Conflicts With `nano`
+When using command line to resolve merge conflicts:
+1. If the file with conflicts is small, `nano` can be used to edit the file (use `nano <filename>`).
+2. When using `nano`, use `Ctrl + k` to delete a line.
+3. If we only want the changes from the receiving branch, we can delete all lines (including the `<<<<<<<`, `=======`, `>>>>>>>` and then delete the empty lines made by newlines) except the text content from the receiving branch (master or main branch).
+4. Save with `Ctrl + o`.
+5. Press enter if filename is acceptable.
+6. Use `Ctrl + x` to exit.
+7. Use `git add <filename>` to stage the file with resolved conflicts (ex. if file is `file1.txt` use `git add file1.txt` and this will remove the other files with the same filename that are numbered in the staging area).
+
+Use Visual Studio Code to make resolving merge conflicts easier instead of the command line to edit the files.
+
+## Resolve Merge Conflicts With Visual Studio Code
+1. In `Source Control: Git`, we can see the file with conflicts in `Merge Changes` section. If there are other files with resolved conflicts, we will see them in the `Staged Changes` section.
+2. Decide what to keep. You can also delete the entire section with conflicts and write another version for the section of the file with conflicts. You can also just click one of the choices. If we want to keep the changes from the feature branch we select `Accept Incoming Change`.
+3. Stage the file (only one version of the file that was resolved will be in the staging area).
+4. Use `git commit` (there is no need to enter a description).
+5. Git will show default description of commit and use `:wq` then enter to use default description (if you are not going to commit the merge, only remove file `.git/MERGE_HEAD`).
+6. We can delete the feature branch (ex. if `br1` is feature branch then use `git branch -d br1`).
+
+When inside the repository, use `cat .git/MERGE_HEAD`. We may see commit object from feature branch that we want to keep.
+
+During merge process, Git will create another HEAD file named `MERGE_HEAD`.
+
+Save the file.
+
+## More On Remote Repository Hosting Services
+You can create Git repositories on your local computer and then upload them to a remote repository hosting service.
+
+If repository in the remote repository hosting service is a public repository, anyone can clone the repository and use it locally on their computer.
+
+Private repositories on the other hand will only be visible to you or probably other team members or collaborators.
+
+Remote Repository Hosting Services:
+- GitHub
+- GitLab
+- Bitbucket
+
+Having a remote repository will create a backup copy of your local Git repository.
+
+If you accidentally deleted your local Git repository, you will be able to clone it from remote repository. Collaboration on the same remote repository is also possible.
+
+Development can happen simultaneously with different branches on the same remote repository any time anywhere.
+
+It is possible to also do code reviews, create pull requests, integrate automation build systems like Travis CI, etc.
+
+## GitHub
+
+Create a GitHub account.
+
+Some operations we will do are:
+- `fetch` from remote repositories.
+- `pull` from remote repositories.
+- `push` to remote repositories.
+
+We need to use special tokens (not passwords).
+
+We will create `personal access token` and use it later to interact with remote repositories.
+
+### Classic Tokens
+We will be using classic tokens.
+
+In your GitHub account, go to Settings -> Developer settings -> Personal access tokens -> Tokens (classic) -> Generate new token -> Generate new token (classic).
+
+Create any note for the token.
+
+Set an expiration (like 90 days) on the token (reccommended so change tokens from time to time).
+
+Put a check on `repo` for full control of private repositories and public repositories, read or write.
+
+Click `Generate token` button.
+
+Copy token and paste it somewhere safe (copy it now since it can't be copied later on).
+
+We can also delete token later on.
+
+### Fine-grained Token
+We will not use fine-grained tokens.
+
+In your GitHub account, go to Settings -> Developer settings -> Personal access tokens -> Tokens (classic) -> Generate new token -> Generate new token.
+
+Add token name and set expiration.
+
+You can specify repository access to `Public Repositories (read-only), `All repositories` (token will become classic) or `Only select repositories` (specific or up to 50 repositories).
+
+You can also set `Repository permissions`.
+
+Then click `Generate token` button.
+
+### More On Tokens
+
+Instead of password, token will be used for communication between local repositories, local programs and remote repositories.
+
+We can use the token to write to all repositories and read from all your repositories if they are private.
+
+You can read public repositories without any token.
+
+GitHub API can be used to generate new token.
+
+We can create classic tokens or fine-grained tokens.
+
+Classic tokens will let you access all of your repositories and let you perform different actions in your repositories.
+
+Fine-grade tokens can be used to create more restrictive tokens (restrict to specific repositories).
+
+## Create A Remote Repository In GitHub
+Public repository is where anyone can clone or download the remote repository (by default only you can contribute or commit and add branches, etc. to the project but you can choose people who will have write access and make changes).
+
+Private repository is hidden from public but you can choose people who will be able to see the remote repository, clone it and commit to it.
+
+Don't put a README.md file if you are going to import an already existing Git repository.
+
+We will put a README.md file right away since we will not import an already existing Git repository.
+
+Create remote repository:
+1. Put a repository name (uppercase letters, lowercase letters and `-` are allowed but not space characters).
+2. Add repository description.
+3. Choose repository type (choose public for now).
+4. Put a check to the checkbox in `Initialize this repository with a README`.
+5. Set `Add .gitignore` to `None` for now.
+6. Set `Add a license` to `None` for now.
+7. Click `Create repository` button.
+
+GitHub will create repository and automatically add a commit for the README.md file.
+
+The remote repository will have the permanent URL of `github.com/<username>/<repository>` where `username` will be the account name while the `repository` is the name of the new repository.
+
+The remote repository will have one branch and have one contributor (you).
+
+It is a convention or good practice to have a README.md file in the root folder of any repository (plus, we may not be able to create a new branch right away if we don't have at least one commit).
+
+Explore remote repository:
+1. Click `commit` to see commits.
+2. Clicking on `<>`, you can go to an old project version using the commit. We will see `tree` and its hash.
+3. Click `tree` (`tree` is not a tree Git object but is just a pointer to branch or commit) with a hash and then choose a branch which can be master or main branch to change current branch.
+4. Click `branch` to see the list of branches in the remote repository.
+5. Default branch is `master` with a tag of `Default`.
+6. Click `Code` to view remote repository at its latest version.
+7. The area with files is the working directory.
+8. A file can be edited by clicking on the pen icon. After editing a file, we can use default description and we select `Commit directly to the master branch` and click `Commit changes` button.
+9. We can go to `commits` and click the hash of a commit to see the details of the commit object then we can click `Split` to see old and new version of a file (`Unified` view will only show changes in one view).
+10. We can click `<>` to see `source diff` and the document icon beside it to see `rich diff` to see the code or hide it in the file.
+We can also add comments in the commit object.
+
+## Create New File In Remote Repository Using GitHub
+1. Click `Create new file`.
+2. Write filename (we can combine `/` to the filename to create folders like in `hiking/grocery.txt` or `camping/mountain/todos.txt`) of file to add (ex. `program1.py`).
+3. Add any file content.
+4. Select `Commit directly to master branch`.
+5. Click `Commit new file` button.
+
+## Create New Branch In Remote Repository Using GitHub
+1. Click `Branch: master`
+2. Type name of new branch (ex. `feature-1`).
+3. Click `Create branch: feature-1 from master`.
+
+New branch will be automatically checked out.
+
+When there is a `This branch is even with master`, it means the branches point to the same commit object.
 
 ```bash
 
