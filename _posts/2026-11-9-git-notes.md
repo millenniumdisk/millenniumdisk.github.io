@@ -1121,10 +1121,26 @@ git branch -r
 ```
 
 ## Tracking Branch
+Tracking branch is a local branch that is connected to a specific remote branch.
 
+After cloning a remote repository, Git will create and check out one tracking branch in local Git repository. The name of the tracking branch will match the default name of the branch in remote repository.
+
+In GitHub, go to `branches` -> `All branches` -> `Change default branch` -> `master` then select a new branch that will become the default branch then click `Update` button.
+
+Just create a remote branch in remote repository to make a local branch into a tracking branch.
+
+Just check out the remote branch while in local Git repository to create a local branch that is a tracking branch.
+
+How to know which branches are tracking branch? Read below.
+
+See all local branches and the corresponding remote branches. We wil see `origin/master` so it means it is tracking branch that tracks `origin/master` branch.
+
+See information about tracking branches.
 ```bash
-
+git branch -vv
 ```
+We will see local branch name, hash of last commit, `origin/master` and commit description.
+
 
 ```bash
 
