@@ -628,7 +628,7 @@ We can clone a public Git repository to our local computer and then create local
 If we don't have write access to the public Git repository, we can't push to it.
 
 ## `git clone` Command
-We can clone our own private repository or a public repository owned by others.
+We can clone our own private remote repository or a public remote repository owned by others.
 
 We want to clone a public repository so in GitHub's website go to Developers -> Explore -> Trending repos -> Collections -> Learn to Code -> `leachim6 / hello-world` to find a Git repository with different programming languages inside it.
 
@@ -639,7 +639,7 @@ The URL can be:
 
 Go to `Desktop`.
 
-Clone a remote repository and create new folder. A new folder will be created. Local repository will be connected to remote repository.
+Clone a remote repository and create new folder. A new folder will be created. Local repository will be connected to remote repository. One branch will be created and it is the default branch in remote repository.
 ```bash
 git clone <url>
 ```
@@ -814,9 +814,9 @@ We can click one of the following in the part that will have conflicts:
 - `Accept Incoming Change`
 - `Accept Both Changes`
 
-We can delete the entire section in the fils with conflicts and write other texts.
+We can delete the entire section in the files with conflicts and write other texts.
 
-In Visual Studio Code, use `Alt + Z` will show the content using word wrap.
+In Visual Studio Code, using `Alt + Z` will show the content using word wrap.
 
 When using `git ls-files -s`, we can see three numbered files for each file with conflicts where 1 is the common content, 2 is the one from receiving branch while 3 is the one from feature branch. When looking at working directory, it will combine the three files to show the common, change from receiving branch and change from feature branch.
 
@@ -979,6 +979,148 @@ We can also add comments in the commit object.
 New branch will be automatically checked out.
 
 When there is a `This branch is even with master`, it means the branches point to the same commit object.
+
+Click `Branch: feature-1` to change current branch.
+
+## Explore Remote Repository Branches In GitHub
+1. Click `branches` to see list of branches.
+2. Click `Yours` to see branches you created.
+3. Click `Active` to see branches you or your collaborators are currently working on.
+4. Click `State` to see branches that were not updated for a long time.
+5. Click `All branches` to see all branches.
+
+## Make Changes In Another Branch In Remote Repository In GitHub
+1. Click `Branch: master` and select another branch (might be `feature-1`).
+2. Click `Create new file`.
+3. Add a filename (ex. `list.txt`).
+4. Add a content.
+5. Change description.
+6. Select `Commit directly to feature-1 branch`.
+7. Click `Commit new file`.
+
+Branch will have `1 commit ahead of master` which means changes in `feature-1` branch is not yet incorporated (not yet merged) into master or main branch.
+
+There will also be a message that there are some `recently pushed branches`. This is a notification to know if some other collaborator `pushed any branches to remote repository`.
+
+## Clone Remote Repository Hosted In GitHub
+After cloning our remote repository to our local computer, we can make changes to the local Git repository locally and then we can update the remote repository by pushing changes.
+
+Go to Desktop so that new folder will be created there.
+
+1. Click `Clone or download` -> Clone with HTTPS -> Copy the URL.
+2. Use `git clone <URL>`.
+
+Git will automatically create folder with the same name as remote repository.
+
+Our local Git repository will be connected to remote repository and we can interact with it.
+
+Remote repository also got a working directory, staging area and Git repository.
+
+When we make changes in local Git repository, remote repository won't update automatically. We need to manually `push changes from local Git repository to remote repository` to update the remote repository.
+
+When remote repository is updated, local Git repository won't update automatically. We need to download updates manually from remote repository.
+
+Using Git GUI applications may `fetch updates from the remote repository` in the background but we need to `pull` them manually. We may see which changes were made in remote repository and we can decide to download or not.
+
+We need to grant write access to our remote repository so other collaborators can push changes to remote repository.
+
+When remote repository is public, anyone can read or clone the remote repository. If remote repository is private, only people you select can clone the remote repository.
+
+## Why We Need Remote Repositories
+We need remote repositories because we can have a centralized point. When someone make changes in their local Git repository they can `push their changes to the remote repository`. The remote repository can get new files or changes after push. If we don't have a remote repository and there are many collaborators, it will be hard to share files when there a local Git repository is updated. Other collaborators can `pull` the remote repository to update their local Git repositories. A new file or changes will happen to the local Git repository after pull.
+
+## Interact With Remote Repository Using Terminal
+`git add`, `git commit` and `git checkout` are commands used in locat Git repository.
+
+Commands to interact with remote repository:
+- `git pull`
+- `git push`
+- `git fetch`
+
+We usually push changes that were already committed to local Git repository to remote Git repository.
+
+One must have write access in order to push to a remote repository.
+
+It is a good practice to have a preparation phase where testing happens in the local computer and features are verified.
+
+Push after being sure 100% that your changes won't break anything in the project.
+
+After the remote repository is updated, get the updates and apply them to your local Git repository with `git fetch` and `git pull`.
+
+`git fetch` doesn't update local working directory and staging area.
+
+The files and folders you see won't be affected by `git fetch`.
+
+`git fetch` only updates the local Git repository.
+
+`git fetch` will download updates from remote repository to your local Git repository.
+
+`git fetch` Example:
+Let's say a new branch was created in remote repository.
+1. The new branch will not be created automatically in your local Git repository.
+2. `.git/refs/heads` is where branches are located.
+3. After using `git fetch`, `.git/refs/heads` in your local Git repository will be automatically updated.
+4. You will then be able to see new branches that were created in remote repository.
+
+`git pull` will write changes in local working directory (destructive operation).
+
+`git pull` will do some actions under the hood.
+1. Perform `git fetch` to update local Git repository.
+2. Merge changes into local working directory (if there are any new changes from remote repository).
+3. Applies changes to staging area too.
+
+`git pull` Example:
+Let's say we want to create a new file in master branch in remote repository.
+1. Clone remote repository.
+2. Check out master branch in local Git repository.
+3. In remote repository, make changes (ex. a new file) and commit them in master branch.
+4. In local Git repository, use `git pull`.
+5. Remote changes will be fetched and local Git repository will be updated.
+6. After fetching, Git will merge remote master branch into local master branch (fast forward or three way merge).
+7.  New file will be created in local working directory.
+8.  Staging area will also be updated.
+
+## Origin
+By default, when cloning, Git automatically creates a binding between remote repository and local repository. Git will create default remote repository for your local repository.
+
+Default name of remote repository is `origin`.
+
+You can connect your local repository to multiple remote repositories (every remote repositories will have different name).
+
+When pushing, pulling or fetching, you will choose which remote repository you want to interact with.
+
+If `git pull` is used as is, you will pull from `origin` which is the default remote repository.
+
+List all remote servers for your local Git repositories.
+```bash
+git remote
+```
+
+We can see `origin` in the list.
+
+If `git remote` returns nothing, it means there are no remote servers in the local Git repository.
+
+We can use `-v` option to see what URL will be used for fetch and push commands.
+```bash
+git remote -v
+```
+
+We can see the name of remote repository which can be `origin` then URL and then the label of fetch or push.
+
+## Show All Local and Remote Branches
+List all branches locally and in remote server.
+```bash
+git branch -a
+```
+
+Remote branches will have a prefix `remotes` followed by name of remote Git server then next is branch name. If HEAD pointer points to `origin/master` which means master branch is default branch in remote repository.
+
+List remote branches in remote repository.
+```bash
+git branch -r
+```
+
+## Tracking Branch
 
 ```bash
 
